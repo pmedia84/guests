@@ -1,0 +1,5 @@
+"NOTE: Save this file as an Excel workbook and remove this line. Guest ID and event ID are not required so these can be deleted. If you make changes to your guest list then make sure you download this again."
+"Guest ID","First Name",Surname,"Additional Invites","RSVP Code",Address,Postcode,"Event ID","Event Name"
+320,Jon,Yels,2,YEL15654,,,1,"Wedding Ceremony"
+321,Brynn,Low,2,LOW2324,,,1,"Wedding Ceremony"
+322,Peter,Allshop,3,ALL11409,,,1,"Wedding Ceremony"

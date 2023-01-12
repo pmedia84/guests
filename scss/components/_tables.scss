@@ -1,0 +1,23 @@
+.std-table{//standard table settings
+    width: 100%;
+    margin-bottom: $spacer-3;
+    th{
+        text-align: left;
+    }
+    td{
+        border-bottom: 1px solid $primary;
+    }
+    tr:nth-child(even){
+        background-color: $primary-900;
+    }
+}
+
+.guest-list-actions{
+    width: 100%;
+    max-width: 100px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    padding: $spacer-1;
+    font-size: 1.25rem;
+}

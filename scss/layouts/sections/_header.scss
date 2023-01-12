@@ -1,0 +1,41 @@
+.header {
+    //header panel with welcome message and header actions
+    color: $primary;
+    padding: 0 1rem 0 1rem;
+    margin-block: $spacer-2;
+}
+
+.header-actions {
+    //top banner with immediate actions for user
+    background-color: $primary-900;
+    border-radius: 10px;
+    padding: 1rem;
+}
+
+.header-actions-btn-section {
+    //button container
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-actions-btn-user, .header-actions-btn-logout {
+    display: flex;
+}
+
+.header-actions-business-name {
+    display: none;
+}
+.header-actions-btn-logout{
+    display: flex;
+    align-items: center;
+    span{
+        margin-inline: .5rem;
+    }
+}
+
+.login-header{//login page header with logo
+    img{
+        height: 70px;
+    }
+}

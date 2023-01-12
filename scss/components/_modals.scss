@@ -1,0 +1,55 @@
+ //Form response for displaying server messages
+
+ .modal{//modal outer with background, covers whole screen
+    display: grid;
+    place-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 100;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 300ms ease-out;
+ }
+ //Defines the body of the modal, centered on screen with a close icon to dismiss
+.modal-body{
+    border: 1px solid $primary;
+    border-radius: $border-radius;
+    background-color: #fff;
+    padding: $spacer-3;
+    width: 75%;
+    max-width: 580px;
+}
+
+
+.modal-close{//header section with close button set to the right
+    background-color: rgb(240, 240, 240);
+    padding: $spacer-2 1rem $spacer-2 1rem;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    border-bottom: 1px solid $primary;
+    border-top-left-radius: inherit;
+    border-top-right-radius: inherit;
+}
+
+.modal-button-section{//footer with a confirm button
+    padding: $spacer-2 1rem $spacer-2 1rem;
+    border-top: 1px solid $primary;
+    background-color: rgb(240, 240, 240);
+    border-bottom-left-radius: inherit;
+    border-bottom-right-radius: inherit;
+
+    width: 100%;
+}
+
+//active classes to display modal when triggered
+.modal-active{
+    opacity: 1;
+    transition: opacity 400ms ease-out;
+    pointer-events: all;
+}

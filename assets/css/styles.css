@@ -1,0 +1,1520 @@
+/*Colours*/
+
+/*form colours*/
+/* Border Radius*/
+
+/*/Screen Breakpoints*/
+
+/*Padding and margin settings*/
+/*standard padding for the site*/
+
+/*Spacers*/
+/* Box sizing rules */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+/* Remove default margin */
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+dl,
+dd {
+  margin: 0;
+}
+/* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
+ul[role='list'],
+ol[role='list'] {
+  list-style: none;
+}
+/* Set core root defaults */
+html:focus-within {
+  scroll-behavior: smooth;
+}
+/* Set core body defaults */
+body {
+ /* min-height: 100vh;*/
+  text-rendering: optimizeSpeed;
+  line-height: 1.5;
+}
+/* A elements that don't have a class get default styles */
+a:not([class]) {
+  -webkit-text-decoration-skip: ink;
+          text-decoration-skip-ink: auto;
+}
+/* Make images easier to work with */
+img,
+picture {
+  max-width: 100%;
+  display: block;
+}
+/* Inherit fonts for inputs and buttons */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+/* Remove all animations, transitions and smooth scroll for people that prefer not to see them */
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+   scroll-behavior: auto;
+  }
+  
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+/*Copied from Andy Bell reset https://piccalil.li/blog/a-modern-css-reset/ ///////*/
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300&display=swap');
+body{
+    font-family: 'Ubuntu', sans-serif;
+}
+.font-emphasis{
+    font-weight: 300;
+    font-size: 1.25rem;
+    color: gray;
+}
+.text-alert{
+    color: hsl(0, 95%, 67%);
+}
+body{
+    background-image: 
+    radial-gradient(circle, 
+    #fefefe, #f4f4f4, #eaeaea, #e0e0e0,
+     #d6d6d6);
+     display: flex;
+     flex-direction: column;
+    justify-content: space-between;
+    min-height: -webkit-fill-available;
+    min-height: stretch;
+ 
+    
+}
+@media(min-width:768px){
+body{
+        min-height: 100vh
+ 
+    
+}
+    }
+a{
+    color: hsl(163, 28%, 32%);
+    display: inline-block;
+}
+a:hover{
+        opacity: 0.8;
+    } 
+.nav-bar {
+    /*outer container*/
+    display: none;
+    background-color: hsl(163, 28%, 60%);
+    padding: 1rem;
+    position: absolute;
+    left: 0;
+    right: 0;
+
+} 
+.nav-links {
+    /*nav bar links*/
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 0;
+    padding: 0;
+} 
+.nav-links li {
+        list-style-type: none;
+    } 
+.nav-links li svg {
+            height: 25px;
+        } 
+.nav-links .nav-link {
+        display: flex;
+        justify-content: space-between;
+        padding: 1rem;
+        margin-block: .5rem;
+        background-color: hsl(163, 28%, 80%);
+        border-radius: 5px;
+        text-decoration: none;
+        color: hsl(163, 28%, 32%);
+    } 
+.nav-links .nav-link img {
+            height: 25px
+        } 
+.nav-link.link-active {
+    background-color: hsl(163, 28%, 60%);
+    color: hsl(163, 28%, 80%);
+    outline: 2px solid hsl(163, 28%, 80%);
+    outline-color: hsl(163, 28%, 80%);
+} 
+@media (min-width:768px) {
+
+    /*settings for bigger screens*/
+    .nav-bar {
+        display: block;
+        position: relative;
+        top: 0;
+        border-radius: 10px;
+    }
+
+        .nav-bar .close {
+            display: none;
+        }
+
+
+} 
+.header {
+    /*header panel with welcome message and header actions*/
+    color: hsl(163, 28%, 32%);
+    padding: 0 1rem 0 1rem;
+    margin-block: 0.5rem;
+} 
+.header-actions {
+    /*top banner with immediate actions for user*/
+    background-color: hsl(163, 28%, 90%);
+    border-radius: 10px;
+    padding: 1rem;
+} 
+.header-actions-btn-section {
+    /*button container*/
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+} 
+.header-actions-btn-user, .header-actions-btn-logout {
+    display: flex;
+} 
+.header-actions-business-name {
+    display: none;
+} 
+.header-actions-btn-logout{
+    display: flex;
+    align-items: center;
+} 
+.header-actions-btn-logout span{
+        margin-inline: .5rem;
+    } 
+/*login page header with logo*/ 
+.login-header img{
+        height: 70px;
+    } 
+/*Main admin page*/ 
+.main {
+    position: relative;
+    display: grid;
+    gap: 1rem;
+    padding: 1rem;
+} 
+.main-dashboard {
+    /*dashboard cards*/
+    display: grid;
+    gap: 1rem;
+    padding: 1rem;
+} 
+.main-cards {
+    /*container for cards*/
+    background-color: hsl(163, 28%, 90%);
+    padding: 1rem;
+    border-radius: 10px;
+    display: grid;
+    gap: 1rem;
+    place-self: start;
+width: 100%;
+} 
+.cms-settings-cards{
+    gap: 0;
+} 
+/*settings for larger screens*/ 
+@media (min-width: 768px) {
+    .main {
+        grid-template-columns: 250px 1fr 250px;
+        grid-template-rows: auto auto auto auto 1fr;
+        grid-template-rows: min-content auto;
+        height: 100%;
+        flex-grow: 1;
+        place-self: auto;
+    }
+    .header{
+        grid-row: 1/2;
+        grid-column: 1/4;
+    }
+    .main-dashboard {
+        grid-row: 2/4;
+        place-self: start;
+        width: 100%;
+        grid-column: 2/3;
+        margin-top: 1rem;
+    }
+
+    .nav-bar {
+        grid-column: 1/2;
+        grid-row: 2/4;
+    }
+.main-cards{
+    grid-row: 2/4;
+    grid-column: 3/4;
+}
+   .main-cards a{
+    width: fit-content;
+   }
+    .header-actions-navbtn {
+        display: none;
+    }
+
+    .header-actions-business-name {
+        display: block;
+    }
+    .col-2{/*changes the main to a 2 column layout*/
+        grid-template-columns: 250px 1fr;
+        grid-template-rows: min-content auto;
+
+
+            
+    }
+
+    .breadcrumbs{
+    grid-row: 2/3;
+    grid-column: 2/3;
+    
+    }
+} 
+.footer{
+    padding: 1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    background-color: hsl(163, 28%, 50%);
+} 
+.login-main{/*main body content for login screen and password reset form*/
+    display: grid;
+    place-items: center;
+} 
+@media (min-width: 768px) { 
+.login-main{
+        place-items: start;
+        grid-template-columns: 1fr
+}
+    } 
+.login-main .header{
+        grid-row: 1/2;
+        grid-column: 1/2;
+        width: 100%;
+    } 
+/*///Image gallery*/ 
+.img-card{
+    border: 1px solid hsl(163, 28%, 32%);
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 0.5rem;
+    place-self: start;
+    width: 100%;
+
+} 
+.img-card-header-img{
+    position: relative;
+} 
+.img-card-header-img img{
+        height: 200px;
+        width: 100%;
+        object-fit: cover;
+    } 
+.img-card-header-img h3{
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        padding: 0.5rem;
+        background-color: rgba(255, 255, 255, 0.427);
+        text-align: center;
+    } 
+.img-card-body-text{
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+
+} 
+.delete-thumb{
+    /*thumbnail for delete page*/
+    height: 150px;
+} 
+/*Standard column gives equal widths*/ 
+@media(min-width:768px){ 
+.col-50{
+        width: 50%
+    
+}
+    } 
+.grid-col{ /*standard grid column to hold items together*/
+    width: 100%;
+grid-column: 2/3;
+} 
+/*Flex rows. Column on small screens and row on larger screens*/ 
+.row{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    
+} 
+@media(min-width: 768px){ 
+.row{
+    flex-direction: row
+    
+}
+   } 
+/*Flex utilities*/ 
+@media(min-width:768px){ 
+.flex-reverse-md{
+        flex-direction: row-reverse /* reverse flex direction only on larger screen sizes*/
+    
+}
+    } 
+.grid-row-2col{/*grid row with 2 columns of equal width*/
+    display: grid;
+    gap: 0.5rem;
+} 
+@media(min-width:768px){ 
+.grid-row-2col{
+        grid-template-columns: 1fr 1fr;
+        place-items: center
+}
+    } 
+.grid-row-3col{/*grid row with 3 columns of equal width*/
+    display: grid;
+    gap: 0.5rem;
+} 
+@media(min-width:768px){ 
+.grid-row-3col{
+        grid-template-columns: repeat(3, 1fr);
+        grid-auto-rows: minmax(100px, auto)
+}
+    } 
+/*Utility classes for grid */ 
+.place-grid-start{/*places a grid item at the top of a grid row*/
+    place-self: start;
+} 
+.grid-auto-sm{ /*auto grid small columns*/
+    display: grid;
+    gap: 0.25rem;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+} 
+.container-fluid,
+.container{
+    width: 100%;
+    padding-inline: 1rem;
+} 
+.container-fw{/*Full width container with no padding and margin*/
+    width: 100%;
+} 
+.container{
+    margin: 0 auto;
+} 
+@media (min-width:576px){
+    .container{
+        max-width: 540px;
+    }
+} 
+@media (min-width:768px){
+    .container{
+        max-width: 720px;
+    }
+} 
+@media (min-width:992px){
+    .container{
+        max-width: 960px;
+    }
+} 
+@media (min-width:1200px){
+    .container{
+        max-width: 1140px;
+    }
+} 
+@media (min-width:1400px){
+    .container{
+        max-width: 1320px;
+    }
+} 
+.gallery{
+    display: grid;
+    gap: 0.25rem;
+
+} 
+.gallery img{
+        width: 100%;
+        height: 300px;
+         object-fit: cover;
+    } 
+@media (min-width:768px){ 
+.gallery{
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr))
+
+}
+    } 
+/*Full width call to action banner*/ 
+.cta-fw{
+    position: relative;
+    padding: 2rem;
+    background-color: hsl(162, 29%, 59%);
+    color: #fff;
+    text-align: center;
+} 
+@media(min-width:768px){ 
+.cta-fw{
+        padding: 5rem 4rem
+}
+    } 
+.cta-fw:before{
+        content: "";
+        position: absolute;
+        top: -10px;
+        left: 50%;
+        height: 20px;
+        width: 20px;
+        background-color: #d2d2d2;
+        transform: rotate(45deg);
+    } 
+.cta-title{
+    text-align: center;
+    font-size: 2rem;
+
+} 
+
+.btn-primary {/*primary button*/
+    outline: none;
+    -webkit-appearance: none;
+            appearance: none;
+    background-color: hsl(163, 28%, 50%);
+    color: #fff;
+    border: 1.5px solid hsl(163, 28%, 50%);
+    border-radius: 5px;
+    padding: .375rem .75rem;
+    transition: box-shadow 300ms ease-out;
+    width: fit-content;
+   cursor: pointer;
+    
+} 
+
+.btn-primary:focus{
+        box-shadow: 0 0 2px 3px hsl(163, 28%, 80%);
+        transition: box-shadow 300ms ease-out;
+    } 
+
+.btn-primary svg{
+    margin-right: 0.5rem;
+} 
+
+::file-selector-button{
+    outline: none;
+    -webkit-appearance: none;
+            appearance: none;
+    background-color: hsl(163, 28%, 50%);
+    color: #fff;
+    border: 1.5px solid hsl(163, 28%, 50%);
+    border-radius: 5px;
+    padding: .375rem .75rem;
+    transition: box-shadow 300ms ease-out;
+} 
+
+.btn-secondary{
+    background-color: white;
+    color: hsl(163, 28%, 32%);
+} 
+
+a.btn-primary{
+    
+    text-decoration: none;
+} 
+
+.btn-delete{
+    background-color: hsl(0, 95%, 67%);
+    border-color: hsl(0, 95%, 67%);
+} 
+
+.btn-delete:focus{
+        box-shadow: 0 0 2px 3px hsl(0, 95%, 67%);
+        transition: box-shadow 300ms ease-out;
+    } 
+
+.close{/*wrapper for close button*/
+    display: flex;
+    justify-content: flex-end;
+    margin-block: 0.5rem;
+} 
+
+.btn-close{/*close button*/
+   background: transparent url("../../assets/img/icons/close.svg") center/1.5em auto no-repeat;
+    border: 0;
+    border-radius: .375rem;
+    padding: .25em .25em;
+    width: 2rem;
+    height: 2rem;
+    cursor: pointer;
+    opacity: .5;
+} 
+
+.btn-close:hover{
+        opacity: 1;
+    } 
+
+/*Form Grid, cols provide 2 columns 50% on larger screens*/ 
+
+.form-row{
+    gap: 0.5rem;
+    flex-direction: column;
+} 
+
+@media(min-width: 768px){
+    .form-col{
+        width: 50%;
+       
+        
+    }
+} 
+
+/*////*/ 
+
+/*Quote request form*/ 
+
+.quote-request{
+    background-color: hsl(162, 29%, 59%);
+    width: 100%;
+ } 
+
+.quote-request h2, .quote-request h3{
+     color: hsl(163, 28%, 32%);
+    } 
+
+.quote-request label{
+     color: #fff;
+    } 
+
+.quote-request {
+     padding: 1rem;
+     border-radius: 10px;
+     flex-grow: 0.5;
+} 
+
+.quote-request .form-floating > label,.quote-request input,.quote-request textarea{
+         color: #212529;
+     } 
+
+.quote-request select option{
+         font-family: 'Ubuntu', sans-serif;
+     } 
+
+.quote-request textarea{
+         height: 120px !important;
+     } 
+
+@media(min-width: 768px){
+         .quote-request .form-col{
+             width: 100%;
+         }
+     } 
+
+.quote-request .google-policy{
+        color: white;
+     } 
+
+/*Recaptcha  settings*/ 
+
+.recaptcha-token{
+    display: none;
+} 
+
+/*container for privacy message, this is displayed as we have hidden the recaptcha logo*/ 
+
+.google-policy{
+    margin-block: 0.5rem;
+} 
+
+.google-policy p{
+        margin-bottom: 0;
+    } 
+
+/*/Form wrapper to wrap login and password reset  forms in etc*/ 
+
+.login-wrapper{
+    border-radius: 10px;
+    background-color: white;
+    padding: 2rem;
+    width: 95%;
+    max-width: 600px;
+    margin: 0 auto;
+    margin-block: 1.5rem;
+} 
+
+/*/form input wrapper, holds labels and inputs together*/ 
+
+.form-input-wrapper{
+    display: flex;
+    flex-direction: column;
+} 
+
+.form-input-wrapper img{
+        height: 250px;
+        width: 100%;
+        object-fit: cover;
+        border-radius: 2.5px;
+    } 
+
+/*///////////////////Form Input settings///////////////////////////*/ 
+
+input{
+    outline: none;
+} 
+
+input[type=text], input[type=password], textarea, select, input[type=file],input[type=number], input[type=date], input[type=time]{
+    -webkit-appearance: none;
+            appearance: none;
+    border: 1px solid hsl(163, 28%, 32%);
+    border-radius: 5px;
+    padding: 0.25rem;
+    transition: box-shadow 300ms ease-out;
+    margin-block: 0.25rem;
+    
+} 
+
+input[type=text]:focus,input[type=password]:focus,textarea:focus,select:focus,input[type=file]:focus,input[type=number]:focus,input[type=date]:focus,input[type=time]:focus{
+        box-shadow: 0 0 2px 3px hsl(163, 28%, 50%);
+        transition: box-shadow 300ms ease-out;
+    } 
+
+input[type=date], input[type=time], input[type=number]{
+    width: min-content;
+} 
+
+textarea{
+    width: 100%;
+    min-height: 250px;
+    margin-bottom: 1rem;
+    padding:.375rem .75rem;
+    resize: auto;
+    border-radius: 5px;
+  } 
+
+@media (min-width:768px) { 
+
+textarea{
+      min-height: 0;
+      margin-bottom: 1rem;
+      height: 100%
+  }
+    } 
+
+select{
+    display: block;
+    width: min-content;
+    padding: 0.375rem 2.25rem 0.375rem 0.75rem;
+    font-size: 1rem;
+    background-color: #fff;
+    -webkit-appearance: none;
+            appearance: none;
+    border: 1px solid hsl(163, 28%, 32%);
+    border-radius: 0.25rem;
+    background-image: url("../img/icons/down.svg");
+    background-repeat: no-repeat;
+      background-position: right 0.75rem center;
+      background-size: 16px 12px;
+  } 
+
+select:focus{
+      outline: none;
+      box-shadow: 0 0 2pt 1pt hsl(163, 28%, 32%);
+        transition: box-shadow 250ms ease;
+    } 
+
+/*button wrapper, displays buttons and spaces them out*/ 
+
+.button-section, .modal-button-section{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
+} 
+
+.button-section button,.button-section a,.modal-button-section button,.modal-button-section a{
+        width: 100%;
+        max-width: 390px;
+    } 
+
+.button-section, .modal-button-section {
+    gap: .5rem;
+} 
+
+@media(min-width:768px){ 
+
+.button-section, .modal-button-section{
+        flex-direction: row;
+        width: 80%;
+        max-width: 600px
+}
+        .button-section button, .button-section a, .modal-button-section button, .modal-button-section a{
+            width: fit-content;
+        }
+    } 
+
+.button-section a,.modal-button-section a{
+        text-decoration: none;
+    } 
+
+/*checkboxes*/ 
+
+.checkbox-form-control{ /*label acts as the wrapper*/
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.1;
+    display: grid;
+    grid-template-columns: 1em auto;
+    gap: 0.5em;
+} 
+
+input[type="checkbox"]{/*basic styling*/
+    -webkit-appearance: none;
+            appearance: none;
+    background-color: #fff;
+    margin: 0;
+    font: inherit;
+    color: currentColor;
+    width: 1.15em;
+    height: 1.15em;
+    border: 1px solid hsl(163, 28%, 32%);
+    border-radius: 5px;
+    transform: translateY(-0.075em);
+    display: grid;
+    place-content: center;
+} 
+
+.checkbox-form-control + .checkbox-form-control {
+    margin-top: 1em;
+  } 
+
+input[type="checkbox"]::before{
+    content: "";
+    width: .65em;
+    height: .65em;
+    transform: scale(0);
+    transition: 200ms transform ease-in-out;
+    box-shadow: inset 1em 1em hsl(163, 28%, 32%);
+    transform-origin: bottom left;
+    -webkit-clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+            clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+} 
+
+input[type="checkbox"]:checked::before{
+    transform: scale(1);
+} 
+
+input[type="checkbox"]:focus {
+    outline: max(2px, 0.15em) solid hsl(163, 28%, 32%);
+    outline-offset: max(2px, 0.15em);
+  } 
+
+/*////Toggle Switches*/ 
+
+/* The switch - the box around the slider */ 
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+  } 
+
+/* Hide default HTML checkbox */ 
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  } 
+
+/* The slider */ 
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+  } 
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+  } 
+
+input:checked + .slider {
+    background-color: hsl(163, 28%, 50%);
+  } 
+
+input:focus + .slider {
+    box-shadow: 0 0 1px hsl(163, 28%, 50%);
+  } 
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+  } 
+
+/* Rounded sliders */ 
+
+.slider.round {
+    border-radius: 34px;
+  } 
+
+.slider.round:before {
+    border-radius: 50%;
+  } 
+
+/*///////////////////////////////////////*/ 
+
+/*/ */ 
+
+/*/ Form responses //////////////*/ 
+
+.form-response{ /*standard settings for success */
+    background-color: hsl(163, 28%, 80%);
+    padding: 2rem;
+    border-radius: 5px;
+} 
+
+/*Response colours*/ 
+
+.error{/*modifier class for error messages*/
+    background-color: hsl(0, 95%, 67%);
+} 
+
+/*///////////////Form Hint text.  Smaller font size, provides a helpful hint/////////////////////////*/ 
+
+.form-hint-small{
+    font-size: 0.8rem;
+    color: gray;
+} 
+
+/*/////////////Form controls //////////*/ 
+
+.form-controls{
+    padding: 1rem;
+
+    border: 1px solid hsl(163, 28%, 50%);
+    border-radius: 2.5px;
+
+} 
+
+.form-controls-btn{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+} 
+
+.form-controls-btn img{
+        height: 1.25rem;
+        margin-inline-start: 1rem;
+    } 
+
+/*Form modal setting when on a big screen*/ 
+
+@media(min-width:768px){
+    .modal-body .form-card{
+        width: 50ch;
+    }
+} 
+
+/*Set the height of button sections to stop layout shifts when hidden*/ 
+
+.btn-wrapper{
+    height: 38.667px;
+} 
+
+/*/////////Spinners ///////////*/ 
+
+.form-controls-btn .loading-icon{
+
+    animation: spinner 3s infinite ease-out;
+    opacity: 1;
+} 
+
+@keyframes spinner{
+    0%{transform: rotate(0deg);}
+    100%{transform: rotate(360deg);}
+} 
+
+.loading{
+    opacity: 1;
+} 
+
+/*///////Search box input\\\\\\\\\\*/ 
+
+.search-input{
+    display: flex;
+    align-items: center;
+    
+} 
+
+.search-input input{
+        border-bottom-right-radius:0px;
+        border-top-right-radius:0px;
+    } 
+
+.search-input button{
+        height: 33.33px;
+        width: 33.33px;
+        padding: 0.25rem;
+        border: none;
+
+        border-radius: 0;
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+
+    } 
+
+.search-input button svg{
+            height: 100%;
+            margin: 0;
+        } 
+
+.search-input button path{
+            fill: #fff;
+        } 
+
+.price-list-controls, .search-controls{
+    background-color: hsl(163, 28%, 80%);
+    border-radius: 10px;
+    padding: 0.5rem;
+} 
+
+@media(min-width: 768px){ 
+
+.price-list-controls, .search-controls{
+        display: flex;
+        align-items: center;
+        justify-content: space-between
+}
+    } 
+
+/*dashboard card*/ 
+
+.dashboard-card{
+    padding: 1rem;
+    background-color: white;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+} 
+
+.dashboard-card h2{
+        font-weight: 500;
+    } 
+
+.dashboard-card-header{
+    display: flex;
+    justify-content: space-between;
+} 
+
+.dashboard-card-header span{
+        font-size: 1.5rem;
+        font-weight: 300;
+    } 
+
+.dashboard-card-header img{
+        height: 35px;
+    } 
+
+.std-card, .event-card{
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 5px;
+
+} 
+
+.user-card{
+    
+    margin: 0 auto;
+    padding: 2rem;
+} 
+
+@media(min-width:768px){ 
+
+.user-card{
+        width: 80%;
+        max-width: 600px
+}
+    } 
+
+/*news card grid*/ 
+
+.news-grid{/*outer grid for cards*/
+    display: grid;
+    gap: 1.5rem;
+} 
+
+@media(min-width:768px){ 
+
+.news-grid{
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr))
+}
+    } 
+
+.news-card{/*news card*/
+    border: 1px solid hsl(163, 28%, 32%);
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 0.5rem;
+   
+} 
+
+.news-card img{
+        height: 300px;
+        width: 100%;
+        object-fit: cover;
+    } 
+
+/*smaller card for dashboard*/ 
+
+.news-card-dashboard img{
+        height: 150px;
+        width: 100%;
+        object-fit: cover;
+    } 
+
+.news-card-dashboard .news-card-body{
+        max-height: 10ch;
+    } 
+
+.news-card-header{
+    margin-block: 0.5rem;
+} 
+
+.news-card-body{
+    max-height: 25ch;
+    overflow: hidden;
+} 
+
+.card-actions{
+    background-color: hsl(163, 28%, 95%);
+    padding: 0.5rem;
+    border-radius: 5px;
+    margin-block: 1.5rem;
+    display: flex;
+    flex-direction: column;
+} 
+
+.news-item-status{
+    font-size: 1.5rem;
+    font-weight: 100;
+    
+} 
+
+.published{
+    color: hsl(163, 28%, 50%);
+} 
+
+.draft{
+    color: hsl(0, 95%, 67%);
+} 
+
+/*News create edit and view card*/ 
+
+.news-create{
+    background-color: #fff;
+    padding: 1.5rem;
+    border-radius: 5px;
+} 
+
+.news-create img{
+        height: 300px;
+        width: 100%;
+        object-fit: cover;
+    } 
+
+.news-create-date{
+    color: gray;
+} 
+
+.news-create-actions{
+    background-color: hsl(163, 28%, 95%);
+    padding: 0.5rem;
+    border-radius: 5px;
+    margin-block: 1.5rem;
+} 
+
+/*///Reviews*/ 
+
+.star-color{/*review stars unrated*/
+    color: rgba(207, 207, 207, 0.514);
+    font-size: 1rem;
+} 
+
+.star-color-rated{/*review stars rated*/
+    color: #f9b805;
+} 
+
+/*event cards, used in wedding events pages*/ 
+
+.event-card{
+    padding: 1.5rem;
+} 
+
+.event-card-title-time{
+    color: gray;
+} 
+
+.event-card-details{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: flex-start;
+    gap: 1.5rem;
+} 
+
+@media (min-width:768px){ 
+
+.event-card-details{
+        flex-direction: row
+}
+    } 
+
+.event-card-invites{
+    background-color: hsl(163, 28%, 95%);
+    padding: 0.5rem;
+} 
+
+.event-card-invites{
+    display: grid;
+    gap: 0.5rem;
+} 
+
+@media(min-width:768px){ 
+
+.event-card-invites{
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr))
+}
+    } 
+
+.event-card-invites-textbox{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    border-bottom:1px solid hsl(163, 28%, 32%);
+} 
+
+.event-card-guestlist-table{
+    width: 100%;
+    margin-bottom: 1.5rem;
+} 
+
+.event-card-guestlist-table th{
+        text-align: left;
+    } 
+
+.event-card-guestlist-table td{
+        border-bottom: 1px solid hsl(163, 28%, 32%);
+    } 
+
+.event-card-guestlist-table tr:nth-child(even){
+        background-color: hsl(163, 28%, 90%);
+    } 
+
+/*/cms settings cards*/ 
+
+.settings-card{
+    margin-block: 1.5rem;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    background-color: white;
+    border-radius: 5px;
+} 
+
+.settings-card .switch{
+    align-self: center;
+    margin-inline: 0.5rem;
+} 
+
+.settings-card-text{
+    padding: 0.5rem;
+} 
+
+/*Form response for displaying server messages*/ 
+
+.modal{/*modal outer with background, covers whole screen*/
+    display: grid;
+    place-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 100;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 300ms ease-out;
+ } 
+
+/*Defines the body of the modal, centered on screen with a close icon to dismiss*/ 
+
+.modal-body{
+    border: 1px solid hsl(163, 28%, 32%);
+    border-radius: 10px;
+    background-color: #fff;
+    padding: 1.5rem;
+    width: 75%;
+    max-width: 580px;
+} 
+
+.modal-close{/*header section with close button set to the right*/
+    background-color: rgb(240, 240, 240);
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    border-bottom: 1px solid hsl(163, 28%, 32%);
+    border-top-left-radius: inherit;
+    border-top-right-radius: inherit;
+} 
+
+.modal-button-section{/*footer with a confirm button*/
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    border-top: 1px solid hsl(163, 28%, 32%);
+    background-color: rgb(240, 240, 240);
+    border-bottom-left-radius: inherit;
+    border-bottom-right-radius: inherit;
+
+    width: 100%;
+} 
+
+/*active classes to display modal when triggered*/ 
+
+.modal-active{
+    opacity: 1;
+    transition: opacity 400ms ease-out;
+    pointer-events: all;
+} 
+
+.cookie-overlay {/*container*/
+  display: none;
+    position: fixed;
+    bottom: 0.25rem;
+    left: 0.25rem;
+    background: hsl(43, 45%, 80%);
+    padding: 2rem;
+    z-index: 2051;
+    font-size: 14px;
+    border-radius: 10px;
+    max-width:400px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+} 
+
+.cookie-overlay a {
+      text-decoration: underline;
+    } 
+
+.cookie-overlay .accept-cookies{/*accept cookies button*/
+      display: block;
+      width: 100%;
+    } 
+
+.cookie-overlay .btn-close{
+      height: 1rem;
+      background-size: 1.5rem;
+    } 
+
+.cookie-overlay-icon{
+  display: grid;
+  place-items: center;
+} 
+
+.cookie-text{
+   font-size: 1rem;
+   line-height: 1.7;
+  } 
+
+.cookie-text p{
+    color:hsl(43, 45%, 20%);;
+   } 
+
+.cookie-text h2{
+    text-align: center;
+    color: hsl(43, 49%, 25%);
+   } 
+
+.close-cookies, .accept-cookies{
+    cursor: pointer;
+  } 
+
+.close-cookies{
+      position:absolute ;
+      top: 1rem;
+      right: 1rem;
+      height: 20px;
+  } 
+
+.loader{
+    background-color: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: grid;
+    place-items: center;
+} 
+
+.loader-spinner{
+    height: 25%;
+    animation: loader 3s infinite ease-in-out;
+    
+} 
+
+@keyframes loader{
+    0%{transform: rotate(0);}
+    100%{transform: rotate(360deg);}
+} 
+
+.std-table{/*standard table settings*/
+    width: 100%;
+    margin-bottom: 1.5rem;
+} 
+
+.std-table th{
+        text-align: left;
+    } 
+
+.std-table td{
+        border-bottom: 1px solid hsl(163, 28%, 32%);
+    } 
+
+.std-table tr:nth-child(even){
+        background-color: hsl(163, 28%, 90%);
+    } 
+
+.guest-list-actions{
+    width: 100%;
+    max-width: 100px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    padding: 0.25rem;
+    font-size: 1.25rem;
+}
+/*spacing utilities*/
+/*m = margin*/
+/*p = padding*/
+/*y = top and bottom*/
+/*t = top*/
+.mb-1{
+    margin-bottom: 0.25rem;
+}
+.mb-2{
+    margin-bottom: 0.5rem;
+}
+.mb-3{
+    margin-bottom: 1.5rem;
+}
+.mb-4{
+    margin-bottom: 2rem;
+}
+.my-2{
+    margin-block: 0.5rem;
+}
+.my-3{
+    margin-block: 1.5rem;
+    
+}
+.my-4{
+    margin-block: 2rem;
+}
+/*//Padding////*/
+.py-4{
+    padding-block: 2rem;
+}
+.py-5{
+    padding-block: 2.5rem;
+}
+.pt-0{
+    padding-top: 0;
+}
+/*////*/
+/*colour utilities*/
+.bg-primary-col{
+    /*change bg to primary colour*/
+    background-color: hsl(163, 28%, 32%);
+}
+.bg-secondary-col{
+    /*change bg to secondary col*/
+    background-color: hsl(162, 29%, 59%);
+}
+.bg-tertiary-col{
+    background-color: #4D4D4D;
+}
+.bg-tertiary-col-v2{/*uses tertiary color for bg but makes it opacity lower*/
+    background-color: rgba(#4D4D4D, 0.25);
+}
+/*Text Alignments*/
+.text-center{
+    text-align: center;
+}
+/* Borders*/
+.border-std{/*place a border radius std on all the site*/
+    border-radius: 10px;
+}
+/*Font colours*/
+/*Change default font to primary colour*/
+.text-color-primary{
+    color: hsl(163, 28%, 32%);
+}
+/*Change font colour to white*/
+.text-color-white{
+    color: #fff;
+}
+/*Font color muted. Slightly grey color*/
+.text-color-muted{
+    color: gray;
+}
+/*flex utility classes*/
+.flex-column{/*makes a flex column*/
+    display: flex;
+    flex-direction: column;
+}
+.flex-space-between{
+    justify-content: space-around;
+}
+/*/Display utilities*/
+.d-none{
+    display: none;
+}
+.d-block{
+    display: block;
+}
+.place-start{
+    place-self: flex-start;
+}
+/*text utility classes*/
+.wrap-words{
+    word-wrap: anywhere;
+}
+
+
+
+/*# sourceMappingURL=styles.css.map */

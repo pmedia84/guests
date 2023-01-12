@@ -1,0 +1,18 @@
+//Flex rows. Column on small screens and row on larger screens
+.row{
+    display: flex;
+    flex-direction: column;
+    gap: $spacer-2;
+   @media(min-width: $md){
+    flex-direction: row;
+   }
+    
+}
+//Flex utilities
+
+.flex-reverse-md{
+    @media(min-width:$md){
+        flex-direction: row-reverse; // reverse flex direction only on larger screen sizes
+    }
+    
+}

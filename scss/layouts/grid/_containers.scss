@@ -1,0 +1,42 @@
+
+
+.container-fluid,
+.container{
+    width: 100%;
+    padding-inline: 1rem;
+}
+.container-fw{//Full width container with no padding and margin
+    width: 100%;
+}
+.container{
+    margin: 0 auto;
+}
+@media (min-width:$sm){
+    .container{
+        max-width: 540px;
+    }
+}
+
+@media (min-width:$md){
+    .container{
+        max-width: 720px;
+    }
+}
+
+@media (min-width:$lg){
+    .container{
+        max-width: 960px;
+    }
+}
+
+@media (min-width:$x-lg){
+    .container{
+        max-width: 1140px;
+    }
+}
+
+@media (min-width:$xx-lg){
+    .container{
+        max-width: 1320px;
+    }
+}

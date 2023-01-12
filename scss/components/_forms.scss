@@ -1,0 +1,379 @@
+//Form Grid, cols provide 2 columns 50% on larger screens
+.form-row{
+    gap: 0.5rem;
+    flex-direction: column;
+}
+
+@media(min-width: $md){
+    .form-col{
+        width: 50%;
+       
+        
+    }
+}
+
+
+//////
+
+//Quote request form
+.quote-request{
+    background-color: $secondary;
+    width: 100%;
+    h2, h3{
+     color: $primary;
+    } 
+    label{
+     color: #fff;
+    }
+     padding: 1rem;
+     border-radius: $border-radius;
+     flex-grow: 0.5;
+     .form-floating > label,input,textarea{
+         color: #212529;
+     }
+     select option{
+         font-family: $font-family-sans-serif;
+     }
+     textarea{
+         height: 120px !important;
+     }
+     @media(min-width: $md){
+         .form-col{
+             width: 100%;
+         }
+     }
+     .google-policy{
+        color: white;
+     }
+ }
+
+//Recaptcha  settings
+.recaptcha-token{
+    display: none;
+}
+
+//container for privacy message, this is displayed as we have hidden the recaptcha logo
+.google-policy{
+    margin-block: $spacer-2;
+    p{
+        margin-bottom: 0;
+    }
+}
+
+///Form wrapper to wrap login and password reset  forms in etc
+.login-wrapper{
+    border-radius: $border-radius;
+    background-color: white;
+    padding: $spacer-4;
+    width: 95%;
+    max-width: 600px;
+    margin: 0 auto;
+    margin-block: $spacer-3;
+}
+///form input wrapper, holds labels and inputs together
+
+.form-input-wrapper{
+    display: flex;
+    flex-direction: column;
+    img{
+        height: 250px;
+        width: 100%;
+        object-fit: cover;
+        border-radius: 2.5px;
+    }
+}
+/////////////////////Form Input settings///////////////////////////
+
+input{
+    outline: none;
+}
+input[type=text], input[type=password], textarea, select, input[type=file],input[type=number], input[type=date], input[type=time]{
+    appearance: none;
+    border: 1px solid $primary;
+    border-radius: 5px;
+    padding: $spacer-1;
+    transition: box-shadow 300ms ease-out;
+    margin-block: $spacer-1;
+    &:focus{
+        box-shadow: 0 0 2px 3px $primary-500;
+        transition: box-shadow 300ms ease-out;
+    }
+    
+}
+input[type=date], input[type=time], input[type=number]{
+    width: min-content;
+}
+
+textarea{
+    width: 100%;
+    min-height: 250px;
+    margin-bottom: 1rem;
+    padding:.375rem .75rem;
+    resize: auto;
+    border-radius: 5px;
+    @media (min-width:768px) {
+      min-height: 0;
+      margin-bottom: 1rem;
+      height: 100%;
+    }
+  }
+  select{
+    display: block;
+    width: min-content;
+    padding: 0.375rem 2.25rem 0.375rem 0.75rem;
+    font-size: 1rem;
+    background-color: #fff;
+    appearance: none;
+    border: 1px solid $primary;
+    border-radius: 0.25rem;
+    background-image: url("../img/icons/down.svg");
+    background-repeat: no-repeat;
+      background-position: right 0.75rem center;
+      background-size: 16px 12px;
+    &:focus{
+      outline: none;
+      box-shadow: 0 0 2pt 1pt $primary;
+        transition: box-shadow 250ms ease;
+    }
+  }
+//button wrapper, displays buttons and spaces them out
+.button-section, .modal-button-section{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
+    button,a{
+        width: 100%;
+        max-width: 390px;
+    }
+    gap: .5rem;
+
+    @media(min-width:$md){
+        flex-direction: row;
+        width: 80%;
+        max-width: 600px;
+        button, a{
+            width: fit-content;
+        }
+    }
+    a{
+        text-decoration: none;
+    }
+}
+
+//checkboxes
+.checkbox-form-control{ //label acts as the wrapper
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.1;
+    display: grid;
+    grid-template-columns: 1em auto;
+    gap: 0.5em;
+}
+input[type="checkbox"]{//basic styling
+    appearance: none;
+    background-color: #fff;
+    margin: 0;
+    font: inherit;
+    color: currentColor;
+    width: 1.15em;
+    height: 1.15em;
+    border: 1px solid $primary;
+    border-radius: 5px;
+    transform: translateY(-0.075em);
+    display: grid;
+    place-content: center;
+}
+.checkbox-form-control + .checkbox-form-control {
+    margin-top: 1em;
+  }
+
+input[type="checkbox"]::before{
+    content: "";
+    width: .65em;
+    height: .65em;
+    transform: scale(0);
+    transition: 200ms transform ease-in-out;
+    box-shadow: inset 1em 1em $primary;
+    transform-origin: bottom left;
+    clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+}
+input[type="checkbox"]:checked::before{
+    transform: scale(1);
+}
+input[type="checkbox"]:focus {
+    outline: max(2px, 0.15em) solid $primary;
+    outline-offset: max(2px, 0.15em);
+  }
+
+  //////Toggle Switches
+/* The switch - the box around the slider */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+  }
+  
+  /* Hide default HTML checkbox */
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  /* The slider */
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  input:checked + .slider {
+    background-color: $primary-500;
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px $primary-500;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+  
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  }
+/////////////////////////////////////////
+/// 
+/// Form responses //////////////
+.form-response{ //standard settings for success 
+    background-color: $primary-800;
+    padding: 2rem;
+    border-radius: 5px;
+}
+
+//Response colours
+
+.error{//modifier class for error messages
+    background-color: $error-response;
+}
+
+/////////////////Form Hint text.  Smaller font size, provides a helpful hint/////////////////////////
+.form-hint-small{
+    font-size: 0.8rem;
+    color: $grey-600;
+}
+
+///////////////Form controls //////////
+.form-controls{
+    padding: 1rem;
+
+    border: 1px solid $primary-500;
+    border-radius: 2.5px;
+
+}
+
+.form-controls-btn{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    img{
+        height: 1.25rem;
+        margin-inline-start: 1rem;
+    }
+}
+
+//Form modal setting when on a big screen
+@media(min-width:$md){
+    .modal-body .form-card{
+        width: 50ch;
+    }
+}
+
+//Set the height of button sections to stop layout shifts when hidden
+.btn-wrapper{
+    height: 38.667px;
+}
+
+///////////Spinners ///////////
+.form-controls-btn .loading-icon{
+
+    animation: spinner 3s infinite ease-out;
+    opacity: 1;
+}
+
+@keyframes spinner{
+    0%{transform: rotate(0deg);}
+    100%{transform: rotate(360deg);}
+}
+
+.loading{
+    opacity: 1;
+}
+
+/////////Search box input\\\\\\\\\\
+.search-input{
+    display: flex;
+    align-items: center;
+    input{
+        border-bottom-right-radius:0px;
+        border-top-right-radius:0px;
+    }
+    button{
+        height: 33.33px;
+        width: 33.33px;
+        padding: $spacer-1;
+        border: none;
+
+        border-radius: 0;
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+        svg{
+            height: 100%;
+            margin: 0;
+        }
+        path{
+            fill: #fff;
+        }
+
+    }
+    
+}
+
+
+.price-list-controls, .search-controls{
+    background-color: $primary-800;
+    border-radius: $border-radius;
+    padding: $spacer-2;
+    @media(min-width: $md){
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+}

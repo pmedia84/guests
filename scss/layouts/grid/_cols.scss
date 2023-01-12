@@ -1,0 +1,12 @@
+//Standard column gives equal widths
+.col-50{
+    @media(min-width:$md){
+        width: 50%;
+    }
+    
+}
+
+.grid-col{ //standard grid column to hold items together
+    width: 100%;
+grid-column: 2/3;
+}

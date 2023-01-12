@@ -1,0 +1,13 @@
+.gallery{
+    display: grid;
+    gap: $spacer-1;
+    img{
+        width: 100%;
+        height: 300px;
+         object-fit: cover;
+    }
+    @media (min-width:$md){
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+
+}

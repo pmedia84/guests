@@ -1,0 +1,13 @@
+.login-main{//main body content for login screen and password reset form
+    display: grid;
+    place-items: center;
+    @media (min-width: $md) {
+        place-items: start;
+        grid-template-columns: 1fr;
+    }
+    .header{
+        grid-row: 1/2;
+        grid-column: 1/2;
+        width: 100%;
+    }
+}

@@ -1,0 +1,26 @@
+//Full width call to action banner
+.cta-fw{
+    position: relative;
+    padding: $spacer-4;
+    background-color: $secondary;
+    color: #fff;
+    text-align: center;
+    @media(min-width:$md){
+        padding: 5rem $spacer-7;
+    }
+    &:before{
+        content: "";
+        position: absolute;
+        top: -10px;
+        left: 50%;
+        height: 20px;
+        width: 20px;
+        background-color: #d2d2d2;
+        transform: rotate(45deg);
+    }
+}
+.cta-title{
+    text-align: center;
+    font-size: 2rem;
+
+}

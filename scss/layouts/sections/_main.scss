@@ -1,0 +1,84 @@
+//Main admin page
+.main {
+    position: relative;
+    display: grid;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.main-dashboard {
+    //dashboard cards
+    display: grid;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+
+.main-cards {
+    //container for cards
+    background-color: $primary-900;
+    padding: 1rem;
+    border-radius: $border-radius;
+    display: grid;
+    gap: 1rem;
+    place-self: start;
+width: 100%;
+}
+.cms-settings-cards{
+    gap: 0;
+}
+//settings for larger screens
+@media (min-width: $md) {
+    .main {
+        grid-template-columns: 250px 1fr 250px;
+        grid-template-rows: auto auto auto auto 1fr;
+        grid-template-rows: min-content auto;
+        height: 100%;
+        flex-grow: 1;
+        place-self: auto;
+    }
+    .header{
+        grid-row: 1/2;
+        grid-column: 1/4;
+    }
+    .main-dashboard {
+        grid-row: 2/4;
+        place-self: start;
+        width: 100%;
+        grid-column: 2/3;
+        margin-top: 1rem;
+    }
+
+    .nav-bar {
+        grid-column: 1/2;
+        grid-row: 2/4;
+    }
+.main-cards{
+    grid-row: 2/4;
+    grid-column: 3/4;
+   a{
+    width: fit-content;
+   }
+}
+    .header-actions-navbtn {
+        display: none;
+    }
+
+    .header-actions-business-name {
+        display: block;
+    }
+    .col-2{//changes the main to a 2 column layout
+        grid-template-columns: 250px 1fr;
+        grid-template-rows: min-content auto;
+
+
+            
+    }
+
+    .breadcrumbs{
+    grid-row: 2/3;
+    grid-column: 2/3;
+    
+    }
+}
+

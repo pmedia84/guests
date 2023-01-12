@@ -1,0 +1,117 @@
+//spacing utilities
+
+//m = margin
+//p = padding
+//y = top and bottom
+//t = top
+.mb-1{
+    margin-bottom: $spacer-1;
+}
+.mb-2{
+    margin-bottom: 0.5rem;
+}
+
+.mb-3{
+    margin-bottom: $spacer-3;
+}
+
+.mb-4{
+    margin-bottom: $spacer-4;
+}
+
+.my-2{
+    margin-block: $spacer-2;
+}
+.my-3{
+    margin-block: $spacer-3;
+    
+}
+.my-4{
+    margin-block: $spacer-4;
+}
+////Padding////
+.py-4{
+    padding-block: $spacer-4;
+}
+.py-5{
+    padding-block: $spacer-5;
+}
+.pt-0{
+    padding-top: 0;
+}
+//////
+//colour utilities
+.bg-primary-col{
+    //change bg to primary colour
+    background-color: $primary;
+}
+
+.bg-secondary-col{
+    //change bg to secondary col
+    background-color: $secondary;
+}
+.bg-tertiary-col{
+    background-color: $tertiary-col;
+}
+
+.bg-tertiary-col-v2{//uses tertiary color for bg but makes it opacity lower
+    background-color: rgba($tertiary-col, 0.25);
+}
+//Text Alignments
+
+.text-center{
+    text-align: center;
+}
+
+// Borders
+
+.border-std{//place a border radius std on all the site
+    border-radius: $border-radius;
+}
+
+
+
+//Font colours
+//Change default font to primary colour
+.text-color-primary{
+    color: $primary;
+}
+//Change font colour to white
+.text-color-white{
+    color: #fff;
+}
+
+//Font color muted. Slightly grey color
+.text-color-muted{
+    color: $grey-600;
+}
+
+
+//flex utility classes
+.flex-column{//makes a flex column
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-space-between{
+    justify-content: space-around;
+}
+
+///Display utilities
+.d-none{
+    display: none;
+}
+
+.d-block{
+    display: block;
+}
+.place-start{
+    place-self: flex-start;
+}
+
+//text utility classes
+
+.wrap-words{
+    word-wrap: anywhere;
+}
+
