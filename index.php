@@ -7,33 +7,7 @@ if (!$_SESSION['loggedin'] == TRUE) {
 include("connect.php");
 include("inc/head.inc.php");
 include("inc/settings.php");
-//determine what type of cms is running
 
-//run checks to make sure a business has been set up
-if ($cms_type == "Business") {
-    //look for a business setup in the db, if not then direct to the setup page
-    $business_query = ('SELECT business_id, business_name FROM business');
-    $business = $db->query($business_query);
-    $business = $db->prepare('SELECT * FROM business');
-    $business->execute();
-    $business->store_result();
-    $business->bind_result($business_id, $business_name, $address_id, $business_phone, $business_email, $business_contact_name);
-    $business->fetch();
-
-
-    if ($business->num_rows == 0) {
-        header('Location: setup.php?action=setup_business');
-    }
-    //check that there are users set up 
-    $business_user_query = ('SELECT * FROM business_users');
-    $business_user = $db->query($business_user_query);
-    if ($business_user->num_rows == 0) {
-        header('Location: setup.php?action=check_users_business');
-    }
-    $business->close();
-    //find business details
-
-}
 
 //run checks to make sure a wedding has been set up correctly
 if ($cms_type == "Wedding") {

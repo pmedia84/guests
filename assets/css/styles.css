@@ -84,7 +84,7 @@ body{
 .font-emphasis{
     font-weight: 300;
     font-size: 1.25rem;
-    color: gray;
+    color: hsl(0, 82%, 29%);
 }
 .text-alert{
     color: hsl(0, 95%, 67%);
@@ -110,7 +110,7 @@ body{
 }
     }
 a{
-    color: hsl(163, 28%, 32%);
+    color: hsl(160, 20%, 36%);
     display: inline-block;
 }
 a:hover{
@@ -119,7 +119,7 @@ a:hover{
 .nav-bar {
     /*outer container*/
     display: none;
-    background-color: hsl(163, 28%, 60%);
+    background-color: hsl(160, 20%, 60%);
     padding: 1rem;
     position: absolute;
     left: 0;
@@ -145,19 +145,19 @@ a:hover{
         justify-content: space-between;
         padding: 1rem;
         margin-block: .5rem;
-        background-color: hsl(163, 28%, 80%);
+        background-color: hsl(160, 20%, 80%);
         border-radius: 5px;
         text-decoration: none;
-        color: hsl(163, 28%, 32%);
+        color: hsl(160, 20%, 36%);
     } 
 .nav-links .nav-link img {
             height: 25px
         } 
 .nav-link.link-active {
-    background-color: hsl(163, 28%, 60%);
-    color: hsl(163, 28%, 80%);
-    outline: 2px solid hsl(163, 28%, 80%);
-    outline-color: hsl(163, 28%, 80%);
+    background-color: hsl(160, 20%, 60%);
+    color: hsl(160, 20%, 80%);
+    outline: 2px solid hsl(160, 20%, 80%);
+    outline-color: hsl(160, 20%, 80%);
 } 
 @media (min-width:768px) {
 
@@ -177,13 +177,13 @@ a:hover{
 } 
 .header {
     /*header panel with welcome message and header actions*/
-    color: hsl(163, 28%, 32%);
+    color: hsl(160, 20%, 36%);
     padding: 0 1rem 0 1rem;
     margin-block: 0.5rem;
 } 
 .header-actions {
     /*top banner with immediate actions for user*/
-    background-color: hsl(163, 28%, 90%);
+    background-color: hsl(160, 20%, 90%);
     border-radius: 10px;
     padding: 1rem;
 } 
@@ -225,7 +225,7 @@ a:hover{
 } 
 .main-cards {
     /*container for cards*/
-    background-color: hsl(163, 28%, 90%);
+    background-color: hsl(160, 20%, 90%);
     padding: 1rem;
     border-radius: 10px;
     display: grid;
@@ -294,7 +294,7 @@ width: 100%;
     padding: 1rem;
     padding-left: 1rem;
     padding-right: 1rem;
-    background-color: hsl(163, 28%, 50%);
+    background-color: hsl(160, 20%, 50%);
 } 
 .login-main{/*main body content for login screen and password reset form*/
     display: grid;
@@ -313,7 +313,7 @@ width: 100%;
     } 
 /*///Image gallery*/ 
 .img-card{
-    border: 1px solid hsl(163, 28%, 32%);
+    border: 1px solid hsl(160, 20%, 36%);
     background-color: #fff;
     border-radius: 5px;
     padding: 0.5rem;
@@ -464,7 +464,7 @@ grid-column: 2/3;
 .cta-fw{
     position: relative;
     padding: 2rem;
-    background-color: hsl(162, 29%, 59%);
+    background-color: hsl(37, 75%, 27%);
     color: #fff;
     text-align: center;
 } 
@@ -493,9 +493,9 @@ grid-column: 2/3;
     outline: none;
     -webkit-appearance: none;
             appearance: none;
-    background-color: hsl(163, 28%, 50%);
+    background-color: hsl(160, 20%, 50%);
     color: #fff;
-    border: 1.5px solid hsl(163, 28%, 50%);
+    border: 1.5px solid hsl(160, 20%, 50%);
     border-radius: 5px;
     padding: .375rem .75rem;
     transition: box-shadow 300ms ease-out;
@@ -505,7 +505,7 @@ grid-column: 2/3;
 } 
 
 .btn-primary:focus{
-        box-shadow: 0 0 2px 3px hsl(163, 28%, 80%);
+        box-shadow: 0 0 2px 3px hsl(160, 20%, 80%);
         transition: box-shadow 300ms ease-out;
     } 
 
@@ -517,9 +517,9 @@ grid-column: 2/3;
     outline: none;
     -webkit-appearance: none;
             appearance: none;
-    background-color: hsl(163, 28%, 50%);
+    background-color: hsl(160, 20%, 50%);
     color: #fff;
-    border: 1.5px solid hsl(163, 28%, 50%);
+    border: 1.5px solid hsl(160, 20%, 50%);
     border-radius: 5px;
     padding: .375rem .75rem;
     transition: box-shadow 300ms ease-out;
@@ -527,7 +527,7 @@ grid-column: 2/3;
 
 .btn-secondary{
     background-color: white;
-    color: hsl(163, 28%, 32%);
+    color: hsl(160, 20%, 36%);
 } 
 
 a.btn-primary{
@@ -586,12 +586,12 @@ a.btn-primary{
 /*Quote request form*/ 
 
 .quote-request{
-    background-color: hsl(162, 29%, 59%);
+    background-color: hsl(37, 75%, 27%);
     width: 100%;
  } 
 
 .quote-request h2, .quote-request h3{
-     color: hsl(163, 28%, 32%);
+     color: hsl(160, 20%, 36%);
     } 
 
 .quote-request label{
@@ -677,7 +677,7 @@ input{
 input[type=text], input[type=password], textarea, select, input[type=file],input[type=number], input[type=date], input[type=time]{
     -webkit-appearance: none;
             appearance: none;
-    border: 1px solid hsl(163, 28%, 32%);
+    border: 1px solid hsl(160, 20%, 36%);
     border-radius: 5px;
     padding: 0.25rem;
     transition: box-shadow 300ms ease-out;
@@ -686,7 +686,7 @@ input[type=text], input[type=password], textarea, select, input[type=file],input
 } 
 
 input[type=text]:focus,input[type=password]:focus,textarea:focus,select:focus,input[type=file]:focus,input[type=number]:focus,input[type=date]:focus,input[type=time]:focus{
-        box-shadow: 0 0 2px 3px hsl(163, 28%, 50%);
+        box-shadow: 0 0 2px 3px hsl(160, 20%, 50%);
         transition: box-shadow 300ms ease-out;
     } 
 
@@ -720,7 +720,7 @@ select{
     background-color: #fff;
     -webkit-appearance: none;
             appearance: none;
-    border: 1px solid hsl(163, 28%, 32%);
+    border: 1px solid hsl(160, 20%, 36%);
     border-radius: 0.25rem;
     background-image: url("../img/icons/down.svg");
     background-repeat: no-repeat;
@@ -730,7 +730,7 @@ select{
 
 select:focus{
       outline: none;
-      box-shadow: 0 0 2pt 1pt hsl(163, 28%, 32%);
+      box-shadow: 0 0 2pt 1pt hsl(160, 20%, 36%);
         transition: box-shadow 250ms ease;
     } 
 
@@ -788,7 +788,7 @@ input[type="checkbox"]{/*basic styling*/
     color: currentColor;
     width: 1.15em;
     height: 1.15em;
-    border: 1px solid hsl(163, 28%, 32%);
+    border: 1px solid hsl(160, 20%, 36%);
     border-radius: 5px;
     transform: translateY(-0.075em);
     display: grid;
@@ -805,7 +805,7 @@ input[type="checkbox"]::before{
     height: .65em;
     transform: scale(0);
     transition: 200ms transform ease-in-out;
-    box-shadow: inset 1em 1em hsl(163, 28%, 32%);
+    box-shadow: inset 1em 1em hsl(160, 20%, 36%);
     transform-origin: bottom left;
     -webkit-clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
             clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
@@ -816,7 +816,7 @@ input[type="checkbox"]:checked::before{
 } 
 
 input[type="checkbox"]:focus {
-    outline: max(2px, 0.15em) solid hsl(163, 28%, 32%);
+    outline: max(2px, 0.15em) solid hsl(160, 20%, 36%);
     outline-offset: max(2px, 0.15em);
   } 
 
@@ -864,11 +864,11 @@ input[type="checkbox"]:focus {
   } 
 
 input:checked + .slider {
-    background-color: hsl(163, 28%, 50%);
+    background-color: hsl(160, 20%, 50%);
   } 
 
 input:focus + .slider {
-    box-shadow: 0 0 1px hsl(163, 28%, 50%);
+    box-shadow: 0 0 1px hsl(160, 20%, 50%);
   } 
 
 input:checked + .slider:before {
@@ -892,7 +892,7 @@ input:checked + .slider:before {
 /*/ Form responses //////////////*/ 
 
 .form-response{ /*standard settings for success */
-    background-color: hsl(163, 28%, 80%);
+    background-color: hsl(160, 20%, 80%);
     padding: 2rem;
     border-radius: 5px;
 } 
@@ -907,7 +907,7 @@ input:checked + .slider:before {
 
 .form-hint-small{
     font-size: 0.8rem;
-    color: gray;
+    color: hsl(0, 82%, 29%);
 } 
 
 /*/////////////Form controls //////////*/ 
@@ -915,7 +915,7 @@ input:checked + .slider:before {
 .form-controls{
     padding: 1rem;
 
-    border: 1px solid hsl(163, 28%, 50%);
+    border: 1px solid hsl(160, 20%, 50%);
     border-radius: 2.5px;
 
 } 
@@ -997,7 +997,7 @@ input:checked + .slider:before {
         } 
 
 .price-list-controls, .search-controls{
-    background-color: hsl(163, 28%, 80%);
+    background-color: hsl(160, 20%, 80%);
     border-radius: 10px;
     padding: 0.5rem;
 } 
@@ -1076,7 +1076,7 @@ input:checked + .slider:before {
     } 
 
 .news-card{/*news card*/
-    border: 1px solid hsl(163, 28%, 32%);
+    border: 1px solid hsl(160, 20%, 36%);
     background-color: #fff;
     border-radius: 5px;
     padding: 0.5rem;
@@ -1111,7 +1111,7 @@ input:checked + .slider:before {
 } 
 
 .card-actions{
-    background-color: hsl(163, 28%, 95%);
+    background-color: hsl(160, 20%, 95%);
     padding: 0.5rem;
     border-radius: 5px;
     margin-block: 1.5rem;
@@ -1126,7 +1126,7 @@ input:checked + .slider:before {
 } 
 
 .published{
-    color: hsl(163, 28%, 50%);
+    color: hsl(160, 20%, 50%);
 } 
 
 .draft{
@@ -1148,11 +1148,11 @@ input:checked + .slider:before {
     } 
 
 .news-create-date{
-    color: gray;
+    color: hsl(0, 82%, 29%);
 } 
 
 .news-create-actions{
-    background-color: hsl(163, 28%, 95%);
+    background-color: hsl(160, 20%, 95%);
     padding: 0.5rem;
     border-radius: 5px;
     margin-block: 1.5rem;
@@ -1176,7 +1176,7 @@ input:checked + .slider:before {
 } 
 
 .event-card-title-time{
-    color: gray;
+    color: hsl(0, 82%, 29%);
 } 
 
 .event-card-details{
@@ -1195,7 +1195,7 @@ input:checked + .slider:before {
     } 
 
 .event-card-invites{
-    background-color: hsl(163, 28%, 95%);
+    background-color: hsl(160, 20%, 95%);
     padding: 0.5rem;
 } 
 
@@ -1215,7 +1215,7 @@ input:checked + .slider:before {
     width: 100%;
     display: flex;
     justify-content: space-between;
-    border-bottom:1px solid hsl(163, 28%, 32%);
+    border-bottom:1px solid hsl(160, 20%, 36%);
 } 
 
 .event-card-guestlist-table{
@@ -1228,11 +1228,11 @@ input:checked + .slider:before {
     } 
 
 .event-card-guestlist-table td{
-        border-bottom: 1px solid hsl(163, 28%, 32%);
+        border-bottom: 1px solid hsl(160, 20%, 36%);
     } 
 
 .event-card-guestlist-table tr:nth-child(even){
-        background-color: hsl(163, 28%, 90%);
+        background-color: hsl(160, 20%, 90%);
     } 
 
 /*/cms settings cards*/ 
@@ -1274,7 +1274,7 @@ input:checked + .slider:before {
 /*Defines the body of the modal, centered on screen with a close icon to dismiss*/ 
 
 .modal-body{
-    border: 1px solid hsl(163, 28%, 32%);
+    border: 1px solid hsl(160, 20%, 36%);
     border-radius: 10px;
     background-color: #fff;
     padding: 1.5rem;
@@ -1289,14 +1289,14 @@ input:checked + .slider:before {
     justify-content: flex-end;
     align-items: center;
     width: 100%;
-    border-bottom: 1px solid hsl(163, 28%, 32%);
+    border-bottom: 1px solid hsl(160, 20%, 36%);
     border-top-left-radius: inherit;
     border-top-right-radius: inherit;
 } 
 
 .modal-button-section{/*footer with a confirm button*/
     padding: 0.5rem 1rem 0.5rem 1rem;
-    border-top: 1px solid hsl(163, 28%, 32%);
+    border-top: 1px solid hsl(160, 20%, 36%);
     background-color: rgb(240, 240, 240);
     border-bottom-left-radius: inherit;
     border-bottom-right-radius: inherit;
@@ -1402,11 +1402,11 @@ input:checked + .slider:before {
     } 
 
 .std-table td{
-        border-bottom: 1px solid hsl(163, 28%, 32%);
+        border-bottom: 1px solid hsl(160, 20%, 36%);
     } 
 
 .std-table tr:nth-child(even){
-        background-color: hsl(163, 28%, 90%);
+        background-color: hsl(160, 20%, 90%);
     } 
 
 .guest-list-actions{
@@ -1459,11 +1459,11 @@ input:checked + .slider:before {
 /*colour utilities*/
 .bg-primary-col{
     /*change bg to primary colour*/
-    background-color: hsl(163, 28%, 32%);
+    background-color: hsl(160, 20%, 36%);
 }
 .bg-secondary-col{
     /*change bg to secondary col*/
-    background-color: hsl(162, 29%, 59%);
+    background-color: hsl(37, 75%, 27%);
 }
 .bg-tertiary-col{
     background-color: #4D4D4D;
@@ -1482,7 +1482,7 @@ input:checked + .slider:before {
 /*Font colours*/
 /*Change default font to primary colour*/
 .text-color-primary{
-    color: hsl(163, 28%, 32%);
+    color: hsl(160, 20%, 36%);
 }
 /*Change font colour to white*/
 .text-color-white{
@@ -1490,7 +1490,7 @@ input:checked + .slider:before {
 }
 /*Font color muted. Slightly grey color*/
 .text-color-muted{
-    color: gray;
+    color: hsl(0, 82%, 29%);
 }
 /*flex utility classes*/
 .flex-column{/*makes a flex column*/

@@ -1,5 +1,12 @@
 <?php
 session_start();
+//find the referring page to redirect to once logged in
+if(empty($_SERVER['HTTP_REFERER'])){
+    $redirect = "";
+   
+}else{
+    $redirect = $_SERVER['HTTP_REFERER'];
+}
 include("connect.php");
 include("inc/settings.php");
 //determine what type of cms is running

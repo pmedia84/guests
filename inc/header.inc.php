@@ -23,11 +23,7 @@
                 <img src="assets/img/icons/down.svg" alt="">
             </a>
             <div class="header-actions-business-name">
-                <h1><?php if ($cms_type == "Business") {
-                        echo $business_name;
-                    } else {
-                        echo $wedding_name . '\'s Wedding';
-                    } ?></h1>
+                <h1><?php  { echo $wedding_name . '\'s Wedding';} ?></h1>
             </div>
             <a class="header-actions-btn-logout" href="logout.php"><span>Logout</span><img src="assets/img/icons/logout.svg" alt=""></a>
         </div>
