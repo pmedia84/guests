@@ -47,12 +47,7 @@ if($cms_type =="Wedding"){
 </head>
 
 <body>
-
-
     <!-- Main Body Of Page -->
-
-
-
     <main class="main login-main">
     <div class="header">
 
