@@ -1,7 +1,7 @@
 //dashboard card
 .dashboard-card{
     padding: 1rem;
-    background-color: white;
+    background-color: $primary-900;
     border-radius: $border-radius;
     display: flex;
     flex-direction: column;
@@ -18,7 +18,7 @@
         font-size: 1.5rem;
         font-weight: 300;
     }
-    img{
+    svg{
         height: 35px;
     }
 }

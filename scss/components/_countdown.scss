@@ -1,0 +1,27 @@
+.countdown {
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    gap: $spacer-2;
+    padding: 2rem 0 2rem 0;
+  }
+  
+  .days,
+  .hours,
+  .minutes,
+  .seconds {
+    display: flex;
+    flex-direction: column;
+    font-size: 2.5rem;
+    color: $primary;
+  }
+  
+  .time {
+    text-align: center;
+    width: 25%;
+    max-width: 110px;
+  }
+  
+  .countdown-subtitle {
+    color: $primary;
+  }

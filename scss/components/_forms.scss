@@ -87,7 +87,7 @@
 input{
     outline: none;
 }
-input[type=text], input[type=password], textarea, select, input[type=file],input[type=number], input[type=date], input[type=time]{
+input[type=text], input[type=password], textarea, select, input[type=file],input[type=number], input[type=date], input[type=time], input[type=email]{
     appearance: none;
     border: 1px solid $primary;
     border-radius: 5px;
