@@ -15,11 +15,12 @@ include("inc/settings.php");
 if($cms_type =="Wedding"){
     
     //look for a wedding setup in the db, if not then direct to the setup page
-    $wedding_query = ('SELECT wedding_id FROM wedding');
+    $wedding_query = ('SELECT wedding_id, wedding_name FROM wedding');
     $wedding = $db->query($wedding_query);
     if($wedding -> num_rows ==0){
         header('Location: setup.php?action=setup_wedding');
     }
+    $wedding_result = $wedding->fetch_assoc();
     //check that there are users set up 
     $wedding_user_query = ('SELECT wedding_user_id FROM wedding_users');
     $wedding_user = $db->query($wedding_user_query);
@@ -56,7 +57,7 @@ if($cms_type =="Wedding"){
     <div class="header">
 
 <div class="header-actions login-header">
-    <img src="assets/img/logo.png" alt="">
+    <h1><?=$wedding_result['wedding_name'];?>'s Guest Area</h1>
 </div>
 </div>
         <div class="login-wrapper">
