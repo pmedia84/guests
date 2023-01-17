@@ -21,7 +21,19 @@ if (isset($_POST['rsvp_code'])) {
     // if set then look up the rsvp code and match to a guest on the guest list table
     //set up variables
     $rsvp_code_input = mysqli_real_escape_string($db, $_POST['rsvp_code']);
-
+    //check that this code has not been used already 
+    if ($rsvp_status = $db->prepare('SELECT guest_rsvp_code, guest_rsvp_status FROM guest_list WHERE guest_rsvp_code = ? AND guest_rsvp_status=""')) {
+        $rsvp_status->bind_param('s', $rsvp_code_input);
+        $rsvp_status->execute();
+        $rsvp_status->store_result();
+    }
+    if ($rsvp_status->num_rows == 0) {
+        $response = '<div class="form-response error"><p>RSVP Code has already been used. Try logging in with your email address you registered with.</p>
+                    <a href="login">LOGIN NOW<a/>
+                    </div>';
+        echo $response;
+        exit();
+    }
     if ($rsvp = $db->prepare('SELECT guest_fname, guest_sname, guest_extra_invites,guest_rsvp_code FROM guest_list WHERE guest_rsvp_code = ?')) {
         $rsvp->bind_param('s', $rsvp_code_input);
         $rsvp->execute();
@@ -59,6 +71,21 @@ if (isset($_POST['action']) && $_POST['action'] == "pw_setup") {
     $guest_id = $_POST['guest_id'];
     $user_name = $_POST['guest_name'];
     $guest_email = mysqli_real_escape_string($db, $_POST['guest_email']);
+    //rsvp status is set to setup tp prevent the code being used again
+    $guest_rsvp_status = "setup";
+    //verify that the email is not already used
+    $user_email = $db->prepare('SELECT user_email FROM users WHERE user_email =? AND user_type="wedding_guest"');
+    $user_email ->bind_param('s',$_POST['guest_email']);
+    $user_email->execute();
+    $user_email->store_result();
+    //if there is already a user with this email then send back a response and stop the script.
+    if($user_email ->num_rows >0){
+        $response ='<div class="form-response error"><p>A user with that email address already exists. Please provide another email address.</p></div>';
+        
+        echo $response;
+        exit();
+    }
+
     //verify that passwords match
     $pw1 = mysqli_real_escape_string($db, $_POST['pw1']);
     $pw2 = mysqli_real_escape_string($db, $_POST['pw2']);
@@ -66,9 +93,9 @@ if (isset($_POST['action']) && $_POST['action'] == "pw_setup") {
         //set password
         $password = password_hash($pw1, PASSWORD_DEFAULT);
 
-        //Update guest table with email address
-        $guest = $db->prepare('UPDATE guest_list SET guest_email=? WHERE guest_id =?');
-        $guest->bind_param('ss', $guest_email, $guest_id);
+        //Update guest table with email address and rsvp status to prevent code being used more than once
+        $guest = $db->prepare('UPDATE guest_list SET guest_email=?, guest_rsvp_status=? WHERE guest_id =?');
+        $guest->bind_param('ssi', $guest_email, $guest_rsvp_status, $guest_id);
         $guest->execute();
         $guest->close();
 
@@ -76,9 +103,9 @@ if (isset($_POST['action']) && $_POST['action'] == "pw_setup") {
         $user_pw = $password;
         $user_type = "wedding_guest";
         $user_pw_status = "SET";
-        //create a user in users table and set user type as wedding_guest
-        $new_user = $db->prepare('INSERT INTO users (user_email, user_name, user_pw, user_type, user_pw_status) VALUES (?,?,?,?,?)');
-        $new_user->bind_param('sssss', $user_email, $user_name, $user_pw, $user_type, $user_pw_status);
+        //create a user in users table and set user type as wedding_guest, add the guest id also
+        $new_user = $db->prepare('INSERT INTO users (user_email, user_name, user_pw, user_type, guest_id, user_pw_status) VALUES (?,?,?,?,?,?)');
+        $new_user->bind_param('ssssis', $user_email, $user_name, $user_pw, $user_type, $guest_id, $user_pw_status);
         $new_user->execute();
         $new_user->close();
 
@@ -125,9 +152,9 @@ if (isset($_POST['action']) && $_POST['action'] == "pw_setup") {
         $mail->Body = $body;
         $mail->IsHTML(true);
         $mail->AddAddress($email_to);
-        if (!$mail->Send()) {
-            echo "Mailer Error: " . $mail->ErrorInfo;
-        }
+        // if (!$mail->Send()) {
+        //     echo "Mailer Error: " . $mail->ErrorInfo;
+        // }
         $response = "success";
        
     } else {

@@ -77,7 +77,7 @@ $image->store_result();
 
 <!-- / -->
 <!-- Page Title -->
-<title>Mi-Admin | Create News Article</title>
+<title>Mi-Admin | Images</title>
 <!-- /Page Title -->
 </head>
 
@@ -275,22 +275,12 @@ $image->store_result();
     </main>
 
     <!-- /Main Body Of Page -->
-    <!-- Quote request form script -->
-
-    <!-- /Quote request form script -->
     <!-- Footer -->
     <?php include("./inc/footer.inc.php"); ?>
     <!-- /Footer -->
+
     <script>
-        $(".nav-btn").click(function() {
-            $(".nav-bar").fadeToggle(500);
-        });
-        $(".btn-close").click(function() {
-            $(".nav-bar").fadeOut(500);
-        })
-    </script>
-    <script>
-        //script for editing a news article
+        //script for editing an image
         $("#edit_image").submit(function(event) {
 
             event.preventDefault();

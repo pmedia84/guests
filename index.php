@@ -62,7 +62,7 @@ if ($cms_type == "Wedding") {
         <div class="body">
             <div class="breadcrumbs"><span>Home / </span></div>
             
-            <div class="std-card">
+            <div class="std-card my-3">
                 <h1 class="text-center">Welcome To Your Guest Area</h1>
                 <p class="text-center">We are delighted to have you join us for our big day!</p>
                 <p class="text-center">Here you can manage everything to do with your invitation to our wedding.</p>
@@ -74,7 +74,7 @@ if ($cms_type == "Wedding") {
                         <h2>My Invitation</h2>
                         <i class="fa-solid fa-champagne-glasses"></i>
                         </div>
-                        <a href="guest_list.php">Manage</a>
+                        <a href="invite">Manage</a>
                     </div>
                     <div class="dashboard-card">
                         <div class="dashboard-card-header">
@@ -82,7 +82,7 @@ if ($cms_type == "Wedding") {
                         <i class="fa-solid fa-people-group"></i>
                         </div>
                         
-                        <a href="guest_list.php">Manage</a>
+                        <a href="guest_group">Manage</a>
                     </div>
             </div>
             <div class="std-card index-img">

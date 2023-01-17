@@ -28,32 +28,25 @@ if ($cms_type == "Wedding") {
     $guest->bind_result($guest_id);
     $guest->fetch();
     $guest->close();
-    // find the guest group that this user manages
-    $guest_group_id_query = $db->query('SELECT users.user_id, users.guest_id, guest_groups.guest_group_organiser, guest_groups.guest_group_id FROM users LEFT JOIN guest_groups ON guest_groups.guest_group_organiser=users.guest_id WHERE users.user_id =' . $user_id);
-    $group_id_result = $guest_group_id_query->fetch_assoc();
-    //define guest group id
-    $guest_group_id = $group_id_result['guest_group_id'];
-    //load details of the group that this user manages
-    $group_details = $db->prepare('SELECT guest_group_name FROM guest_groups WHERE guest_group_organiser =' . $guest_id);
-    $group_details->execute();
-    $group_details->bind_result($group_name);
-    $group_details->fetch();
-    $group_details->close();
 }
 //////////////////////////////////////////////////////////////////Everything above this applies to each page\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-//loads guest group list
-$group_query = $db->query('SELECT guest_list.guest_fname, guest_list.guest_sname, guest_list.guest_id, guest_list.guest_group_id, guest_list.guest_type, guest_groups.guest_group_id, guest_groups.guest_group_name FROM guest_list LEFT JOIN guest_groups ON guest_groups.guest_group_id=guest_list.guest_group_id  WHERE guest_groups.guest_group_id=' . $guest_group_id . ' AND guest_list.guest_type = "Member"');
-$group_result = $group_query->fetch_assoc();
+//load details of any invitations that this guest has
+$invite_query = $db->query('SELECT wedding_events.event_name, wedding_events.event_id, wedding_events.event_location, wedding_events.event_date, wedding_events.event_time, wedding_events.event_address, wedding_events.event_notes, invitations.event_id, invitations.guest_id, invitations.invite_rsvp_status, guest_list.guest_id, guest_list.guest_extra_invites, guest_list.guest_type FROM wedding_events
+LEFT JOIN invitations ON invitations.event_id=wedding_events.event_id
+LEFT JOIN guest_list ON guest_list.guest_id=invitations.guest_id WHERE guest_list.guest_id=' . $guest_id . '
+  ');
 
-//loads group capacity
-$group_cap_query = $db->query('SELECT guest_id, guest_extra_invites FROM guest_list WHERE guest_id=' . $guest_id);
-$group_cap_result = $group_cap_query->fetch_assoc();
-$group_capacity = $group_cap_result['guest_extra_invites'];
-//calculate the remaining amount of invites available
-$group_size_query = $db->query('SELECT guest_group_id FROM guest_list WHERE guest_type="Member" AND guest_group_id=' . $guest_group_id);
-$group_size = $group_size_query->num_rows;
-$remaining_inv = $group_capacity - $group_size ;
-$db->close();
+// find the guest group that this user manages
+$guest_group_id_query = $db->query('SELECT users.user_id, users.guest_id, guest_groups.guest_group_organiser, guest_groups.guest_group_id FROM users LEFT JOIN guest_groups ON guest_groups.guest_group_organiser=users.guest_id WHERE users.user_id ='.$user_id);
+$group_id_result = $guest_group_id_query->fetch_assoc();
+//define guest group id
+$guest_group_id = $group_id_result['guest_group_id'];
+//loads guest group list
+$group_query = $db->query('SELECT guest_list.guest_fname, guest_list.guest_sname, guest_list.guest_id, guest_list.guest_group_id, guest_list.guest_type, guest_groups.guest_group_id, guest_groups.guest_group_name FROM guest_list LEFT JOIN guest_groups ON guest_groups.guest_group_id=guest_list.guest_group_id  WHERE guest_groups.guest_group_id='.$guest_group_id.' AND guest_list.guest_type = "Member"');
+//$group_result = $group_query->fetch_assoc();
+
+
+
 ?>
 <!-- Meta Tags For Each Page -->
 <meta name="description" content="Parrot Media Wedding Admin - Guest Admin Area">
@@ -78,10 +71,16 @@ $db->close();
         <div class="body">
             <div class="breadcrumbs mb-2">
                 <a href="index" class="breadcrumb">Home</a> /
-                My Guest Group
-                <?php if (isset($_GET['action']) && $_GET['action'] == "edit") : ?>
-                    / Edit My Guest Group
+                <a href="invite" class="breadcrumb">My Invitation</a>
+                <?php if (isset($_GET['action']) && $_GET['action'] == "respond") : ?>
+                    / Respond To Invitation
                 <?php endif; ?>
+                <?php if (isset($_GET['action']) && $_GET['action'] == "edit") : ?>
+                    / Update Invitation Response
+                <?php endif; ?>
+
+
+
             </div>
             <div class="main-cards">
                 <?php if (isset($_GET['action']) && $_GET['action'] == "respond") : ?>
@@ -89,61 +88,78 @@ $db->close();
                 <?php endif; ?>
 
                 <?php if (isset($_GET['action']) && $_GET['action'] == "edit") : ?>
-                    <h1>Update My Guest Group</h1>
-                <?php else : ?>
-                    <h1><?= $group_name; ?>'s Guest Group</h1>
+                    <h1>Manage My Invitation</h1>
                 <?php endif; ?>
-                <div class="search-controls">
-                    <a href="guest.php?action=create" class="btn-primary">Add Guest <i class="fa-solid fa-user-plus"></i></a>
+
+                <?php if (($invite_query->num_rows) > 0) : ?>
+                    <?php if (empty($_GET)) : ?>
+                        <?php foreach ($invite_query as $invite) :
+                            $event_date = strtotime($invite['event_date']);
+                            $event_time = strtotime($invite['event_time']);
+                        ?>
+
+                            <div class="std-card">
+                                <h2>Our <?= $invite['event_name']; ?></h2>
 
 
-                </div>
-                <div class="guest-group-stats-container">
-                    <div class="guest-group-stats">
-                        <span class="guest-group-stats-title">Invites Available: </span>
-                        <span class="guest-group-stat"><?= $group_capacity; ?></span>
-                    </div>
-                    <div class="guest-group-stats">
-                        <span class="guest-group-stats-title">Invites Allocated: </span>
-                        <span class="guest-group-stat"><?= $group_size; ?></span>
-                    </div>
-                    <div class="guest-group-stats">
-                        <span class="guest-group-stats-title">Invites Remaining: </span>
-                        <span class="guest-group-stat"><?= $remaining_inv; ?></span>
-                    </div>
-                </div>
-                <p>When you add a guest, they will automatically be added to your invitations</p>
-                <?php if (($group_query->num_rows) > 0) : ?>
-                    <div class="std-card">
-                        <h2>My Group</h2>
+                            </div>
+                            <div class="std-card">
+                                <h2><?= $invite['event_location']; ?></h2>
+                                <p><?= $invite['event_notes']; ?></p>
+                                <p><strong>Date:</strong> <?php echo date('D d M Y', $event_date); ?></p>
+                                <p><strong>Time:</strong> <?php echo date('H:ia', $event_time); ?></p>
+                                <h3>Address:</h3>
+                                <address class="mb-3"><?= $invite['event_address']; ?></address>
 
-                        <table class="std-table guest_group">
-                            <tr>
-                                <th>Name</th>
-                                <th>Manage</th>
-                            </tr>
-                            <?php foreach ($group_query as $member) : ?>
-                                <tr>
-                                    <td><a href="guest?action=view&guest_id=<?=$member['guest_id'];?>"><?= $member['guest_fname'] . ' ' . $member['guest_sname']; ?></a></td>
-                                    <td>
-                                        <div class="guest-list-actions">
-                                            <a href="guest.php?guest_id=<?= $member['guest_id']; ?>&action=view"><i class="fa-solid fa-eye"></i></a>
-                                            <a href="guest.php?guest_id=<?= $member['guest_id']; ?>&action=edit"><i class="fa-solid fa-pen-to-square"></i></a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <?php endforeach; ?>
-                        </table>
+                                <?php echo '<iframe frameborder="0" width="100%" height="250px" src="https://maps.google.com/maps?f=q&source=s_q&hl=en&geocode=&q=' . str_replace(",", "", str_replace(" ", "+", $invite['event_address'])) . '&z=14&output=embed"></iframe>'; ?>
+                                <?php if ($invite['guest_extra_invites'] > 0) : ?>
+                                    <h2>Additional Invites</h2>
+                                    <p>We are delighted to tell you that you have the following additional invites that you can bring with you to share our day:</p>
+                                    <h4>No. Of Extra Guests</h4>
+                                    <span><strong><?= $invite['guest_extra_invites']; ?></strong></span>
+                                    <p>You can manage your additional invites under the <a href="guest_group">My Guest Group</a> Tab</p>
 
-                    
-                    </div>
+                                    <?php if (($group_query->num_rows) > 0) : ?>
 
-                <?php else : ?>
-                    <div class="std-card">
-                        <h2>My Guest Group</h2>
-                        <p>You have not set up your guest group yet.</p>
-                        <p>Click the button above to add your first guest.</p>
-                    </div>
+                                        <h2>My Group</h2>
+
+                                        <table class="std-table guest_group">
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Manage</th>
+                                            </tr>
+                                            <?php foreach ($group_query as $member) : ?>
+                                                <tr>
+                                                    <td><?= $member['guest_fname'] . ' ' . $member['guest_sname']; ?></td>
+                                                    <td>
+                                                        <div class="guest-list-actions">
+                                                            <a href="guest.php?guest_id=<?= $member['guest_id']; ?>&action=view"><i class="fa-solid fa-eye"></i></a>
+                                                            <a href="guest.php?guest_id='.$guest['guest_id'].'&action=edit"><i class="fa-solid fa-pen-to-square"></i></a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                        </table>
+                                    <?php endif; ?>
+                                <?php endif; ?>
+                                <h2>RSVP Status</h2>
+                                <?php if ($invite['invite_rsvp_status'] == NULL) : ?>
+                                    <p><strong>Please respond to your invitation:</strong></p>
+                                    <div class="card-actions">
+                                        <a class="my-2 btn-primary" href="invite?action=respond&event_id=<?= $invite['event_id']; ?>">Respond To Invitation <i class="fa-solid fa-reply"></i></a>
+                                    </div>
+                                <?php else : ?>
+                                    <p>You have told us that you are <strong><?= $invite['invite_rsvp_status']; ?></strong> our <?= $invite['event_name']; ?></p>
+                                    <div class="card-actions">
+                                        <a class="my-2 btn-primary" href="invite?action=edit&event_id=<?= $invite['event_id']; ?>">Change Response <i class="fa-solid fa-reply"></i></a>
+                                    </div>
+                                <?php endif; ?>
+
+                            </div>
+
+                        <?php endforeach; ?>
+
+                    <?php endif; ?>
                 <?php endif; ?>
 
 

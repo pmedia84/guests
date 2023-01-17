@@ -84,8 +84,9 @@
 }
 /////////////////////Form Input settings///////////////////////////
 
-input{
+input, textarea{
     outline: none;
+    max-width: 50ch;
 }
 input[type=text], input[type=password], textarea, select, input[type=file],input[type=number], input[type=date], input[type=time], input[type=email]{
     appearance: none;

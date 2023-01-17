@@ -203,3 +203,34 @@
 .settings-card-text{
     padding: $spacer-2;
 }
+
+//guest group stats cards
+.guest-group-stats-container{
+    display: grid;
+    gap: $spacer-3;
+    @media(min-width:$md){
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+    
+}
+.guest-group-stats{
+    background-color: #fff;
+    padding: $spacer-2;
+    border-radius: 5px;
+    border: 1px solid $primary-500;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.guest-group-stats-title{
+    font-size: 1.375rem;
+    font-weight: 100;
+    color: $primary;
+}
+
+.guest-group-stat{
+    font-size: 1.5rem;
+    font-weight: 300;
+  ;
+}
