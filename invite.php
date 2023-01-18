@@ -35,12 +35,12 @@ LEFT JOIN guest_list ON guest_list.guest_id=invitations.guest_id WHERE guest_lis
   ');
 
 // find the guest group that this user manages
-$guest_group_id_query = $db->query('SELECT users.user_id, users.guest_id, guest_groups.guest_group_organiser, guest_groups.guest_group_id FROM users LEFT JOIN guest_groups ON guest_groups.guest_group_organiser=users.guest_id WHERE users.user_id ='.$user_id);
+$guest_group_id_query = $db->query('SELECT users.user_id, users.guest_id, guest_groups.guest_group_organiser, guest_groups.guest_group_id FROM users LEFT JOIN guest_groups ON guest_groups.guest_group_organiser=users.guest_id WHERE users.user_id =' . $user_id);
 $group_id_result = $guest_group_id_query->fetch_assoc();
 //define guest group id
 $guest_group_id = $group_id_result['guest_group_id'];
 //loads guest group list
-$group_query = $db->query('SELECT guest_list.guest_fname, guest_list.guest_sname, guest_list.guest_id, guest_list.guest_group_id, guest_list.guest_type, guest_groups.guest_group_id, guest_groups.guest_group_name FROM guest_list LEFT JOIN guest_groups ON guest_groups.guest_group_id=guest_list.guest_group_id  WHERE guest_groups.guest_group_id='.$guest_group_id.' AND guest_list.guest_type = "Member"');
+$group_query = $db->query('SELECT guest_list.guest_fname, guest_list.guest_sname, guest_list.guest_id, guest_list.guest_group_id, guest_list.guest_type, guest_groups.guest_group_id, guest_groups.guest_group_name FROM guest_list LEFT JOIN guest_groups ON guest_groups.guest_group_id=guest_list.guest_group_id  WHERE guest_groups.guest_group_id=' . $guest_group_id . ' AND guest_list.guest_type = "Member"');
 //$group_result = $group_query->fetch_assoc();
 
 
@@ -100,8 +100,8 @@ $group_query = $db->query('SELECT guest_list.guest_fname, guest_list.guest_sname
                                 <h2>Our <?= $invite['event_name']; ?></h2>
                             </div>
                             <div class="std-card">
-                                <h2><?=$invite['event_location']; ?></h2>
-                                <p><?=$invite['event_notes']; ?></p>
+                                <h2><?= $invite['event_location']; ?></h2>
+                                <p><?= $invite['event_notes']; ?></p>
                                 <p><strong>Date:</strong> <?php echo date('D d M Y', $event_date); ?></p>
                                 <p><strong>Time:</strong> <?php echo date('H:ia', $event_time); ?></p>
                                 <h3>Address:</h3>
@@ -240,7 +240,7 @@ $group_query = $db->query('SELECT guest_list.guest_fname, guest_list.guest_sname
                             <div class="form-input-wrapper">
                                 <label for="guest_dietery"><strong>Any Dietary Requirements?</strong></label>
                                 <p class="form-hint-small">This is just for yourself.</p>
-                                <textarea name="guest_dietery" id="guest_dietery" cols="30" placeholder="Tell us about any dietary requirements you have..."><?= $event_result['guest_dietery'];?></textarea>
+                                <textarea name="guest_dietery" id="guest_dietery" cols="30" placeholder="Tell us about any dietary requirements you have..."><?= $event_result['guest_dietery']; ?></textarea>
                             </div>
                             <div class="form-input-wrapper">
                                 <label for="rsvp_note"><strong>Message</strong></label>
@@ -268,8 +268,6 @@ $group_query = $db->query('SELECT guest_list.guest_fname, guest_list.guest_sname
         </div>
 
         </div>
-
-
     </main>
 
     <!-- /Main Body Of Page -->
