@@ -17,9 +17,10 @@ if(isset($_POST['action']) && $_POST['action']=="response"){
     $invite_rsvp_status = $_POST['invite_rsvp_status'];
     $guest_dietery=$_POST['guest_dietery'];
     $guest_rsvp_note = mysqli_real_escape_string($db, $_POST['rsvp_note']);
-    //update the invitations table
-    $update_rsvp = $db->prepare('UPDATE invitations SET invite_rsvp_status=?  WHERE event_id =? AND guest_id=?');
-    $update_rsvp->bind_param('sii',$invite_rsvp_status, $event_id, $guest_id);
+    $guest_group_id = $_POST['guest_group_id'];
+    //update the invitations table and add in the guest group id
+    $update_rsvp = $db->prepare('UPDATE invitations SET invite_rsvp_status=?, guest_group_id=?  WHERE event_id =? AND guest_id=?');
+    $update_rsvp->bind_param('siii',$invite_rsvp_status, $guest_group_id, $event_id, $guest_id);
     $update_rsvp->execute();
     $update_rsvp->close();
     //update the guest list
@@ -90,6 +91,7 @@ if(isset($_POST['action']) && $_POST['action']=="update"){
     //set up variables
     $guest_id = $_POST['guest_id'];
     $event_id = $_POST['event_id'];
+    $guest_group_id = $_POST['guest_group_id'];
     $invite_rsvp_status = $_POST['invite_rsvp_status'];
     $guest_dietery = $_POST['guest_dietery'];
     $guest_rsvp_note = mysqli_real_escape_string($db, $_POST['rsvp_note']);
@@ -98,12 +100,19 @@ if(isset($_POST['action']) && $_POST['action']=="update"){
     $update_rsvp->bind_param('sii',$invite_rsvp_status, $event_id, $guest_id);
     $update_rsvp->execute();
     $update_rsvp->close();
-    //update the guest list
-    $update_guest_list = $db->prepare('UPDATE guest_list SET guest_rsvp_status=?, guest_dietery=?  WHERE  guest_id=?');
-    $update_guest_list->bind_param('ssi',$invite_rsvp_status, $guest_dietery, $guest_id);
-    $update_guest_list->execute();
-    $update_guest_list->close();
+    //update the whole group rsvp status
+    $update_group_list = $db->prepare('UPDATE invitations SET invite_rsvp_status=?  WHERE  guest_group_id=?');
+    $update_group_list->bind_param('si',$invite_rsvp_status, $guest_group_id);
+    $update_group_list->execute();
+    $update_group_list->close();
 
+    // remove all guests from guest list of status set as not attending
+    if($invite_rsvp_status =="Not Attending"){
+        $update_guest_list = $db->prepare('DELETE FROM guest_list WHERE  guest_group_id=? AND guest_type="Member"');
+        $update_guest_list->bind_param('i', $guest_group_id);
+        $update_guest_list->execute();
+        $update_guest_list->close();
+    }
     /////////////////////Send email with confirmation/////////////////////////
     //load guest details
     $guest_query = ('SELECT guest_fname, guest_sname FROM guest_list WHERE guest_id='.$guest_id);

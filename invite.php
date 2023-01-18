@@ -111,8 +111,11 @@ $group_query = $db->query('SELECT guest_list.guest_fname, guest_list.guest_sname
                                 <?php if ($invite['guest_extra_invites'] > 0) : ?>
                                     <h2>Additional Invites</h2>
                                     <p>We are delighted to tell you that you have the following additional invites that you can bring with you to share our day:</p>
-                                    <h4>No. Of Extra Guests</h4>
-                                    <span><strong><?= $invite['guest_extra_invites']; ?></strong></span>
+                                    <div class="guest-group-stats my-3">
+                                        <span class="guest-group-stats-title">Invites Available: </span>
+                                        <span class="guest-group-stat"><?= $invite['guest_extra_invites']; ?></span>
+                                    </div>
+
                                     <p>You can manage your additional invites under the <a href="guest_group">My Guest Group</a> Tab</p>
 
                                     <?php if (($group_query->num_rows) > 0) : ?>
@@ -126,7 +129,7 @@ $group_query = $db->query('SELECT guest_list.guest_fname, guest_list.guest_sname
                                             </tr>
                                             <?php foreach ($group_query as $member) : ?>
                                                 <tr>
-                                                    <td><?= $member['guest_fname'] . ' ' . $member['guest_sname']; ?></td>
+                                                    <td><a href="guest.php?guest_id=<?= $member['guest_id']; ?>&action=view"><?= $member['guest_fname'] . ' ' . $member['guest_sname']; ?></a></td>
                                                     <td>
                                                         <div class="guest-list-actions">
                                                             <a href="guest.php?guest_id=<?= $member['guest_id']; ?>&action=view"><i class="fa-solid fa-eye"></i></a>
@@ -208,7 +211,7 @@ $group_query = $db->query('SELECT guest_list.guest_fname, guest_list.guest_sname
                 <?php if (isset($_GET['action']) && $_GET['action'] == "edit") :
                     $event_id = $_GET['event_id'];
                     //load event details
-                    $event = $db->query('SELECT wedding_events.event_name, wedding_events.event_id, wedding_events.event_location, wedding_events.event_date, wedding_events.event_time,  invitations.event_id, invitations.guest_id, invitations.invite_rsvp_status, guest_list.guest_id ,guest_list.guest_dietery, guest_list.guest_rsvp_status FROM wedding_events
+                    $event = $db->query('SELECT wedding_events.event_name, wedding_events.event_id, wedding_events.event_location, wedding_events.event_date, wedding_events.event_time,  invitations.event_id, invitations.guest_id, invitations.invite_rsvp_status, guest_list.guest_id ,guest_list.guest_dietery, guest_list.guest_rsvp_status, guest_list.guest_group_id FROM wedding_events
                     LEFT JOIN invitations ON invitations.event_id=wedding_events.event_id
                     LEFT JOIN guest_list ON guest_list.guest_id=invitations.guest_id WHERE guest_list.guest_id=' . $guest_id . ' AND wedding_events.event_id=' . $event_id);
                     $event_result = $event->fetch_array();
@@ -285,10 +288,12 @@ $group_query = $db->query('SELECT guest_list.guest_fname, guest_list.guest_sname
             //declare form variables and collect GET request information
             event_id = '<?php echo $event_id; ?>';
             guest_id = '<?php echo $guest_id; ?>';
+            guest_group_id = '<?php echo $guest_group_id; ?>';
             var formData = new FormData($("#invite_response").get(0));
             formData.append("action", "response");
             formData.append("event_id", event_id);
             formData.append("guest_id", guest_id);
+            formData.append("guest_group_id", guest_group_id);
             $.ajax({ //start ajax post
                 type: "POST",
                 url: "scripts/invite.script.php",
@@ -321,10 +326,12 @@ $group_query = $db->query('SELECT guest_list.guest_fname, guest_list.guest_sname
             //declare form variables and collect GET request information
             event_id = '<?php echo $event_id; ?>';
             guest_id = '<?php echo $guest_id; ?>';
+            guest_group_id = '<?php echo $event_result['guest_group_id']; ?>';
             var formData = new FormData($("#edit_response").get(0));
             formData.append("action", "update");
             formData.append("event_id", event_id);
             formData.append("guest_id", guest_id);
+            formData.append("guest_group_id", guest_group_id);
             $.ajax({ //start ajax post
                 type: "POST",
                 url: "scripts/invite.script.php",

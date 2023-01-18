@@ -49,9 +49,9 @@
         $user_invites=$db->query('SELECT users.user_id, users.guest_id, invitations.guest_id, invitations.event_id, invitations.invite_rsvp_status FROM users LEFT JOIN invitations ON invitations.guest_id=users.guest_id WHERE users.user_id = '.$user_id.' AND invitations.invite_rsvp_status="Attending"');
         $user_invites_result = mysqli_fetch_array($user_invites, MYSQLI_ASSOC);
         $invite_rsvp_status = "Attending";
-        $invite = $db->prepare('INSERT INTO invitations (guest_id, event_id, invite_rsvp_status) VALUES (?,?,?)');
+        $invite = $db->prepare('INSERT INTO invitations (guest_id, event_id, invite_rsvp_status, guest_group_id) VALUES (?,?,?,?)');
         foreach($user_invites as $event_id){
-            $invite->bind_param('iis', $new_guest_id, $event_id['event_id'], $invite_rsvp_status);
+            $invite->bind_param('iisi', $new_guest_id, $event_id['event_id'], $invite_rsvp_status, $guest_group_id);
             $invite->execute();
         }
         $invite->close();

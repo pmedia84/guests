@@ -23,6 +23,9 @@
     gap: 1rem;
     place-self: start;
 width: 100%;
+max-width: 1200px;
+margin: 0 auto;
+
 }
 .cms-settings-cards{
     gap: 0;
@@ -56,6 +59,7 @@ width: 100%;
 .main-cards{
     grid-row: 2/4;
     grid-column: 3/4;
+
    a{
     width: fit-content;
    }

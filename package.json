@@ -2,7 +2,7 @@
   "name": "wedding-guests",
   "version": "1.0.0",
   "description": "Guest Area for all wedding sites",
-  "main": "index.js",
+  "main": "index.php",
   "dependencies": {},
   "devDependencies": {
     "autoprefixer": "^10.2.4",

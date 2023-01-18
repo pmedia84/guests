@@ -34,7 +34,7 @@ if ($cms_type == "Wedding") {
     //define guest group id
     $guest_group_id = $group_id_result['guest_group_id'];
     //load details of the group that this user manages
-    $group_details = $db->prepare('SELECT guest_group_name FROM guest_groups WHERE guest_group_organiser =' . $guest_id);
+    $group_details = $db->prepare('SELECT guest_group_name FROM guest_groups WHERE guest_group_organiser ='.$guest_id);
     $group_details->execute();
     $group_details->bind_result($group_name);
     $group_details->fetch();
@@ -53,7 +53,14 @@ $group_capacity = $group_cap_result['guest_extra_invites'];
 $group_size_query = $db->query('SELECT guest_group_id FROM guest_list WHERE guest_type="Member" AND guest_group_id=' . $guest_group_id);
 $group_size = $group_size_query->num_rows;
 $remaining_inv = $group_capacity - $group_size ;
-$db->close();
+
+
+//check that the guest has responded to their invite first
+$invite_status = $db->prepare('SELECT invite_rsvp_status FROM invitations WHERE guest_id =' . $guest_id);
+$invite_status->execute();
+$invite_status->bind_result($invite_rsvp_status);
+$invite_status->fetch();
+$invite_status->close();
 ?>
 <!-- Meta Tags For Each Page -->
 <meta name="description" content="Parrot Media Wedding Admin - Guest Admin Area">
@@ -93,10 +100,9 @@ $db->close();
                 <?php else : ?>
                     <h1><?= $group_name; ?>'s Guest Group</h1>
                 <?php endif; ?>
+            <?php if($invite_rsvp_status=="Attending")://check if the guest has responded?>
                 <div class="search-controls">
                     <a href="guest.php?action=create" class="btn-primary">Add Guest <i class="fa-solid fa-user-plus"></i></a>
-
-
                 </div>
                 <div class="guest-group-stats-container">
                     <div class="guest-group-stats">
@@ -145,7 +151,13 @@ $db->close();
                         <p>Click the button above to add your first guest.</p>
                     </div>
                 <?php endif; ?>
-
+                <?php else : ?>
+                    <div class="std-card">
+                        <h2>My Guest Group</h2>
+                        <p>You need to respond to your invitation before you can set up your guest group.</p>
+                        <a href="invite" class="btn-primary my-3">Respond Now <i class="fa-solid fa-reply"></i></a>
+                    </div>
+        <?php endif;?>
 
                 <?php if (isset($_GET['action']) && $_GET['action'] == "respond") :
                     $event_id = $_GET['event_id'];
