@@ -18,9 +18,8 @@
                 <a href="#" class="nav-btn" id="nav-btn"><img src="assets/img/icons/menu-bars.svg" alt=""></a>
             </div>
 
-            <a class="header-actions-btn-user" href="">
+            <a class="header-actions-btn-user" href="my_details">
                 <img src="assets/img/icons/user.svg" alt="">
-                <img src="assets/img/icons/down.svg" alt="">
             </a>
             <div class="header-actions-business-name">
                 <h1><?php  { echo $wedding_name . '\'s Wedding';} ?></h1>

@@ -10,41 +10,7 @@ include("./connect.php");
 include("inc/head.inc.php");
 include("inc/settings.php"); 
 
-if ($cms_type == "Business") {
-    //look for the business set up and load information
-    //find business details.
-    $business = $db->prepare('SELECT * FROM business');
 
-    $business->execute();
-    $business->store_result();
-    $business->bind_result($business_id, $business_name, $address_id, $business_phone, $business_email, $business_contact_name);
-    $business->fetch();
-    $business->close();
-    //set cms name
-    $cms_name = $business_name;
-    //find user details for this business
-    $business_users = $db->prepare('SELECT users.user_id, users.user_name, business_users.business_id, business_users.user_type FROM users NATURAL LEFT JOIN business_users WHERE users.user_id=' . $user_id);
-
-    $business_users->execute();
-    $business_users->bind_result($user_id, $user_name, $business_id, $user_type);
-    $business_users->fetch();
-    $business_users->close();
-    //find business address details.
-    $business = $db->prepare('SELECT * FROM addresses WHERE address_id =' . $address_id);
-
-    $business->execute();
-    $business->store_result();
-    $business->bind_result($address_id, $address_house, $address_road, $address_town, $address_county, $address_pc);
-    $business->fetch();
-    $business->close();
-
-
-    //find social media info
-    $socials_query = ('SELECT business_socials.business_socials_id, business_socials.socials_type_id, business_socials.business_socials_url, business_socials.business_id, business_socials_types.socials_type_id, business_socials_types.socials_type_name   FROM business_socials  NATURAL LEFT JOIN business_socials_types WHERE  business_socials.business_id =' . $business_id);
-    $socials = $db->query($socials_query);
-    $social_result = $socials->fetch_assoc();
-    $db->close();
-}
 
 //run checks to make sure a wedding has been set up correctly
 if ($cms_type == "Wedding") {
@@ -91,7 +57,7 @@ if ($cms_type == "Wedding") {
         <div class="header">
 
             <div class="header-actions login-header">
-                <img src="assets/img/logo.png" alt="">
+                <h1><?=$wedding_name;?>'s Guest Area</h1>
             </div>
         </div>
         <div class="login-wrapper">

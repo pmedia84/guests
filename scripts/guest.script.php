@@ -55,6 +55,7 @@
             $invite->execute();
         }
         $invite->close();
+        
     }
 echo $response;
 ?>

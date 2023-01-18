@@ -20,7 +20,7 @@
                 <?php if ($image_gallery_status == "On"):?>
                     <li><a class="nav-link" href="gallery">Image Gallery <i class="fa-solid fa-image"></i></a></li>
                 <?php endif; ?>
-                <li><a class="nav-link" href="my_details">My Details <i class="fa-solid fa-address-book"></i></a></li>    
+                <li><a class="nav-link" href="profile">My Profile <i class="fa-solid fa-address-book"></i></a></li>    
 
 
             <?php endif; ?>
