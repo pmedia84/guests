@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -27,7 +27,19 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300&display=swap" rel="stylesheet">
 
-    
+    <?php
+    if(empty($_SESSION)){
+        $user_id="";
+    }else{
+        $user_id = $_SESSION['user_id'];
+        //load guest Type
+        $user_type = $db->query('SELECT users.user_id, users.guest_id, guest_list.guest_id, guest_list.guest_type FROM users LEFT JOIN guest_list ON guest_list.guest_id=users.guest_id WHERE users.user_id=' . $user_id);
+        $user_type_result = $user_type->fetch_assoc();
+        $guest_type = $user_type_result['guest_type'];
+    }
+  
+
+?>
 
 
     <!-- Everything above this is for the head element. And is displayed on every web page -->

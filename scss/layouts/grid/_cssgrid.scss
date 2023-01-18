@@ -3,7 +3,13 @@
     gap: $spacer-2;
     @media(min-width:$md){
         grid-template-columns: 1fr 1fr;
-        place-items: center;
+        
+    }
+    .std-card{
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
     }
 }
 .grid-row-3col{//grid row with 3 columns of equal width
@@ -22,6 +28,6 @@
 
 .grid-auto-sm{ //auto grid small columns
     display: grid;
-    gap: $spacer-3;
+    gap: $spacer-1;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 }

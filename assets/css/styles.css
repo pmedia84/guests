@@ -348,15 +348,14 @@ width: 100%;
     /*thumbnail for delete page*/
     height: 150px;
 } 
+.gift-item-thumb{
+    height: 150px;
+} 
 .std-card.index-img img{
     width: 100%;
  
     border-radius: 5px;
    } 
-.rsvp-card{
-    width: 80%;
-    margin: 0 auto;
-} 
 /*Standard column gives equal widths*/ 
 @media(min-width:768px){ 
 .col-50{
@@ -394,9 +393,15 @@ grid-column: 2/3;
 } 
 @media(min-width:768px){ 
 .grid-row-2col{
-        grid-template-columns: 1fr 1fr;
-        place-items: center
+        grid-template-columns: 1fr 1fr
 }
+        
+    } 
+.grid-row-2col .std-card{
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
     } 
 .grid-row-3col{/*grid row with 3 columns of equal width*/
     display: grid;
@@ -414,7 +419,7 @@ grid-column: 2/3;
 } 
 .grid-auto-sm{ /*auto grid small columns*/
     display: grid;
-    gap: 1.5rem;
+    gap: 0.25rem;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 } 
 .container-fluid,

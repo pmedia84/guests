@@ -7,8 +7,6 @@ if (!$_SESSION['loggedin'] == TRUE) {
 include("connect.php");
 include("inc/head.inc.php");
 include("inc/settings.php");
-
-
 //run checks to make sure a wedding has been set up correctly
 if ($cms_type == "Wedding") {
 
@@ -69,7 +67,9 @@ if ($cms_type == "Wedding") {
             </div>
         <div class="main-cards">
             <div class="std-card grid-auto-sm">
-                    <div class="dashboard-card">
+
+                    <?php if($guest_type =="Group Organiser"):?>
+                        <div class="dashboard-card">
                         <div class="dashboard-card-header">
                         <h2>My Invitation</h2>
                         <i class="fa-solid fa-champagne-glasses"></i>
@@ -84,6 +84,23 @@ if ($cms_type == "Wedding") {
                         
                         <a href="guest_group">Manage</a>
                     </div>
+                    <?php else:?>
+                        <div class="dashboard-card">
+                        <div class="dashboard-card-header">
+                        <h2>My Invitation</h2>
+                        <i class="fa-solid fa-champagne-glasses"></i>
+                        </div>
+                        <a href="invite">Manage</a>
+                    </div>
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-header">
+                        <h2>My Contact Details</h2>
+                        <i class="fa-solid fa-address-book"></i>
+                        </div>
+                        
+                        <a href="my_details">Manage</a>
+                    </div>
+                    <?php endif;?>
             </div>
             <div class="std-card index-img">
                 <h2 class="text-center">Our Big Day</h2>

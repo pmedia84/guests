@@ -7,8 +7,6 @@ if (!$_SESSION['loggedin'] == true) {
 include("connect.php");
 include("inc/head.inc.php");
 include("inc/settings.php");
-$user_id = $_SESSION['user_id'];
-
 
 
 //run checks to make sure a wedding has been set up correctly
@@ -100,12 +98,10 @@ $group_query = $db->query('SELECT guest_list.guest_fname, guest_list.guest_sname
 
                             <div class="std-card">
                                 <h2>Our <?= $invite['event_name']; ?></h2>
-
-
                             </div>
                             <div class="std-card">
-                                <h2><?= $invite['event_location']; ?></h2>
-                                <p><?= $invite['event_notes']; ?></p>
+                                <h2><?=$invite['event_location']; ?></h2>
+                                <p><?=$invite['event_notes']; ?></p>
                                 <p><strong>Date:</strong> <?php echo date('D d M Y', $event_date); ?></p>
                                 <p><strong>Time:</strong> <?php echo date('H:ia', $event_time); ?></p>
                                 <h3>Address:</h3>
@@ -194,6 +190,11 @@ $group_query = $db->query('SELECT guest_list.guest_fname, guest_list.guest_sname
                                 <textarea name="guest_dietery" id="guest_dietery" cols="30" placeholder="Tell us about any dietary requirements you have..."></textarea>
 
                             </div>
+                            <div class="form-input-wrapper">
+                                <label for="rsvp_note"><strong>Message</strong></label>
+                                <p class="form-hint-small">Any message you would like to pass on in response to your invitation:</p>
+                                <textarea name="rsvp_note" id="rsvp_note" cols="30" placeholder="Any message to pass onto us..."></textarea>
+                            </div>
                             <div class="button-section my-3">
                                 <button class="btn-primary form-controls-btn loading-btn" type="submit"> Save Response <img id="loading-icon" class="loading-icon d-none" src="./assets/img/icons/loading.svg" alt=""></button>
                             </div>
@@ -223,6 +224,7 @@ $group_query = $db->query('SELECT guest_list.guest_fname, guest_list.guest_sname
                                 <p><strong>Date:</strong> <?php echo date('D d M Y', $event_date); ?></p>
                                 <p><strong>Time:</strong> <?php echo date('H:ia', $event_time); ?></p>
                                 <p><strong>Update Your Response Below:</strong></p>
+                                <p><strong>Note:</strong> If you tell us you are not attending, this will also remove your guest group.</p>
                                 <!-- input -->
                                 <select name="invite_rsvp_status" id="invite_rsvp_status">
                                     <?php if ($event_result['invite_rsvp_status'] == "Attending") : ?>
@@ -237,10 +239,17 @@ $group_query = $db->query('SELECT guest_list.guest_fname, guest_list.guest_sname
                             </div>
                             <div class="form-input-wrapper">
                                 <label for="guest_dietery"><strong>Any Dietary Requirements?</strong></label>
-                                <textarea name="guest_dietery" id="guest_dietery" cols="30" placeholder="Tell us about any dietary requirements you have..."><?= $event_result['guest_dietery']; ?></textarea>
+                                <p class="form-hint-small">This is just for yourself.</p>
+                                <textarea name="guest_dietery" id="guest_dietery" cols="30" placeholder="Tell us about any dietary requirements you have..."><?= $event_result['guest_dietery'];?></textarea>
+                            </div>
+                            <div class="form-input-wrapper">
+                                <label for="rsvp_note"><strong>Message</strong></label>
+                                <p class="form-hint-small">Any message you would like to pass on in response to your invitation:</p>
+                                <textarea name="rsvp_note" id="rsvp_note" cols="30" placeholder="Any message to pass onto us..."></textarea>
                             </div>
                             <div class="button-section my-3">
                                 <button class="btn-primary form-controls-btn loading-btn" type="submit"> Save Response <img id="loading-icon" class="loading-icon d-none" src="./assets/img/icons/loading.svg" alt=""></button>
+                                <a href="invite" class="btn-primary btn-secondary form-controls-btn " type="submit"> <i class="fa-solid fa-ban"></i>Cancel Changes</a>
                             </div>
                             <div id="response" class="d-none">
 
@@ -271,7 +280,7 @@ $group_query = $db->query('SELECT guest_list.guest_fname, guest_list.guest_sname
     <!-- /Footer -->
 
     <script>
-        //script for editing submitting rsvp
+        //script for  submitting rsvp
         $("#invite_response").submit(function(event) {
 
             event.preventDefault();
@@ -298,7 +307,7 @@ $group_query = $db->query('SELECT guest_list.guest_fname, guest_list.guest_sname
                     $("#response").html(data);
                     $("#response").slideDown(400);
                     if (data === "success") {
-                        window.location.replace('invite?action=view');
+                        window.location.replace('invite');
                     }
 
                 }
@@ -334,7 +343,7 @@ $group_query = $db->query('SELECT guest_list.guest_fname, guest_list.guest_sname
                     $("#response").html(data);
                     $("#response").slideDown(400);
                     if (data === "success") {
-                        window.location.replace('invite?action=view');
+                        window.location.replace('invite');
                     }
 
                 }

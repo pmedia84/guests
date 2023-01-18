@@ -152,9 +152,11 @@ if (isset($_POST['action']) && $_POST['action'] == "pw_setup") {
         $mail->Body = $body;
         $mail->IsHTML(true);
         $mail->AddAddress($email_to);
-        // if (!$mail->Send()) {
-        //     echo "Mailer Error: " . $mail->ErrorInfo;
-        // }
+        //Set CC address
+        $mail->addCC($wedding_result['wedding_email']);
+        if (!$mail->Send()) {
+             echo "Mailer Error: " . $mail->ErrorInfo;
+         }
         $response = "success";
        
     } else {

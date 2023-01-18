@@ -10,9 +10,12 @@ include("inc/settings.php");
 $cms_name = "";
 $user_id = $_SESSION['user_id'];
 if (empty($_GET)) {
-    header('Location: guest_group.php');
+    header('Location: guest_group');
 }
 
+
+
+$user_type->close();
 //guest variable, only required for edit and view actions
 if ($_GET['action'] == "edit" || $_GET['action'] == "view" || $_GET['action'] == "delete") {
     $guest_id = $_GET['guest_id'];
