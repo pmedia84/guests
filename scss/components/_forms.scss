@@ -1,17 +1,17 @@
 //Form Grid, cols provide 2 columns 50% on larger screens
 .form-row{
+    display: grid;
     gap: 0.5rem;
+    max-width: 1000px;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 250px));
+}
+
+
+
+.form-input-col{
+    display: flex;
     flex-direction: column;
 }
-
-@media(min-width: $md){
-    .form-col{
-        width: 50%;
-       
-        
-    }
-}
-
 
 //////
 

@@ -19,7 +19,7 @@
 
     li {
         list-style-type: none;
-
+        position: relative;
         svg {
             height: 25px;
         }
@@ -63,4 +63,20 @@
     }
 
 
+}
+
+.alert-icon{
+    position: absolute;
+    top: 0;
+    right: -10px;
+    color: $error-response;
+    animation: alert-animate 5s infinite ease-in;
+}
+
+@keyframes alert-animate{
+    0%{opacity: 0%;}
+    25%{opacity: 50%;}
+    50%{opacity: 100%;}
+    75%{opacity: 50%;}
+    100%{opacity: 0%;}
 }

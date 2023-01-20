@@ -33,9 +33,11 @@
     }else{
         $user_id = $_SESSION['user_id'];
         //load guest Type
-        $user_type = $db->query('SELECT users.user_id, users.guest_id, guest_list.guest_id, guest_list.guest_type FROM users LEFT JOIN guest_list ON guest_list.guest_id=users.guest_id WHERE users.user_id=' . $user_id);
+        $user_type = $db->query('SELECT users.user_id, users.guest_id, guest_list.guest_id, guest_list.guest_type, invitations.invite_rsvp_status FROM users LEFT JOIN guest_list ON guest_list.guest_id=users.guest_id LEFT JOIN invitations ON guest_list.guest_id=invitations.guest_id WHERE users.user_id=' . $user_id);
         $user_type_result = $user_type->fetch_assoc();
         $guest_type = $user_type_result['guest_type'];
+        $user_invite_rsvp_status = $user_type_result['invite_rsvp_status'];
+        echo $user_invite_rsvp_status;
     }
   
 

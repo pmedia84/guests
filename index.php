@@ -32,8 +32,6 @@ if ($cms_type == "Wedding") {
 
 }
 
-
-
 ?>
 <!-- Meta Tags For Each Page -->
 <meta name="description" content="Parrot Media - Client Admin Area">

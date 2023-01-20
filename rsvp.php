@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 //find the referring page to redirect to once logged in
 if (empty($_SERVER['HTTP_REFERER'])) {
     $redirect = "";
@@ -119,13 +119,9 @@ if ($cms_type == "Wedding") {
                 <div id="response" class="d-none">
                 </div>
             </div>
+
+
         <?php endif; ?>
-
-
-
-
-
-
     </main>
     <!-- /Main Body Of Page -->
 
@@ -172,6 +168,30 @@ if ($cms_type == "Wedding") {
             $.ajax({ //start ajax post
                 type: "POST",
                 url: "scripts/rsvp.script.php",
+                data: formData,
+                contentType: false,
+                processData: false,
+                beforeSend: function() { //animate button
+                    $("#loading-icon").show(400);
+                },
+                complete: function() {
+                    $("#loading-icon").hide(400);
+                },
+                success: function(data, responseText) {
+                    $("#response").html(data);
+                    $("#response").slideDown(400);
+                }
+            });
+        })
+    </script>
+
+<script>
+        $("#test").submit(function(event) {
+            event.preventDefault();
+            var formData = new FormData($("#test").get(0));
+            $.ajax({ //start ajax post
+                type: "POST",
+                url: "test.php",
                 data: formData,
                 contentType: false,
                 processData: false,

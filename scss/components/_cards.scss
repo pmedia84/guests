@@ -233,5 +233,40 @@
 .guest-group-stat{
     font-size: 1.5rem;
     font-weight: 300;
-  ;
+  
+}
+
+.invite-card{
+    background-color: $primary-900;
+    padding: $spacer-3;
+    margin-block: $spacer-3;
+}
+
+
+.invite-card-address-body{
+    margin-block: $spacer-2;
+    display: grid;
+    gap: $spacer-3;
+    @media(min-width: $md){
+        grid-template-columns: 40% auto;
+    }
+}
+.invite-guest-group{
+    //details guest group
+    background-color: $primary-900;
+    
+    margin-block: $spacer-3;
+    @media(min-width:$md){
+        padding: $spacer-3;
+    }
+}
+
+.guest-group-member{
+    //card for adding a guest in the invite response
+    padding: $spacer-1;
+    background-color: #fff;
+    border-radius: 5px;
+    border: 1px solid $primary;
+    margin-block: $spacer-2;
+
 }

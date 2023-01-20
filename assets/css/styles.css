@@ -136,6 +136,7 @@ a:hover{
 } 
 .nav-links li {
         list-style-type: none;
+        position: relative;
     } 
 .nav-links li svg {
             height: 25px;
@@ -174,6 +175,20 @@ a:hover{
         }
 
 
+} 
+.alert-icon{
+    position: absolute;
+    top: 0;
+    right: -10px;
+    color: hsl(0, 95%, 67%);
+    animation: alert-animate 5s infinite ease-in;
+} 
+@keyframes alert-animate{
+    0%{opacity: 0%;}
+    25%{opacity: 50%;}
+    50%{opacity: 100%;}
+    75%{opacity: 50%;}
+    100%{opacity: 0%;}
 } 
 .header {
     /*header panel with welcome message and header actions*/
@@ -232,7 +247,7 @@ a:hover{
     gap: 1rem;
     place-self: start;
 width: 100%;
-max-width: 1200px;
+max-width: 900px;
 margin: 0 auto;
 
 } 
@@ -360,6 +375,11 @@ margin: 0 auto;
  
     border-radius: 5px;
    } 
+.rsvp-card{
+    width: 80%;
+    margin: 0 auto;
+    max-width: max-content;
+} 
 /*Standard column gives equal widths*/ 
 @media(min-width:768px){ 
 .col-50{
@@ -584,19 +604,24 @@ a.btn-primary{
         opacity: 1;
     } 
 
+.alert{
+    /*/Alert button for buttons to draw attention*/
+    background-color: hsl(0, 95%, 67%);
+    border-color: hsl(0, 95%, 67%);
+} 
+
 /*Form Grid, cols provide 2 columns 50% on larger screens*/ 
 
 .form-row{
+    display: grid;
     gap: 0.5rem;
-    flex-direction: column;
+    max-width: 1000px;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 250px));
 } 
 
-@media(min-width: 768px){
-    .form-col{
-        width: 50%;
-       
-        
-    }
+.form-input-col{
+    display: flex;
+    flex-direction: column;
 } 
 
 /*////*/ 
@@ -1309,7 +1334,50 @@ input:checked + .slider:before {
 .guest-group-stat{
     font-size: 1.5rem;
     font-weight: 300;
-  ;
+  
+} 
+
+.invite-card{
+    background-color: hsl(160, 20%, 90%);
+    padding: 1.5rem;
+    margin-block: 1.5rem;
+} 
+
+.invite-card-address-body{
+    margin-block: 0.5rem;
+    display: grid;
+    gap: 1.5rem;
+} 
+
+@media(min-width: 768px){ 
+
+.invite-card-address-body{
+        grid-template-columns: 40% auto
+}
+    } 
+
+.invite-guest-group{
+    /*details guest group*/
+    background-color: hsl(160, 20%, 90%);
+    
+    margin-block: 1.5rem;
+} 
+
+@media(min-width:768px){ 
+
+.invite-guest-group{
+        padding: 1.5rem
+}
+    } 
+
+.guest-group-member{
+    /*card for adding a guest in the invite response*/
+    padding: 0.25rem;
+    background-color: #fff;
+    border-radius: 5px;
+    border: 1px solid #496e62;
+    margin-block: 0.5rem;
+
 } 
 
 /*Form response for displaying server messages*/ 

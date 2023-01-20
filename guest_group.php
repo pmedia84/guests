@@ -69,7 +69,7 @@ $invite_status->close();
 
 <!-- / -->
 <!-- Page Title -->
-<title>Guest Area | My Invitation</title>
+<title>Guest Area | My Guest Group</title>
 <!-- /Page Title -->
 </head>
 
@@ -154,8 +154,8 @@ $invite_status->close();
                 <?php else : ?>
                     <div class="std-card">
                         <h2>My Guest Group</h2>
-                        <p>You need to respond to your invitation before you can set up your guest group.</p>
-                        <a href="invite" class="btn-primary my-3">Respond Now <i class="fa-solid fa-reply"></i></a>
+                        <p class="text-alert">You need to respond to your invitation before you can set up your guest group.</p>
+                        <a href="invite" class="btn-primary my-3 alert">Respond Now <i class="fa-solid fa-reply"></i></a>
                     </div>
         <?php endif;?>
 

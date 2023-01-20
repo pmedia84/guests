@@ -18,7 +18,7 @@
                 <a href="#" class="nav-btn" id="nav-btn"><img src="assets/img/icons/menu-bars.svg" alt=""></a>
             </div>
 
-            <a class="header-actions-btn-user" href="my_details">
+            <a class="header-actions-btn-user" href="profile">
                 <img src="assets/img/icons/user.svg" alt="">
             </a>
             <div class="header-actions-business-name">

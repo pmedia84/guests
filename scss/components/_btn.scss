@@ -64,3 +64,8 @@ a.btn-primary{
         opacity: 1;
     }
 }
+.alert{
+    ///Alert button for buttons to draw attention
+    background-color: $error-response;
+    border-color: $error-response;
+}

@@ -29,7 +29,7 @@ $user_id = $_SESSION['user_id'];
 
 <!-- / -->
 <!-- Page Title -->
-<title>Mi-Admin | MMy Details</title>
+<title>Mi-Admin | My User Profile</title>
 <!-- /Page Title -->
 </head>
 
