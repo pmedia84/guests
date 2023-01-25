@@ -30,7 +30,7 @@
         $guest_dietery = mysqli_real_escape_string($db, $_POST['guest_dietery']);
         $guest_group_id = $_POST['guest_group_id'];//comes from the guest group result on guest.php page
         $guest_type="Member"; //only set as a member
-        
+        $guest_rsvp_status = "Attending";
         //Update guest group status
         $guest_group_status = "Assigned"; //Set as assigned to prevent admin removing invites, but more can be added
         $guest = $db->prepare('UPDATE guest_groups SET guest_group_status=?  WHERE guest_group_id =?');
@@ -39,8 +39,9 @@
         $guest->close();
                 
         //insert guest
-        $guest = $db->prepare('INSERT INTO guest_list (guest_fname, guest_sname, guest_type, guest_group_id, guest_dietery) VALUES (?,?,?,?,?)');
-        $guest->bind_param('sssis',$guest_fname, $guest_sname, $guest_type, $guest_group_id, $guest_dietery );
+        //set rsvp status on guest list table as well
+        $guest = $db->prepare('INSERT INTO guest_list (guest_fname, guest_sname, guest_rsvp_status, guest_type, guest_group_id, guest_dietery) VALUES (?,?,?,?,?,?)');
+        $guest->bind_param('ssssis',$guest_fname, $guest_sname, $guest_rsvp_status, $guest_type, $guest_group_id, $guest_dietery );
         $guest->execute();
         $guest->close();
         $new_guest_id = $db->insert_id;

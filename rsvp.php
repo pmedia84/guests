@@ -31,8 +31,8 @@ if ($cms_type == "Wedding") {
 ?>
 <?php include("./inc/head.inc.php"); ?>
 <!-- Meta Tags For Each Page -->
-<meta name="description" content="Parrot Media - Client Admin Area">
-<meta name="title" content="Manage your website content">
+<meta name="description" content="Parrot Media - Wedding Website - Guest Area">
+<meta name="title" content="Manage your wedding invitation">
 <!-- /Meta Tags -->
 
 <!-- / -->
@@ -107,7 +107,7 @@ if ($cms_type == "Wedding") {
                 <form class="form-card" id="rsvp_search" action="scripts/rsvp.script.php" method="post">
                     <div class="form-input-wrapper">
                         <p>You will need your RSVP code that was sent with your invite. <br> If you do not have this, contact us and we will let you know what your code is.</p>
-                        <label for="psvp_code"><strong>RSVP Code:</strong></label>
+                        <label for="rsvp_code"><strong>RSVP Code:</strong></label>
                         <!-- input -->
                         <input type="text" name="rsvp_code" id="rsvp_code" placeholder="Enter Your RSVP Code..." required="" maxlength="45">
                     </div>
