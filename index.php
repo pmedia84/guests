@@ -12,7 +12,7 @@ include("inc/settings.php");
 if ($cms_type == "Wedding") {
 
     //look for a wedding setup in the db, if not then direct to the setup page
-    $wedding_query = ('SELECT wedding_id, wedding_name FROM wedding LIMIT 1');
+    $wedding_query = ('SELECT wedding_id, wedding_name, wedding_date FROM wedding LIMIT 1');
     $wedding_result = $db->query($wedding_query);
 
     if ($wedding_result->num_rows == 0) {
@@ -21,9 +21,10 @@ if ($cms_type == "Wedding") {
     $wedding = $db->prepare($wedding_query);
     $wedding->execute();
     $wedding->store_result();
-    $wedding->bind_result($wedding_id, $wedding_name);
+    $wedding->bind_result($wedding_id, $wedding_name, $wedding_date);
     $wedding->fetch();
     $wedding->close();
+    $cd_date = $wedding_date; //date variable for countdown timer
     //check that there are users set up 
     $wedding_user_query = ('SELECT wedding_user_id FROM wedding_users');
     $wedding_user = $db->query($wedding_user_query);
@@ -140,7 +141,7 @@ if ($cms_type == "Wedding") {
     <!-- /Footer -->
 <script src="assets/js/countdown.js"></script>
 <script>
-    const deadline = new Date(Date.parse(new Date('14 Oct 2023 13:00:00 GMT')));
+    const deadline = new Date(Date.parse(new Date('<?=$cd_date;?>')));
     initializeClock('clockdiv', deadline);
 </script>
 </body>
