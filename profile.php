@@ -4,6 +4,11 @@ if (!$_SESSION['loggedin'] == true) {
     // Redirect to the login page:
     header('Location: login.php');
 }
+//check the right user is logged in, needs to be a wedding_guest
+if(!$_SESSION['user_type']== "wedding_guest"){
+    session_destroy();
+    header('Location: login.php');
+}
 include("connect.php");
 include("inc/head.inc.php");
 include("inc/settings.php");
@@ -19,7 +24,7 @@ $user_id = $_SESSION['user_id'];
     $wedding = $db->prepare('SELECT * FROM wedding LIMIT 1');
     $wedding->execute();
     $wedding->store_result();
-    $wedding->bind_result($wedding_id, $wedding_name, $wedding_email, $wedding_phone, $wedding_contact_name);
+    $wedding->bind_result($wedding_id, $wedding_name, $wedding_date, $wedding_email, $wedding_phone, $wedding_contact_name);
     $wedding->fetch();
 ?>
 <!-- Meta Tags For Each Page -->

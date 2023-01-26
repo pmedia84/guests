@@ -4,6 +4,11 @@ if (!$_SESSION['loggedin'] == true) {
     // Redirect to the login page:
     header('Location: login.php');
 }
+//check the right user is logged in, needs to be a wedding_guest
+if(!$_SESSION['user_type']== "wedding_guest"){
+    session_destroy();
+    header('Location: login.php');
+}
 include("inc/head.inc.php");
 include("inc/settings.php");
 include("./connect.php");
