@@ -32,7 +32,7 @@ if($cms_type =="Wedding"){
 
 
     }
-
+    
 ?>
 <?php include("./inc/head.inc.php"); ?>
 <!-- Meta Tags For Each Page -->

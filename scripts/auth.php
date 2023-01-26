@@ -1,4 +1,5 @@
 <?php 
+session_set_cookie_params(0,"/guests");
 session_start();
 include("../connect.php");
 
@@ -46,7 +47,7 @@ if($user = $db->prepare('SELECT user_id, user_pw, user_name FROM users WHERE use
         ////create session in db user sessions:////
         //declare time and date variables
         date_default_timezone_set('Europe/London');
-        $session_date = date('d-m-y');
+        $session_date = date('Y-m-d');
         $session_time = date('h:i:s');
         $session_status = "Active";
         $session = $db->prepare('INSERT INTO user_sessions (user_id, session_date, session_time, session_status)VALUES(?,?,?,?)');
