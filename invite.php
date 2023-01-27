@@ -121,7 +121,7 @@ $event_id = "";
                                 <?php else : ?>
                                     <p>You have told us that you are <strong><?= $invite['invite_rsvp_status']; ?></strong> our <?= $invite['event_name']; ?></p>
                                     <div class="card-actions">
-                                        <a class="my-2 btn-primary" href="invite?action=edit&event_id=<?= $invite['event_id']; ?>">Change Response <i class="fa-solid fa-reply"></i></a>
+                                        <a class="my-2 btn-primary" href="invite?action=respond&event_id=<?= $invite['event_id']; ?>">Change Response <i class="fa-solid fa-reply"></i></a>
                                     </div>
                                 <?php endif; ?>
 
@@ -170,7 +170,7 @@ $event_id = "";
 
                 <?php if (isset($_GET['action']) && $_GET['action'] == "respond") :
                     //load event details
-                    $event = $db->query('SELECT wedding_events.event_name, wedding_events.event_id, wedding_events.event_location, wedding_events.event_date, wedding_events.event_time, wedding_events.event_address,  invitations.event_id, invitations.guest_id, guest_list.guest_id, guest_list.guest_extra_invites FROM wedding_events
+                    $event = $db->query('SELECT wedding_events.event_name, wedding_events.event_id, wedding_events.event_location, wedding_events.event_date, wedding_events.event_time, wedding_events.event_address,  invitations.event_id, invitations.guest_id, invitations.invite_rsvp_status, guest_list.guest_id, guest_list.guest_extra_invites FROM wedding_events
                     LEFT JOIN invitations ON invitations.event_id=wedding_events.event_id
                     LEFT JOIN guest_list ON guest_list.guest_id=invitations.guest_id WHERE invitations.guest_id=' . $guest_id);
                     $event_result = $event->fetch_array();
@@ -201,9 +201,19 @@ $event_id = "";
                                     <label for="event_rsvp"><strong>Please Select Your Response Below:</strong></label>
                                     <!-- input -->
                                     <select name="event_rsvp[<?php echo $count; ?>][rsvp]" required class="rsvp">
+                                        <?php if ($event_details['invite_rsvp_status']==""):?>  
                                         <option value="">Select</option>
                                         <option value="Attending">Attending</option>
                                         <option value="Not Attending">Not Attending</option>
+                                        <?php endif;?>
+                                        <?php if ($event_details['invite_rsvp_status']=="Attending"):?>  
+                                        <option value="<?= $event_details['invite_rsvp_status']; ?>"><?= $event_details['invite_rsvp_status']; ?></option>
+                                        <option value="Not Attending">Not Attending</option>
+                                        <?php endif;?>
+                                        <?php if ($event_details['invite_rsvp_status']=="Not Attending"):?>  
+                                        <option value="<?= $event_details['invite_rsvp_status']; ?>"><?= $event_details['invite_rsvp_status']; ?></option>
+                                        <option value="Attending">Attending</option>
+                                        <?php endif;?>
                                     </select>
 
 
@@ -220,25 +230,13 @@ $event_id = "";
                                 <input type="text" name="guest_dietery" placeholder="Tell us about any dietary requirements you have...">
 
                             </div>
-                            <?php if ($guest_extra_invites > 0) : ?>
+                            <?php if ($guest_extra_invites > 0): 
+                                //load guest group table
 
-                                <div class="invite-guest-group" id="guest_group">
-                                    <h2>Your Extra Invites</h2>
-                                    <?php if($event_result['guest_extra_invites'] >1):?>
-                                    <p><strong>You also have <?=$event_result['guest_extra_invites'];?> additional invites .</strong></p>
-                                    <p>Please tell us who you will be bringing with you.</p>
-                                    <?php endif;?>
-                                    <?php if($event_result['guest_extra_invites'] ==1):?>
-                                    <p><strong>You also have <?=$event_result['guest_extra_invites'];?> additional invite .</strong></p>
-                                    <?php endif;?>
-                                    <div class="guest-group-stats my-3">
-                                        <span class="guest-group-stats-title">Invites Available: </span>
-                                        <span class="guest-group-stat"><?= $guest_extra_invites; ?></span>
-                                    </div>
-                                    <div id="guest-group-row"></div>
-                                    
-                                <button class="btn-primary" id="add-member" type="button">Add Guest<i class="fa-solid fa-user-plus"></i></button>
-                                </div>
+                                ?>
+                                <div id="guest_group" class="d-none"></div>
+
+
 
                             <?php endif; ?>
 
@@ -259,95 +257,7 @@ $event_id = "";
                     </div>
 
                 <?php endif; ?>
-                <?php if (isset($_GET['action']) && $_GET['action'] == "edit") :
-                    $event_id = $_GET['event_id'];
-                    //load event details
-                    $event = $db->query('SELECT wedding_events.event_name, wedding_events.event_id, wedding_events.event_location, wedding_events.event_date, wedding_events.event_time,  invitations.event_id, invitations.guest_id, invitations.invite_rsvp_status, guest_list.guest_id ,guest_list.guest_dietery, guest_list.guest_rsvp_status, guest_list.guest_group_id FROM wedding_events
-                    LEFT JOIN invitations ON invitations.event_id=wedding_events.event_id
-                    LEFT JOIN guest_list ON guest_list.guest_id=invitations.guest_id WHERE guest_list.guest_id=' . $guest_id . ' AND wedding_events.event_id=' . $event_id);
-                    $event_result = $event->fetch_array();
-                    $event->close();
-                    $event_date = strtotime($event_result['event_date']);
-                    $event_time = strtotime($event_result['event_time']);
-
-                ?>
-                    <div class="std-card">
-                        <form class="form-card" id="edit_response" action="scripts/invite.script.php" method="POST" enctype="multipart/form-data">
-                            <div class="form-input-wrapper">
-                                <label for="invite_rsvp_status"><strong><?= $event_result['event_name']; ?></strong></label>
-                                <p><strong>Date:</strong> <?php echo date('D d M Y', $event_date); ?></p>
-                                <p><strong>Time:</strong> <?php echo date('H:ia', $event_time); ?></p>
-                                <p><strong>Update Your Response Below:</strong></p>
-                                <p><strong>Note:</strong> If you tell us you are not attending, this will also remove your guest group.</p>
-                                <!-- input -->
-                                <select name="invite_rsvp_status" id="invite_rsvp_status">
-                                    <?php if ($event_result['invite_rsvp_status'] == "Attending") : ?>
-                                        <option value="<?= $event_result['invite_rsvp_status']; ?>" selected>Attending</option>
-                                        <option value="Not Attending">Not Attending</option>
-                                    <?php endif; ?>
-                                    <?php if ($event_result['invite_rsvp_status'] == "Not Attending") : ?>
-                                        <option value="<?= $event_result['invite_rsvp_status']; ?>" selected>Not Attending</option>
-                                        <option value="Attending">Attending</option>
-                                    <?php endif; ?>
-                                </select>
-                            </div>
-                            <div class="form-input-wrapper">
-                                <label for="guest_dietery"><strong>Any Dietary Requirements?</strong></label>
-                                <p class="form-hint-small">This is just for yourself.</p>
-                                <textarea name="guest_dietery" id="guest_dietery" cols="30" placeholder="Tell us about any dietary requirements you have..."><?= $event_result['guest_dietery']; ?></textarea>
-                            </div>
-                            <div class="form-input-wrapper">
-                                <label for="rsvp_note"><strong>Message</strong></label>
-                                <p class="form-hint-small">Any message you would like to pass on in response to your invitation:</p>
-                                <textarea name="rsvp_note" id="rsvp_note" cols="30" placeholder="Any message to pass onto us..."></textarea>
-                            </div>
-                            <div class="button-section my-3">
-                                <button class="btn-primary form-controls-btn loading-btn" type="submit"> Save Response <img id="loading-icon" class="loading-icon d-none" src="./assets/img/icons/loading.svg" alt=""></button>
-                                <a href="invite" class="btn-primary btn-secondary form-controls-btn " type="submit"> <i class="fa-solid fa-ban"></i>Cancel Changes</a>
-                            </div>
-                            <div id="response" class="d-none">
-
-                            </div>
-                        </form>
-                    </div>
-                    <script>
-                        //script for editing submitting rsvp
-                        $("#edit_response").submit(function(event) {
-                            event.preventDefault();
-                            //declare form variables and collect GET request information
-                            event_id = '<?php echo $event_id; ?>';
-                            guest_id = '<?php echo $guest_id; ?>';
-                            guest_group_id = '<?php echo $event_result['guest_group_id']; ?>';
-                            var formData = new FormData($("#edit_response").get(0));
-                            formData.append("action", "update");
-                            formData.append("event_id", event_id);
-                            formData.append("guest_id", guest_id);
-                            formData.append("guest_group_id", guest_group_id);
-                            $.ajax({ //start ajax post
-                                type: "POST",
-                                url: "scripts/invite.script.php",
-                                data: formData,
-                                contentType: false,
-                                processData: false,
-                                beforeSend: function() { //animate button
-                                    $("#loading-icon").show(400);
-                                },
-                                complete: function() {
-                                    $("#loading-icon").hide(400);
-                                },
-                                success: function(data, responseText) {
-                                    $("#response").html(data);
-                                    $("#response").slideDown(400);
-                                    if (data === "success") {
-                                        window.location.replace('invite');
-                                    }
-
-                                }
-                            });
-
-                        });
-                    </script>
-                <?php endif; ?>
+                
             </div>
 
 
@@ -366,23 +276,7 @@ $event_id = "";
     <!-- Footer -->
     <?php include("./inc/footer.inc.php"); ?>
     <!-- /Footer -->
-    <script>
 
-        var arrcount = 0;
-        var max = <?php echo $guest_extra_invites; ?>;
-        var guest_num = 1;
-        var error = $("error");
-        $("#add-member").on("click", function() {
-            if (arrcount < max) {
-                var inputs = $("<div class='guest-group-member d-none'><h3>Guest No. "+guest_num+"</h3><div class='form-row'><div class='form-input-col'> <label for='guest_fname'><strong>First Name</strong></label><input class='text-input input' type='text' name='guest["+arrcount+"][guest_fname]' placeholder='Guest First Name' required=''></div><div class='form-input-col'><label for='guest_sname'><strong>Surname</strong></label><input class='text-input input' type='text' name='guest["+arrcount+"][guest_sname]'  placeholder='Guest Surname' required=''></div></div> <div class='form-input-wrapper'> <div class='form-input-col'><label for='guest_dietery'><strong>Any Dietary Requirements?</strong></label><input type='text' name='guest["+arrcount+"][guest_dietary]' placeholder='Tell us about any dietary requirements this guest may have...'></div></div></div>");
-                $("#guest-group-row").append(inputs);
-                $(".guest-group-member").slideDown(400);
-                arrcount++;
-                guest_num++;
-
-            }
-        });
-    </script>
     <script>
         //script for  submitting rsvp
         $("#invite_response").submit(function(event) {
@@ -422,7 +316,22 @@ $event_id = "";
         });
     </script>
 
+<script>//load guest group
+    $(document).ready(function() {
+        url = "scripts/invite.script.php?action=load_group";
+        $.ajax({ //load guest group
+            type: "GET",
+            url: url,
+            encode: true,
+            success: function(data, responseText) {
+                $("#guest_group").html(data);
+                $("#guest_group").fadeIn(400);
 
+
+            }
+        });
+    })
+</script>
 
 
 </body>

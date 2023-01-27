@@ -155,7 +155,7 @@ $invite_status->close();
                     <div class="std-card">
                         <h2>My Guest Group</h2>
                         <p class="text-alert">You need to respond to your invitation before you can set up your guest group.</p>
-                        <a href="invite" class="btn-primary my-3 alert">Respond Now <i class="fa-solid fa-reply"></i></a>
+                        <a href="invite?action=respond" class="btn-primary my-3 alert">Respond Now <i class="fa-solid fa-reply"></i></a>
                     </div>
         <?php endif;?>
 

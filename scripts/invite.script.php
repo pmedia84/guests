@@ -1,4 +1,5 @@
 <?php
+session_start();
 /////Include PHP Mailer\\\\
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
@@ -15,14 +16,14 @@ include("../connect.php");
 //if action type is response then update guest table and invites table
 if (isset($_POST['action']) && $_POST['action'] == "response") {
     //set up variables
-    $guest_id = $_POST['guest_id'];// guest ID of lead guest
+    $guest_id = $_POST['guest_id']; // guest ID of lead guest
     $guest_group_id = $_POST['guest_group_id'];
     $event_id = $_POST['event_rsvp'][0]['event_id']; // will only ever be one event
     //\\ if the guest has responded and stated that they will not be attending:://\\
     if ($_POST['event_rsvp'][0]['rsvp'] === "Not Attending") {
         //no need to create guest group etc
         //loop through the event information
-        
+
         $event_ar = $_POST['event_rsvp'];
         $update_rsvp = $db->prepare('UPDATE invitations SET invite_rsvp_status=?, guest_group_id=?  WHERE event_id =? AND guest_id=?');
         foreach ($event_ar as $rsvp) {
@@ -32,10 +33,10 @@ if (isset($_POST['action']) && $_POST['action'] == "response") {
         $update_rsvp->close();
         $response = "success";
         echo $response;
-        
+
         //update the guest list for the main guest
         $update_guest_list = $db->prepare('UPDATE guest_list SET guest_rsvp_status=?, guest_dietery=?  WHERE  guest_id=?');
-        $update_guest_list->bind_param('ssi',$invite_rsvp_status, $guest_dietery, $guest_id);
+        $update_guest_list->bind_param('ssi', $invite_rsvp_status, $guest_dietery, $guest_id);
         $update_guest_list->execute();
         $update_guest_list->close();
         exit();
@@ -72,7 +73,7 @@ if (isset($_POST['action']) && $_POST['action'] == "response") {
 
         /////insert each guest into the guest list from the POST request
         //guest array for all new added guests
-        $guest_array=array();
+        $guest_array = array();
         $guest_type = "Member"; //only set as a member, these guests are a group member
         $new_guest = $db->prepare('INSERT INTO guest_list (guest_fname, guest_sname, guest_rsvp_status, guest_type, guest_group_id, guest_dietery) VALUES (?,?,?,?,?,?)');
         foreach ($guest_group as $group_member) {
@@ -87,12 +88,11 @@ if (isset($_POST['action']) && $_POST['action'] == "response") {
         $invite_rsvp_status = "Attending"; // this is set to attending.
         /////Add to invites table for each guest 
         $set_invites = $db->prepare('INSERT INTO invitations (guest_id, event_id, invite_rsvp_status, guest_group_id) VALUES (?,?,?,?)');
-        foreach($guest_array as $guest){
-            $set_invites->bind_param('iisi', $guest, $event_id, $invite_rsvp_status, $guest_group_id );
+        foreach ($guest_array as $guest) {
+            $set_invites->bind_param('iisi', $guest, $event_id, $invite_rsvp_status, $guest_group_id);
             $set_invites->execute();
-           
         }
-        
+
         $set_invites->close();
     }
 
@@ -103,8 +103,8 @@ if (isset($_POST['action']) && $_POST['action'] == "response") {
 
 
     $guest_rsvp_note = mysqli_real_escape_string($db, $_POST['rsvp_note']);
-    
-   
+
+
 
 
     // /////////////////////Send email with confirmation/////////////////////////
@@ -250,3 +250,136 @@ if (isset($_POST['action']) && $_POST['action'] == "update") {
 }
 //echo out variable
 echo $response;
+?>
+<?php if (isset($_GET['action']) && $_GET['action'] == "load_group") :
+    $user_id = $_SESSION['user_id'];
+    // find the guest group that this user manages
+    $guest_group_id_query = $db->query('SELECT users.user_id, users.guest_id, guest_groups.guest_group_organiser, guest_groups.guest_group_id FROM users LEFT JOIN guest_groups ON guest_groups.guest_group_organiser=users.guest_id WHERE users.user_id =' . $user_id);
+    $group_id_result = $guest_group_id_query->fetch_assoc();
+    //define guest group id
+    $guest_group_id = $group_id_result['guest_group_id'];
+    //loads guest group list
+    $group_query = $db->query('SELECT guest_list.guest_fname, guest_list.guest_sname, guest_list.guest_id, guest_list.guest_group_id, guest_list.guest_type, guest_list.guest_extra_invites, guest_groups.guest_group_id, guest_groups.guest_group_name FROM guest_list LEFT JOIN guest_groups ON guest_groups.guest_group_id=guest_list.guest_group_id  WHERE guest_groups.guest_group_id=' . $guest_group_id . ' AND guest_list.guest_type = "Member"');
+
+    $guest = $db->prepare('SELECT guest_id FROM users WHERE user_id =' . $_SESSION['user_id']);
+    $guest->execute();
+    $guest->bind_result($guest_id);
+    $guest->fetch();
+    $guest->close();
+    //load extra invites this guest has available
+    $guest_extra_inv = $db->query('SELECT guest_extra_invites FROM guest_list WHERE guest_id=' . $guest_id);
+    $extra_inv_result = $guest_extra_inv->fetch_assoc();
+    $group_capacity = $extra_inv_result['guest_extra_invites'];
+    $available_inv = $group_capacity - $group_query->num_rows;
+
+
+?>
+    <?php if (($group_query->num_rows) > 0) : ?>
+
+        <h2>My Group</h2>
+        <p>This is your guest group, you can remove people from this if you wish.</p>
+        <table class="std-table guest_group">
+            <tr>
+                <th>Name</th>
+                <th>Remove</th>
+            </tr>
+            <?php foreach ($group_query as $member) : ?>
+                <tr>
+                    <td><a href="guest.php?guest_id=<?= $member['guest_id']; ?>&action=view"><?= $member['guest_fname'] . ' ' . $member['guest_sname']; ?></a></td>
+                    <td>
+                        <div class="guest-list-actions">
+                            <button class="btn-primary btn-secondary remove_guest" data-guest_id="<?= $member['guest_id']; ?>" type="button"><i class="fa-solid fa-user-minus"></i></button>
+                        </div>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </table>
+    <?php endif; ?>
+
+    <div class="invite-guest-group" id="">
+        <h2>Your Extra Invites</h2>
+        <?php if ($extra_inv_result['guest_extra_invites'] > 1) : ?>
+            <p><strong>You also have <?= $extra_inv_result['guest_extra_invites']; ?> additional invites .</strong></p>
+            <p>Please tell us who you will be bringing with you.</p>
+        <?php endif; ?>
+        <?php if ($extra_inv_result['guest_extra_invites'] == 1) : ?>
+            <p><strong>You also have <?= $extra_inv_result['guest_extra_invites']; ?> additional invite .</strong></p>
+        <?php endif; ?>
+        <div class="guest-group-stats my-3">
+            <span class="guest-group-stats-title">Invites Available: </span>
+            <span class="guest-group-stat"><?= $available_inv; ?></span>
+        </div>
+        <div id="guest-group-row"></div>
+
+        <button class="btn-primary" id="add-member" type="button">Add Guest<i class="fa-solid fa-user-plus"></i></button>
+    </div>
+
+    <script>
+        var arrcount = 0;
+        var max = <?= $available_inv; ?>;
+        var guest_num = <?php echo $group_query->num_rows +1;?>;
+        var error = $("error");
+        $("#add-member").on("click", function() {
+            if (arrcount < max) {
+                var inputs = $("<div class='guest-group-member d-none'><h3>Guest No. " + guest_num + "</h3><div class='form-row'><div class='form-input-col'> <label for='guest_fname'><strong>First Name</strong></label><input class='text-input input' type='text' name='guest[" + arrcount + "][guest_fname]' placeholder='Guest First Name' required=''></div><div class='form-input-col'><label for='guest_sname'><strong>Surname</strong></label><input class='text-input input' type='text' name='guest[" + arrcount + "][guest_sname]'  placeholder='Guest Surname' required=''></div></div> <div class='form-input-wrapper'> <div class='form-input-col'><label for='guest_dietery'><strong>Any Dietary Requirements?</strong></label><input type='text' name='guest[" + arrcount + "][guest_dietary]' placeholder='Tell us about any dietary requirements this guest may have...'></div></div></div>");
+                $("#guest-group-row").append(inputs);
+                $(".guest-group-member").slideDown(400);
+                arrcount++;
+                guest_num++;
+
+            }
+        });
+    </script>
+
+    <script>
+        //remove guests from list
+        $(".remove_guest").on("click", function() {
+
+            var formData = new FormData();
+            var guest_id = $(this).data("guest_id");
+            formData.append("guest_id", guest_id);
+            formData.append("action", "remove_guest");
+            $.ajax({ //start ajax post
+                type: "POST",
+                url: "scripts/invite.script.php",
+                data: formData,
+                contentType: false,
+                processData: false,
+                beforeSend: function() { //animate button
+                    $("#guest_group").fadeOut(300);
+                },
+
+                success: function(data, responseText) {
+
+
+                    url = "scripts/invite.script.php?action=load_group";
+                    $.ajax({ //load guest group
+                        type: "GET",
+                        url: url,
+                        encode: true,
+                        success: function(data, responseText) {
+                            $("#guest_group").html(data);
+                            $("#guest_group").fadeIn(400);
+
+
+                        }
+                    });
+                }
+            });
+        })
+    </script>
+
+<?php endif; ?>
+
+<?php 
+if(isset($_POST['action']) && $_POST['action']=="remove_guest"){
+    //remove guest from post request
+    $guest_id = $_POST['guest_id'];
+    $remove_guest = $db->prepare('DELETE FROM guest_list  WHERE  guest_id=?');
+    $remove_guest->bind_param('i',$guest_id);
+    $remove_guest->execute();
+    $remove_guest->close();
+
+}
+
+?>
