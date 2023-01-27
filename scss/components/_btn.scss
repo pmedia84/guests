@@ -52,12 +52,15 @@ a.btn-primary{
     margin-block: $spacer-2;
 }
 .btn-close{//close button
-   background: transparent url("../../assets/img/icons/close.svg") center/1.5em auto no-repeat;
     border: 0;
     border-radius: .375rem;
     padding: .25em .25em;
     width: 2rem;
     height: 2rem;
+    background-color: transparent;
+    svg{
+        height: 2rem;
+    }
     cursor: pointer;
     opacity: .5;
     &:hover{

@@ -18,11 +18,24 @@
     justify-content: space-between;
     align-items: center;
 }
-
+.header-actions-navbtn,.header-actions-btn-logout{
+    height: 35px;
+    svg{
+        height: 35px;
+        fill: $primary;
+    }
+}
 .header-actions-btn-user, .header-actions-btn-logout {
     display: flex;
 }
 
+
+.header-actions-btn-user{
+    font-size: 35px;
+    svg{
+        fill: $primary;
+    }
+}
 .header-actions-business-name {
     display: none;
 }
