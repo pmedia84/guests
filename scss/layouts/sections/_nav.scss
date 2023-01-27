@@ -68,18 +68,18 @@
 
 }
 
+@keyframes alert-animate{
+    0%{opacity: 0;}
+    25%{opacity: .5;}
+    50%{opacity: 1;}
+    75%{opacity: .5;}
+    100%{opacity: 0;}
+}
 .alert-icon{
     position: absolute;
     top: 0;
     right: -10px;
     color: $error-response;
-    animation: alert-animate 5s infinite ease-in;
+    animation: alert-animate 3s ease-in infinite ;
 }
 
-@keyframes alert-animate{
-    0%{opacity: 0%;}
-    25%{opacity: 50%;}
-    50%{opacity: 100%;}
-    75%{opacity: 50%;}
-    100%{opacity: 0%;}
-}

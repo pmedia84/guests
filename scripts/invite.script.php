@@ -30,7 +30,7 @@ if (isset($_POST['action']) && $_POST['action'] == "response") {
             $update_rsvp->execute();
         }
         $update_rsvp->close();
-        $response = "Success";
+        $response = "success";
         echo $response;
         
         //update the guest list for the main guest
@@ -59,7 +59,6 @@ if (isset($_POST['action']) && $_POST['action'] == "response") {
             $update_rsvp->execute();
         }
         $update_rsvp->close();
-        echo var_dump($event_ar);
 
         //\\Add all guests to the guest group//\\
         $guest_group = $_POST['guest'];

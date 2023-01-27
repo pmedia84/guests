@@ -411,7 +411,7 @@ $event_id = "";
                 },
                 success: function(data, responseText) {
                     if (data === "success") {
-                        //window.location.replace('invite');
+                        window.location.replace('invite');
                     }
                     $("#response").html(data);
                     $("#response").slideDown(400);
