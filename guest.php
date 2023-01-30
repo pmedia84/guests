@@ -330,25 +330,6 @@ if ($_GET['action'] == "edit" || $_GET['action'] == "view" || $_GET['action'] ==
                     ?>
                         <h2><?= $guest_fname . ' ' . $guest_sname; ?></h2>
                         <div class="std-card">
-                            <h3>Contact Details</h3>
-                            <p><strong>eMail: </strong><a href="mailto:<?= $guest_email; ?>"><?= $guest_email; ?></a></p>
-                            <h4><strong>Address</strong></h4>
-                            <address>
-                                <?= $guest_address; ?>,
-                                <?= $guest_postcode; ?>
-                            </address>
-                            <h3>RSVP Code</h3>
-                            <p><?= $guest_rsvp_code; ?></p>
-                            <h3>Extra Invites</h3>
-                            <p><?= $guest_extra_invites; ?></p>
-                            <h3>Events</h3>
-                            <?php if ($guest_invites->num_rows >= 1) : ?>
-                                <?php foreach ($guest_invites as $invite) : ?>
-                                    <p><a href="event.php?action=view&event_id=<?= $invite['event_id']; ?>"><?= $invite['event_name']; ?></a></p>
-                                <?php endforeach; ?>
-                            <?php else : ?>
-                                <p><?= $guest_fname; ?> Has not been assigned to any events yet. You can do that in your event manager <a href="events.php">Click Here</a></p>
-                            <?php endif; ?>
                             <h3>Dietary Requirements </h3>
                             <p><?= $guest_dietery; ?></p>
                             <div class="card-actions">
@@ -356,28 +337,10 @@ if ($_GET['action'] == "edit" || $_GET['action'] == "view" || $_GET['action'] ==
                                 <a class="my-2" href="guest.php?action=delete&confirm=no&guest_id=<?= $guest_id; ?>"><i class="fa-solid fa-trash"></i> Remove Guest </a>
                             </div>
                         </div>
-
-
                         <?php endif; ?>
-
-
                     <?php endif; ?>
             </div>
-
         </div>
-
-
-
-        </div>
-
-
-
-
-    </div>
-
-    </div>
-
-
     </main>
 
     <!-- /Main Body Of Page -->

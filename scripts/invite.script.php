@@ -12,14 +12,25 @@ require $_SERVER['DOCUMENT_ROOT'] . '/admin/mailer/Exception.php';
 $response = "";
 include("../connect.php");
 
+//script is divided into different sections and is relevant to the requests
+
+//1. Response, will skip over 2 and 3 if the requirements have not been met, such as not attending and they don't have a guest group.
+//2. If they are not attending, updates tables and removes any guest group 
+//3. If the guest responding is a Sole member it will update just the guest list and invitations list, no guest group information is altered.
+
+
 ////////////////////////\\\\\\\\\\\\\\\\\\\\\\Response Script \\\\\\\\\\\\\\\//////////////////////////////////////////////
 //if action type is response then update guest table and invites table
+//1.
 if (isset($_POST['action']) && $_POST['action'] == "response") {
     //set up variables
+    $guest_dietery = mysqli_real_escape_string($db, $_POST['guest_dietery']);
+    $guest_rsvp_note = mysqli_real_escape_string($db, $_POST['rsvp_note']);
     $guest_id = $_POST['guest_id']; // guest ID of lead guest
     $guest_group_id = $_POST['guest_group_id'];
     $event_id = $_POST['event_rsvp'][0]['event_id']; // will only ever be one event
     //\\ if the guest has responded and stated that they will not be attending:://\\
+    //2.    
     if ($_POST['event_rsvp'][0]['rsvp'] === "Not Attending") {
         //no need to create guest group etc
         //loop through the event information
@@ -31,17 +42,153 @@ if (isset($_POST['action']) && $_POST['action'] == "response") {
             $update_rsvp->execute();
         }
         $update_rsvp->close();
-        $response = "success";
-        echo $response;
+
 
         //update the guest list for the main guest
         $update_guest_list = $db->prepare('UPDATE guest_list SET guest_rsvp_status=?, guest_dietery=?  WHERE  guest_id=?');
-        $update_guest_list->bind_param('ssi', $invite_rsvp_status, $guest_dietery, $guest_id);
+        $update_guest_list->bind_param('ssi', $rsvp['rsvp'], $guest_dietery, $guest_id);
         $update_guest_list->execute();
         $update_guest_list->close();
+
+        //remove any group members if any had been added
+
+        $remove_group = $db->query("DELETE FROM guest_list WHERE guest_group_id=$guest_group_id AND guest_type='Member'");
+        
+        /////////////////////Send email with confirmation/////////////////////////
+        //load guest details
+        $guest_query = ('SELECT guest_fname, guest_sname FROM guest_list WHERE guest_id=' . $guest_id);
+        $guest = $db->query($guest_query);
+        $guest_result = $guest->fetch_assoc();
+        //load wedding details
+        $wedding_query = ('SELECT wedding_id, wedding_name, wedding_email FROM wedding');
+        $wedding = $db->query($wedding_query);
+        $wedding_result = $wedding->fetch_assoc();
+        //load event name details
+        $event_query = ('SELECT event_name FROM wedding_events WHERE event_id=' . $event_id);
+        $event = $db->query($event_query);
+        $event_result = $event->fetch_assoc();
+        include("../inc/settings.php");
+        //email subject
+        $subject = $guest_result['guest_fname'] . ' ' . $guest_result['guest_sname'] . ' ' . 'has responded to their invitation!';
+        //body of email to send to client as an auto reply
+        $body = '
+        <div style="padding:16px;font-family:sans-serif;">
+            <h1 style="text-align:center;">Your Guest</h1>
+            <div style="padding:16px; border: 10px solid #7f688d; border-radius: 10px;">
+                <h2>' . $guest_result['guest_fname'] . ' ' . 'has responded to their invitation!' . '</h2>
+                <p>Dear ' . $wedding_result['wedding_name'] . ', here are the details of their response:</p>
+                <p><strong>Event: </strong>' . $event_result['event_name'] . '</p>    
+                <p><strong>Their Response: </strong>' . $rsvp['rsvp'] . '</p>
+                <p><strong>Their Message:</strong><br>' . $guest_rsvp_note . '</p>
+                <br><hr style="color:#7f688d;">
+                <p>Kind regards</p>
+            </div>
+        </div>';
+        //configure email to send to users
+        //stored in separate file
+        //From Server
+        $fromserver = $username;
+        $email_to = $wedding_result['wedding_email'];
+        $mail = new PHPMailer(true);
+        $mail->IsSMTP();
+        $mail->Host = $host; // Enter your host here
+        $mail->SMTPAuth = true;
+        $mail->Username = $username; // Enter your email here
+        $mail->Password = $pass; //Enter your password here
+        $mail->Port = 25;
+        $mail->From = $from;
+        $mail->FromName = $fromname;
+        $mail->Sender = $fromserver; // indicates ReturnPath header
+        $mail->Subject = $subject;
+        $mail->Body = $body;
+        $mail->IsHTML(true);
+        $mail->AddAddress($email_to);
+        if (!$mail->Send()) {
+            echo "Mailer Error: " . $mail->ErrorInfo;
+        }
+        $response = "success";
+        echo $response;
         exit();
     }
 
+    //3.
+    /////////////If the guest is a sole invite then process rsvp and don't set up a group etc
+
+    if ($_POST['guest_type'] == "Sole" && $_POST['event_rsvp'][0]['rsvp'] === "Attending"
+    ) {
+        //stop the script here
+
+        //loop through the event information
+
+        $event_ar = $_POST['event_rsvp'];
+        $update_rsvp = $db->prepare('UPDATE invitations SET invite_rsvp_status=?, guest_group_id=?  WHERE event_id =? AND guest_id=?');
+        foreach ($event_ar as $rsvp) {
+            $update_rsvp->bind_param('siii', $rsvp['rsvp'], $guest_group_id, $rsvp['event_id'], $guest_id);
+            $update_rsvp->execute();
+        }
+        $update_rsvp->close();
+        //update the guest list for the main guest
+        $update_guest_list = $db->prepare('UPDATE guest_list SET guest_rsvp_status=?, guest_dietery=?  WHERE  guest_id=?');
+        $update_guest_list->bind_param('ssi', $rsvp['rsvp'], $guest_dietery, $guest_id);
+        $update_guest_list->execute();
+        $update_guest_list->close();
+        /////////////////////Send email with confirmation/////////////////////////
+        //load guest details
+        $guest_query = ('SELECT guest_fname, guest_sname FROM guest_list WHERE guest_id=' . $guest_id);
+        $guest = $db->query($guest_query);
+        $guest_result = $guest->fetch_assoc();
+        //load wedding details
+        $wedding_query = ('SELECT wedding_id, wedding_name, wedding_email FROM wedding');
+        $wedding = $db->query($wedding_query);
+        $wedding_result = $wedding->fetch_assoc();
+        //load event name details
+        $event_query = ('SELECT event_name FROM wedding_events WHERE event_id=' . $event_id);
+        $event = $db->query($event_query);
+        $event_result = $event->fetch_assoc();
+        include("../inc/settings.php");
+        //email subject
+        $subject = $guest_result['guest_fname'] . ' ' . $guest_result['guest_sname'] . ' ' . 'has responded to their invitation!';
+        //body of email to send to client as an auto reply
+        $body = '
+        <div style="padding:16px;font-family:sans-serif;">
+            <h1 style="text-align:center;">Your Guest</h1>
+            <div style="padding:16px; border: 10px solid #7f688d; border-radius: 10px;">
+                <h2>' . $guest_result['guest_fname'] . ' ' . 'has responded to their invitation!' . '</h2>
+                <p>Dear ' . $wedding_result['wedding_name'] . ', here are the details of their response:</p>
+                <p><strong>Event: </strong>' . $event_result['event_name'] . '</p>    
+                <p><strong>Their Response: </strong>' . $rsvp['rsvp'] . '</p>
+                <p><strong>Their Message:</strong><br>' . $guest_rsvp_note . '</p>
+                <br><hr style="color:#7f688d;">
+                <p>Kind regards</p>
+            </div>
+        </div>';
+        //configure email to send to users
+        //stored in separate file
+        //From Server
+        $fromserver = $username;
+        $email_to = $wedding_result['wedding_email'];
+        $mail = new PHPMailer(true);
+        $mail->IsSMTP();
+        $mail->Host = $host; // Enter your host here
+        $mail->SMTPAuth = true;
+        $mail->Username = $username; // Enter your email here
+        $mail->Password = $pass; //Enter your password here
+        $mail->Port = 25;
+        $mail->From = $from;
+        $mail->FromName = $fromname;
+        $mail->Sender = $fromserver; // indicates ReturnPath header
+        $mail->Subject = $subject;
+        $mail->Body = $body;
+        $mail->IsHTML(true);
+        $mail->AddAddress($email_to);
+        if (!$mail->Send()) {
+            echo "Mailer Error: " . $mail->ErrorInfo;
+        }
+        $response="success";
+        echo $response;
+        exit();
+    }
+    //1. Continued, this carries on if sections 2 and 3 have not been met
     //////////////////\\\if the guest has stated they are attending then carry on\\\////////////////////////
     ////make sure that if the guest has extra invites they have defined them
     if (!isset($_POST['guest']) && $_POST['guest_extra_invites'] > 0) {
@@ -50,6 +197,10 @@ if (isset($_POST['action']) && $_POST['action'] == "response") {
         echo $response;
         exit();
     } else {
+
+
+
+
         ///////////If the guest has set guests, add guests to guest list etc 
         ////Update the main guests information
         $invite_rsvp_status = "Attending";
@@ -95,102 +246,6 @@ if (isset($_POST['action']) && $_POST['action'] == "response") {
 
         $set_invites->close();
     }
-
-
-
-
-
-
-
-    $guest_rsvp_note = mysqli_real_escape_string($db, $_POST['rsvp_note']);
-
-
-
-
-    // /////////////////////Send email with confirmation/////////////////////////
-    // //load guest details
-    // $guest_query = ('SELECT guest_fname, guest_sname FROM guest_list WHERE guest_id='.$guest_id);
-    // $guest = $db->query($guest_query);
-    // $guest_result = $guest->fetch_assoc();
-    // //load wedding details
-    // $wedding_query = ('SELECT wedding_id, wedding_name, wedding_email FROM wedding');
-    // $wedding = $db->query($wedding_query);
-    // $wedding_result = $wedding->fetch_assoc();
-    // //load event name details
-    // $event_query = ('SELECT event_name FROM wedding_events WHERE event_id='.$event_id);
-    // $event = $db->query($event_query);
-    // $event_result = $event->fetch_assoc();
-    // include("../inc/settings.php");
-    // //email subject
-    // $subject = $guest_result['guest_fname'].' '.$guest_result['guest_sname'].' '.'has responded to their invitation!';
-    // //body of email to send to client as an auto reply
-    // $body = '
-    //     <div style="padding:16px;font-family:sans-serif;">
-    //         <h1 style="text-align:center;">Your Guest</h1>
-    //         <div style="padding:16px; border: 10px solid #496e62; border-radius: 10px;">
-    //             <h2>'.$guest_result['guest_fname'].' '.'has responded to their invitation!'.'</h2>
-    //             <p>Dear ' .$wedding_result['wedding_name'].', here are the details of their response:</p>
-    //             <p><strong>Event: </strong>'.$event_result['event_name'].'</p>    
-    //             <p><strong>Their Response: </strong>'.$invite_rsvp_status.'</p>
-    //             <p><strong>Any Dietary Requirements: </strong>'.$guest_dietery.'</p>
-    //             <p><strong>Their Message:</strong><br>'.$guest_rsvp_note.'</p>
-    //             <br><hr style="color:#496e62;">
-    //             <p>Kind regards</p>
-    //         </div>
-    //     </div>';
-    // //configure email to send to users
-    // //stored in separate file
-    // //From Server
-    // $fromserver = $username;
-    // $email_to = $wedding_result['wedding_email'];
-    // $mail = new PHPMailer(true);
-    // $mail->IsSMTP();
-    // $mail->Host = $host; // Enter your host here
-    // $mail->SMTPAuth = true;
-    // $mail->Username = $username; // Enter your email here
-    // $mail->Password = $pass; //Enter your password here
-    // $mail->Port = 25;
-    // $mail->From = $from;
-    // $mail->FromName = $fromname;
-    // $mail->Sender = $fromserver; // indicates ReturnPath header
-    // $mail->Subject = $subject;
-    // $mail->Body = $body;
-    // $mail->IsHTML(true);
-    // $mail->AddAddress($email_to);
-    // if (!$mail->Send()) {
-    //      echo "Mailer Error: " . $mail->ErrorInfo;
-    //  }
-    //response success
-    $response = "success";
-}
-
-//if action type is update then update guest table and invites table
-if (isset($_POST['action']) && $_POST['action'] == "update") {
-    //set up variables
-    $guest_id = $_POST['guest_id'];
-    $event_id = $_POST['event_id'];
-    $guest_group_id = $_POST['guest_group_id'];
-    $invite_rsvp_status = $_POST['invite_rsvp_status'];
-    $guest_dietery = $_POST['guest_dietery'];
-    $guest_rsvp_note = mysqli_real_escape_string($db, $_POST['rsvp_note']);
-    //update the invitations table
-    $update_rsvp = $db->prepare('UPDATE invitations SET invite_rsvp_status=?  WHERE event_id =? AND guest_id=?');
-    $update_rsvp->bind_param('sii', $invite_rsvp_status, $event_id, $guest_id);
-    $update_rsvp->execute();
-    $update_rsvp->close();
-    //update the whole group rsvp status
-    $update_group_list = $db->prepare('UPDATE invitations SET invite_rsvp_status=?  WHERE  guest_group_id=?');
-    $update_group_list->bind_param('si', $invite_rsvp_status, $guest_group_id);
-    $update_group_list->execute();
-    $update_group_list->close();
-
-    // remove all guests from guest list of status set as not attending
-    if ($invite_rsvp_status == "Not Attending") {
-        $update_guest_list = $db->prepare('DELETE FROM guest_list WHERE  guest_group_id=? AND guest_type="Member"');
-        $update_guest_list->bind_param('i', $guest_group_id);
-        $update_guest_list->execute();
-        $update_guest_list->close();
-    }
     /////////////////////Send email with confirmation/////////////////////////
     //load guest details
     $guest_query = ('SELECT guest_fname, guest_sname FROM guest_list WHERE guest_id=' . $guest_id);
@@ -204,24 +259,35 @@ if (isset($_POST['action']) && $_POST['action'] == "update") {
     $event_query = ('SELECT event_name FROM wedding_events WHERE event_id=' . $event_id);
     $event = $db->query($event_query);
     $event_result = $event->fetch_assoc();
+    $user_id = $_SESSION['user_id'];
+    //load guest group
+    // find the guest group that this user manages
+    $guest_group_id_query = $db->query('SELECT users.user_id, users.guest_id, guest_groups.guest_group_organiser, guest_groups.guest_group_id FROM users LEFT JOIN guest_groups ON guest_groups.guest_group_organiser=users.guest_id WHERE users.user_id =' . $user_id);
+    $group_id_result = $guest_group_id_query->fetch_assoc();
+    //define guest group id
+    $guest_group_id = $group_id_result['guest_group_id'];
+    //loads guest group list
+    $group_query = $db->query('SELECT guest_list.guest_fname, guest_list.guest_sname, guest_list.guest_id, guest_list.guest_group_id, guest_list.guest_type, guest_list.guest_dietery, guest_groups.guest_group_id, guest_groups.guest_group_name FROM guest_list LEFT JOIN guest_groups ON guest_groups.guest_group_id=guest_list.guest_group_id  WHERE guest_groups.guest_group_id=' . $guest_group_id . ' AND guest_list.guest_type = "Member"');
+    $group_result = $group_query->fetch_assoc();
     include("../inc/settings.php");
     //email subject
-    $subject = $guest_result['guest_fname'] . ' ' . $guest_result['guest_sname'] . ' ' . 'has updated their response to your invitation!';
+    $subject = $guest_result['guest_fname'] . ' ' . $guest_result['guest_sname'] . ' ' . 'has responded to their invitation!';
     //body of email to send to client as an auto reply
     $body = '
         <div style="padding:16px;font-family:sans-serif;">
             <h1 style="text-align:center;">Your Guest</h1>
-            <div style="padding:16px; border: 10px solid #496e62; border-radius: 10px;">
-                <h2>' . $guest_result['guest_fname'] . ' ' . 'has changed their response to your invitation!' . '</h2>
+            <div style="padding:16px; border: 10px solid #7f688d; border-radius: 10px;">
+                <h2>' . $guest_result['guest_fname'] . ' ' . 'has responded to their invitation!' . '</h2>
                 <p>Dear ' . $wedding_result['wedding_name'] . ', here are the details of their response:</p>
                 <p><strong>Event: </strong>' . $event_result['event_name'] . '</p>    
                 <p><strong>Their Response: </strong>' . $invite_rsvp_status . '</p>
                 <p><strong>Any Dietary Requirements: </strong>' . $guest_dietery . '</p>
                 <p><strong>Their Message:</strong><br>' . $guest_rsvp_note . '</p>
-                <br><hr style="color:#496e62;">
+                <br><hr style="color:#7f688d;">
                 <p>Kind regards</p>
             </div>
         </div>';
+   
     //configure email to send to users
     //stored in separate file
     //From Server
@@ -241,15 +307,15 @@ if (isset($_POST['action']) && $_POST['action'] == "update") {
     $mail->Body = $body;
     $mail->IsHTML(true);
     $mail->AddAddress($email_to);
-
     if (!$mail->Send()) {
-        $response = "Mailer Error: " . $mail->ErrorInfo;
+        echo "Mailer Error: " . $mail->ErrorInfo;
     }
     //response success
     $response = "success";
+    echo $response;
 }
-//echo out variable
-echo $response;
+
+
 ?>
 <?php if (isset($_GET['action']) && $_GET['action'] == "load_group") :
     $user_id = $_SESSION['user_id'];
@@ -273,8 +339,8 @@ echo $response;
     $available_inv = $group_capacity - $group_query->num_rows;
 
 
-?>
-    <?php if (($group_query->num_rows) > 0) : ?>
+
+    if (($group_query->num_rows) > 0) : ?>
 
         <h2>My Group</h2>
         <p>This is your guest group, you can remove people from this if you wish.</p>
@@ -317,7 +383,7 @@ echo $response;
     <script>
         var arrcount = 0;
         var max = <?= $available_inv; ?>;
-        var guest_num = <?php echo $group_query->num_rows +1;?>;
+        var guest_num = <?php echo $group_query->num_rows + 1; ?>;
         var error = $("error");
         $("#add-member").on("click", function() {
             if (arrcount < max) {
@@ -348,10 +414,7 @@ echo $response;
                 beforeSend: function() { //animate button
                     $("#guest_group").fadeOut(300);
                 },
-
                 success: function(data, responseText) {
-
-
                     url = "scripts/invite.script.php?action=load_group";
                     $.ajax({ //load guest group
                         type: "GET",
@@ -371,15 +434,12 @@ echo $response;
 
 <?php endif; ?>
 
-<?php 
-if(isset($_POST['action']) && $_POST['action']=="remove_guest"){
+<?php
+if (isset($_POST['action']) && $_POST['action'] == "remove_guest") {
     //remove guest from post request
     $guest_id = $_POST['guest_id'];
     $remove_guest = $db->prepare('DELETE FROM guest_list  WHERE  guest_id=?');
-    $remove_guest->bind_param('i',$guest_id);
+    $remove_guest->bind_param('i', $guest_id);
     $remove_guest->execute();
     $remove_guest->close();
-
 }
-
-?>

@@ -138,10 +138,8 @@ $invite_status->close();
                                         </div>
                                     </td>
                                 </tr>
-                                <?php endforeach; ?>
+                                <?php endforeach;?>
                         </table>
-
-                    
                     </div>
 
                 <?php else : ?>
@@ -252,92 +250,14 @@ $invite_status->close();
         </div>
 
 
-        </div>
 
-        </div>
 
 
     </main>
-
     <!-- /Main Body Of Page -->
-
-
     <!-- Footer -->
     <?php include("./inc/footer.inc.php"); ?>
     <!-- /Footer -->
-
-    <script>
-        //script for editing submitting rsvp
-        $("#invite_response").submit(function(event) {
-
-            event.preventDefault();
-            //declare form variables and collect GET request information
-            event_id = '<?php echo $event_id; ?>';
-            guest_id = '<?php echo $guest_id; ?>';
-            var formData = new FormData($("#invite_response").get(0));
-            formData.append("action", "response");
-            formData.append("event_id", event_id);
-            formData.append("guest_id", guest_id);
-            $.ajax({ //start ajax post
-                type: "POST",
-                url: "scripts/invite.script.php",
-                data: formData,
-                contentType: false,
-                processData: false,
-                beforeSend: function() { //animate button
-                    $("#loading-icon").show(400);
-                },
-                complete: function() {
-                    $("#loading-icon").hide(400);
-                },
-                success: function(data, responseText) {
-                    $("#response").html(data);
-                    $("#response").slideDown(400);
-                    if (data === "success") {
-                        window.location.replace('invite?action=view');
-                    }
-
-                }
-            });
-
-        });
-    </script>
-
-    <script>
-        //script for editing submitting rsvp
-        $("#edit_response").submit(function(event) {
-            event.preventDefault();
-            //declare form variables and collect GET request information
-            event_id = '<?php echo $event_id; ?>';
-            guest_id = '<?php echo $guest_id; ?>';
-            var formData = new FormData($("#edit_response").get(0));
-            formData.append("action", "update");
-            formData.append("event_id", event_id);
-            formData.append("guest_id", guest_id);
-            $.ajax({ //start ajax post
-                type: "POST",
-                url: "scripts/invite.script.php",
-                data: formData,
-                contentType: false,
-                processData: false,
-                beforeSend: function() { //animate button
-                    $("#loading-icon").show(400);
-                },
-                complete: function() {
-                    $("#loading-icon").hide(400);
-                },
-                success: function(data, responseText) {
-                    $("#response").html(data);
-                    $("#response").slideDown(400);
-                    if (data === "success") {
-                        window.location.replace('invite?action=view');
-                    }
-
-                }
-            });
-
-        });
-    </script>
 </body>
 
 </html>

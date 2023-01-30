@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 //find the referring page to redirect to once logged in
 if(empty($_SERVER['HTTP_REFERER'])){
     $redirect = "";

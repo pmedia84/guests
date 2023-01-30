@@ -122,11 +122,11 @@ if (isset($_POST['action']) && $_POST['action'] == "pw_setup") {
         $body = '
             <div style="padding:16px;font-family:sans-serif;">
                 <h1 style="text-align:center;">'.$wedding_result['wedding_name'].'\'s Wedding</h1>
-                <div style="padding:16px; border: 10px solid #496e62; border-radius: 10px;">
+                <div style="padding:16px; border: 10px solid #7f688d; border-radius: 10px;">
                     <h2>You are now set up in our guest area</h2>
                     <p>Dear ' . $user_name . ', thank you for setting up your guest area. You can now respond to your invitation!</p>
                     
-                    <br><hr style="color:#496e62;">
+                    <br><hr style="color:#7f688d;">
                     <p>Kind regards</p>
                     <p><strong>'.$wedding_result['wedding_name'].'</strong></p>
                     <p>You can contact us with any questions about our big day via our email:<strong>'.$wedding_result['wedding_email'].'</strong></p>

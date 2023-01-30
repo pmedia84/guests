@@ -124,24 +124,8 @@ $user_id = $_SESSION['user_id'];
                         </div>
                     <?php endif; ?>
                 <?php endif; ?>
-
-                
             </div>
-
         </div>
-
-
-
-        </div>
-
-
-
-
-    </div>
-
-    </div>
-
-
     </main>
 
     <!-- /Main Body Of Page -->
