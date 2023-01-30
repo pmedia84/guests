@@ -284,6 +284,7 @@ if (isset($_POST['action']) && $_POST['action'] == "response") {
                 <p><strong>Any Dietary Requirements: </strong>' . $guest_dietery . '</p>
                 <p><strong>Their Message:</strong><br>' . $guest_rsvp_note . '</p>
                 <br><hr style="color:#7f688d;">
+                <p> You can view their details <a href='.$_SERVER['DOCUMENT_ROOT'].'/admin/guest.php?action=view&guest_id='.$guest_id.'>Here</a>;
                 <p>Kind regards</p>
             </div>
         </div>';
