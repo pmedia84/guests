@@ -282,7 +282,6 @@ $event_id = "";
     <script>
         //script for  submitting rsvp
         $("#invite_response").submit(function(event) {
-
             event.preventDefault();
             //declare form variables and collect GET request information
             var guest_extra_invites ='<?php echo $guest_invites;?>';
@@ -301,32 +300,22 @@ $event_id = "";
                 data: formData,
                 contentType: false,
                 processData: false,
-                dataType: 'HTML',
+                dataType: 'text',
                 beforeSend: function() { //animate button
                     $("#loading-icon").show(400);
                 },
-
-                success: function(data, responseText) {
+                success: function(data, status, xhr) {
+                    if (data === "success") {
+                        window.location.replace('invite');
+                    }
                     $("#response").html(data);
                     $("#response").slideDown(400);
-                    if (responseText === "success") {
-                        window.location.replace('invite');
-                        
-                    }
-                    
-
                 },
                 complete: function() {
                     $("#loading-icon").hide(400);
                 },
             });
-
         });
     </script>
-
-
-
-
 </body>
-
 </html>

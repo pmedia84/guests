@@ -114,8 +114,7 @@ if (isset($_POST['action']) && $_POST['action'] == "response") {
     //3.
     /////////////If the guest is a sole invite then process rsvp and don't set up a group etc
 
-    if ($_POST['guest_type'] == "Sole" && $_POST['event_rsvp'][0]['rsvp'] === "Attending"
-    ) {
+    if ($_POST['guest_type'] == "Sole" && $_POST['event_rsvp'][0]['rsvp'] === "Attending" ) {
         //stop the script here
 
         //loop through the event information
@@ -314,10 +313,9 @@ if (isset($_POST['action']) && $_POST['action'] == "response") {
     //response success
     $response = "success";
     echo $response;
-}
-
-
-?>
+    exit();
+    
+}?>
 <?php if (isset($_GET['action']) && $_GET['action'] == "load_group") :
     $user_id = $_SESSION['user_id'];
     // find the guest group that this user manages
@@ -444,3 +442,4 @@ if (isset($_POST['action']) && $_POST['action'] == "remove_guest") {
     $remove_guest->execute();
     $remove_guest->close();
 }
+?>
