@@ -1,11 +1,10 @@
 <?php
 
 //find the referring page to redirect to once logged in
-if(empty($_SERVER['HTTP_REFERER'])){
-    $redirect = "";
-   
+if(!empty($_GET)){
+    $location=$_GET['location'];
 }else{
-    $redirect = $_SERVER['HTTP_REFERER'];
+    $location="index";
 }
 include("connect.php");
 include("inc/settings.php");
@@ -93,6 +92,7 @@ if($cms_type =="Wedding"){
     <script>
         $("#login").submit(function(event) {
             event.preventDefault();
+            var redirect = '<?php echo $location;?>';
             var formData = new FormData($("#login").get(0));
             var user_email = $("#user_email").val();
             $.ajax({ //start ajax post

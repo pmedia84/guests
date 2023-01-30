@@ -1,8 +1,10 @@
 <?php
 session_start();
-if (!$_SESSION['loggedin'] == true) {
+$location=$_SERVER['REQUEST_URI'];
+if (!$_SESSION['loggedin'] == TRUE) {
     // Redirect to the login page:
-    header('Location: login.php');
+    
+    header("Location: login.php?location=".$location);
 }
 include("connect.php");
 include("inc/head.inc.php");
