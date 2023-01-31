@@ -54,6 +54,8 @@ if($cms_type =="Wedding"){
     <h1><?=$wedding_result['wedding_name'];?>'s Guest Area</h1>
 </div>
 </div>
+
+<?php if($guest_area_status == "On") : ?>
         <div class="login-wrapper">
             <h1>Login</h1>
             <form class="form-card" id="login" action="scripts/auth.php" method="post">
@@ -77,7 +79,12 @@ if($cms_type =="Wedding"){
             </form>
         </div>
 
-
+<?php else:?>
+    <div class="login-wrapper">
+                <h2>Our Guest Area is not open yet.</h2>
+                <p>We are not quite ready with our guest area, please check back again. Or you can contact us <a href="../contact">Here</a></p>
+            </div>
+<?php endif;?>    
 
 
 

@@ -39,7 +39,7 @@ $modules_result = $modules->fetch_assoc();
 $module_reviews = "On";
 $api_key = ""; //api key from google source
 $place_id = ""; //Found from google places api
-//Image Gallery
+
 
 
 foreach ($modules as $module) {
@@ -75,4 +75,15 @@ foreach ($modules as $module) {
     if ($module['module_name'] == "Gift List") {
         $gift_list_status = $module['module_status'];
     }
+}
+//connect to modules table and load available modules for the wedding site
+$wedding_modules_query = ('SELECT wedding_module_name, wedding_module_status FROM wedding_modules');
+$wedding_modules = $db->query($wedding_modules_query);
+$wedding_modules_result = $modules->fetch_assoc();
+foreach ($wedding_modules as $wedding_module) {
+    //RSVP
+    if ($wedding_module['wedding_module_name'] == "Guest Area") {
+        $guest_area_status = $wedding_module['wedding_module_status'];
+    }
+
 }

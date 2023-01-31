@@ -55,8 +55,8 @@ if ($cms_type == "Wedding") {
                 <h1 class="">The Wedding Of <?= $wedding_result['wedding_name']; ?> </h1>
             </div>
         </div>
-
-        <?php if (isset($_GET['action'])  && $_GET['action'] == "setup") :
+<?php if($guest_area_status == "On") : 
+        if (isset($_GET['action'])  && $_GET['action'] == "setup") :
             $rsvp_code_input = $_GET['rsvp_code'];
             //look for guest details
             if ($guest = $db->prepare('SELECT guest_id, guest_fname, guest_sname, guest_email FROM guest_list WHERE guest_rsvp_code = ?')) {
@@ -66,8 +66,6 @@ if ($cms_type == "Wedding") {
                 $guest->fetch();
                 $guest->close();
             }
-
-
         ?>
 
             <div class="std-card rsvp-card">
@@ -122,6 +120,12 @@ if ($cms_type == "Wedding") {
 
 
         <?php endif; ?>
+        <?php else:?>
+            <div class="login-wrapper">
+                <h2>Our RSVP Section is not available yet</h2>
+                <p>We are not quite ready to process your responses. If you would rather let us know by email then please contact us <a href="../contact">Here</a></p>
+            </div>
+            <?php endif;?>
     </main>
     <!-- /Main Body Of Page -->
 

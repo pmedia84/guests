@@ -124,7 +124,7 @@ if ($cms_type == "Wedding") {
                    
                    
                 </div>
-                <img src="assets/img/index-img.jpg" alt="">
+                <img src="assets/img/guest-home-img.jpg" alt="">
             </div>
         </div>
 
