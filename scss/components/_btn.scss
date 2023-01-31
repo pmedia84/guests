@@ -72,3 +72,12 @@ a.btn-primary{
     background-color: $error-response;
     border-color: $error-response;
 }
+
+
+.btn-disabled{
+    //disabled button
+    opacity: .5;
+    background-color: white;
+    color: $primary;
+    pointer-events: none;
+}

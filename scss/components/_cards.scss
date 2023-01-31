@@ -240,6 +240,7 @@
     background-color: $primary-900;
     padding: $spacer-3;
     margin-block: $spacer-3;
+    border-radius: 5px;
 }
 
 
@@ -268,5 +269,18 @@
     border-radius: 5px;
     border: 1px solid $primary;
     margin-block: $spacer-2;
-
+    position: relative;
+    .btn-remove-guest{
+        position: absolute;
+        top: 4px;
+        right: 15px;
+        color: $primary;
+        opacity: 1;
+        &:hover{
+            opacity: .5;
+        }
+        svg{
+            height: 100%;
+        }
+    }
 }

@@ -361,7 +361,7 @@ if (isset($_POST['action']) && $_POST['action'] == "response") {
         </table>
     <?php endif; ?>
 
-    <div class="invite-guest-group" id="">
+    <div class="invite-guest-group invite-card" id="">
         <h2>Your Extra Invites</h2>
         <?php if ($extra_inv_result['guest_extra_invites'] > 1) : ?>
             <p><strong>You also have <?= $extra_inv_result['guest_extra_invites']; ?> additional invites .</strong></p>
@@ -376,60 +376,12 @@ if (isset($_POST['action']) && $_POST['action'] == "response") {
         </div>
         <div id="guest-group-row"></div>
 
-        <button class="btn-primary" id="add-member" type="button">Add Guest<i class="fa-solid fa-user-plus"></i></button>
+        <button class="btn-primary" id="add-member" type="button">Add Guest <i class="fa-solid fa-user-plus"></i></button>
     </div>
 
-    <script>
-        var arrcount = 0;
-        var max = <?= $available_inv; ?>;
-        var guest_num = <?php echo $group_query->num_rows + 1; ?>;
-        var error = $("error");
-        $("#add-member").on("click", function() {
-            if (arrcount < max) {
-                var inputs = $("<div class='guest-group-member d-none'><h3>Guest No. " + guest_num + "</h3><div class='form-row'><div class='form-input-col'> <label for='guest_fname'><strong>First Name</strong></label><input class='text-input input' type='text' name='guest[" + arrcount + "][guest_fname]' placeholder='Guest First Name' required=''></div><div class='form-input-col'><label for='guest_sname'><strong>Surname</strong></label><input class='text-input input' type='text' name='guest[" + arrcount + "][guest_sname]'  placeholder='Guest Surname' required=''></div></div> <div class='form-input-wrapper'> <div class='form-input-col'><label for='guest_dietery'><strong>Any Dietary Requirements?</strong></label><input type='text' name='guest[" + arrcount + "][guest_dietary]' placeholder='Tell us about any dietary requirements this guest may have...'></div></div></div>");
-                $("#guest-group-row").append(inputs);
-                $(".guest-group-member").slideDown(400);
-                arrcount++;
-                guest_num++;
-
-            }
-        });
-    </script>
-
-    <script>
-        //remove guests from list
-        $(".remove_guest").on("click", function() {
-
-            var formData = new FormData();
-            var guest_id = $(this).data("guest_id");
-            formData.append("guest_id", guest_id);
-            formData.append("action", "remove_guest");
-            $.ajax({ //start ajax post
-                type: "POST",
-                url: "scripts/invite.script.php",
-                data: formData,
-                contentType: false,
-                processData: false,
-                beforeSend: function() { //animate button
-                    $("#guest_group").fadeOut(300);
-                },
-                success: function(data, responseText) {
-                    url = "scripts/invite.script.php?action=load_group";
-                    $.ajax({ //load guest group
-                        type: "GET",
-                        url: url,
-                        encode: true,
-                        success: function(data, responseText) {
-                            $("#guest_group").html(data);
-                            $("#guest_group").fadeIn(400);
 
 
-                        }
-                    });
-                }
-            });
-        })
-    </script>
+
 
 <?php endif; ?>
 
