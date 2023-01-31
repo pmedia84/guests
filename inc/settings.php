@@ -80,6 +80,7 @@ foreach ($modules as $module) {
 $wedding_modules_query = ('SELECT wedding_module_name, wedding_module_status FROM wedding_modules');
 $wedding_modules = $db->query($wedding_modules_query);
 $wedding_modules_result = $modules->fetch_assoc();
+
 foreach ($wedding_modules as $wedding_module) {
     //RSVP
     if ($wedding_module['wedding_module_name'] == "Guest Area") {
