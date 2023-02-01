@@ -20,17 +20,12 @@ if ($cms_type == "Wedding") {
 
     $wedding->execute();
     $wedding->store_result();
-    $wedding->bind_result($wedding_id, $wedding_name, $wedding_email, $wedding_phone, $wedding_contact_name);
+    $wedding->bind_result($wedding_id, $wedding_name, $wedding_date, $wedding_email, $wedding_phone, $wedding_contact_name);
     $wedding->fetch();
     $wedding->close();
     //set cms name
     $cms_name = $wedding_name;
 
-
-    //find wedding events details
-    $wedding_events_query = ('SELECT * FROM wedding_events ORDER BY event_time');
-    $wedding_events = $db->query($wedding_events_query);
-    $wedding_events_result = $wedding_events->fetch_assoc();
    
 }
 ?>

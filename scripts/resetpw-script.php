@@ -22,7 +22,7 @@ $response = "";
 
 //Action type = requestpwreset
 if ($_POST['action'] == 'requestreset') {
-    if ($user = $db->prepare('SELECT user_id, user_email, user_name FROM users WHERE user_email = ?')) {
+    if ($user = $db->prepare('SELECT user_id, user_email, user_name FROM users WHERE user_email = ? AND user_type="wedding_guest"')) {
 
 
         $user->bind_param('s', $_POST['user_email']);
@@ -54,22 +54,25 @@ if ($_POST['action'] == 'requestreset') {
                 $reset->execute();
                 $reset->close();
                 /////////////////////Send email with reset code/////////////////////////
-
+                //load wedding details for email
+                $wedding_query = ('SELECT wedding_name, wedding_email FROM wedding');
+                $wedding = $db->query($wedding_query);
+                $wedding_result = $wedding->fetch_assoc();
                 //email subject
                 $subject = 'Your password reset link';
                 //body of email to send to client as an auto reply
                 $body = '
-            <img src="' . $emailheaderlogo . '">
+                <h1 style="text-align:center;">'.$wedding_result['wedding_name'].'\'s Guest Area</h1>
             <div style="padding:16px;font-family:sans-serif;">
-                <h1 style="text-align:center;">' . $name . ' You have requested a password reset</h1>
-                <div style="padding:16px; border: 10px solid #3b685c; border-radius: 10px;">
+                <h2 style="text-align:center;">' . $name . ' You have requested a password reset</h2>
+                <div style="padding:16px; border: 10px solid #7f688d; border-radius: 10px;">
                     <h2>Follow the instructions below:</h2>
                     <p>Dear ' . $name . ', please click on the link below to reset your password</p>
-                    <strong><a href="http://localhost/admin/resetpw.php?key=' . $key . '&user_id=' . $user_id . '&action=reset">Click Here</a></strong>
-                    <p><strong>Please Note:</strong>This email link will only last for 24 hours, after that time you will need to request another password reset.</p>
-                    <br><hr style="color:#3b685c;">
+                    <strong><a href="https://'.$_SERVER['SERVER_NAME'].'/guests/resetpw.php?key=' . $key . '&user_id=' . $user_id . '&action=reset">Click Here</a></strong>
+                    <p><strong>Please Note:</strong>This email link will last for 24 hours, after that time you will need to request another password reset.</p>
+                    <br><hr style="color:#7f688d;">
                     <p>Kind regards</p>
-                    <p><strong>Parrot Media</strong></p>
+                    <p><strong>'.$wedding_result['wedding_name'].'</strong></p>
                 </div>
             </div>';
                 //configure email to send to users
@@ -159,21 +162,25 @@ if ($_POST['action'] == 'reset') {
         $user->bind_result($user_id, $email, $name);
         $user->fetch();
         $user->close();
-        /////////////////////Send email with reset code/////////////////////////
+        /////////////////////Send email to update guest/////////////////////////
+        //load wedding details for email
+        $wedding_query = ('SELECT wedding_name, wedding_email FROM wedding');
+        $wedding = $db->query($wedding_query);
+        $wedding_result = $wedding->fetch_assoc();
         //email subject
         $subject = 'Your password has been reset';
-        //body of email to send to client as an auto reply
+        //body of email to send to guest as an auto reply
         $body = '
-            <img src="' . $emailheaderlogo . '">
+        <h1 style="text-align:center;">'.$wedding_result['wedding_name'].'\'s Guest Area</h1>
             <div style="padding:16px;font-family:sans-serif;">
                 <h1 style="text-align:center;">' . $name . ' You have successfully reset your password</h1>
-                <div style="padding:16px; border: 10px solid #3b685c; border-radius: 10px;">
+                <div style="padding:16px; border: 10px solid #7f688d; border-radius: 10px;">
                     <h2>Your new password:</h2>
                     <p>Dear ' . $name . ', you password has now been reset.</p>
-                    <p><strong>Please Note:</strong>If you did not request this, please contact us to advise you how to secure your account.</p>
-                    <br><hr style="color:#3b685c;">
+                    <p><strong>Please Note:</strong>If you did not request this, please contact us: <a href="mailto:'.$wedding_result['wedding_email'].'">'.$wedding_result['wedding_email'].'</a></p>
+                    <br><hr style="color:#7f688d;">
                     <p>Kind regards</p>
-                    <p><strong>Parrot Media</strong></p>
+                    <p><strong>'.$wedding_result['wedding_name'].'</strong></p>
                 </div>
             </div>';
         //configure email to send to users

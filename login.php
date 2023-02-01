@@ -20,16 +20,6 @@ if($cms_type =="Wedding"){
         header('Location: setup.php?action=setup_wedding');
     }
     $wedding_result = $wedding->fetch_assoc();
-    //check that there are users set up 
-    $wedding_user_query = ('SELECT wedding_user_id FROM wedding_users');
-    $wedding_user = $db->query($wedding_user_query);
-    if($wedding_user -> num_rows <2){
-        header('Location: setup.php?action=check_users_wedding');
-    }
-    
-
-
-
     }
     
 ?>
@@ -73,6 +63,7 @@ if($cms_type =="Wedding"){
 
                 <div class="button-section my-3">
                     <button class="btn-primary" type="submit">Login</button>
+                    <a  href="resetpw">Forgot Password</a>
                 </div>
                 <div id="response" class="d-none">
                 </div>

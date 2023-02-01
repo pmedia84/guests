@@ -28,7 +28,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300&display=swap" rel="stylesheet">
 
     <?php
-    if(isset($_SESSION)){
+   if(!empty($_SESSION['user_id'])){
         $user_id = $_SESSION['user_id'];
         //load guest Type
         $user_type = $db->query('SELECT users.user_id, users.guest_id, guest_list.guest_id, guest_list.guest_type, invitations.invite_rsvp_status FROM users LEFT JOIN guest_list ON guest_list.guest_id=users.guest_id LEFT JOIN invitations ON guest_list.guest_id=invitations.guest_id WHERE users.user_id=' . $user_id);
