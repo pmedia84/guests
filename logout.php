@@ -9,5 +9,5 @@ $delete = 'DELETE FROM user_sessions WHERE session_date < (NOW() - INTERVAL 5 DA
 $run_delete =$db->query($delete);
 session_destroy();
 // Redirect to the login page:
-header('Location: login.php');
+header('Location: ../');
 ?>

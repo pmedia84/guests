@@ -17,7 +17,7 @@ include("../connect.php");
 //1. Response, will skip over 2 and 3 if the requirements have not been met, such as not attending and they don't have a guest group.
 //2. If they are not attending, updates tables and removes any guest group 
 //3. If the guest responding is a Sole member it will update just the guest list and invitations list, no guest group information is altered.
-
+//4. If the guest has told us they will be attending alone even though extra invites have been assigned, then run a separate script to update guest table.
 
 ////////////////////////\\\\\\\\\\\\\\\\\\\\\\Response Script \\\\\\\\\\\\\\\//////////////////////////////////////////////
 //if action type is response then update guest table and invites table
@@ -53,7 +53,7 @@ if (isset($_POST['action']) && $_POST['action'] == "response") {
         //remove any group members if any had been added
 
         $remove_group = $db->query("DELETE FROM guest_list WHERE guest_group_id=$guest_group_id AND guest_type='Member'");
-        
+
         /////////////////////Send email with confirmation/////////////////////////
         //load guest details
         $guest_query = ('SELECT guest_fname, guest_sname FROM guest_list WHERE guest_id=' . $guest_id);
@@ -114,7 +114,7 @@ if (isset($_POST['action']) && $_POST['action'] == "response") {
     //3.
     /////////////If the guest is a sole invite then process rsvp and don't set up a group etc
 
-    if ($_POST['guest_type'] == "Sole" && $_POST['event_rsvp'][0]['rsvp'] === "Attending" ) {
+    if ($_POST['guest_type'] == "Sole" && $_POST['event_rsvp'][0]['rsvp'] === "Attending") {
         //stop the script here
 
         //loop through the event information
@@ -183,22 +183,93 @@ if (isset($_POST['action']) && $_POST['action'] == "response") {
         if (!$mail->Send()) {
             echo "Mailer Error: " . $mail->ErrorInfo;
         }
-        $response="success";
+        $response = "success";
         echo $response;
         exit();
     }
     //1. Continued, this carries on if sections 2 and 3 have not been met
     //////////////////\\\if the guest has stated they are attending then carry on\\\////////////////////////
     ////make sure that if the guest has extra invites they have defined them
+    //if they do have extra invites but have not ticked the checkbox, suggest that they do and try again.
+if(isset($_POST['sole_invite']) && $_POST['sole_invite']=="Sole"){
+        //stop the script here
+
+        //loop through the event information
+
+        $event_ar = $_POST['event_rsvp'];
+        $update_rsvp = $db->prepare('UPDATE invitations SET invite_rsvp_status=?, guest_group_id=?  WHERE event_id =? AND guest_id=?');
+        foreach ($event_ar as $rsvp) {
+            $update_rsvp->bind_param('siii', $rsvp['rsvp'], $guest_group_id, $rsvp['event_id'], $guest_id);
+            $update_rsvp->execute();
+        }
+        $update_rsvp->close();
+        //update the guest list for the main guest
+        $update_guest_list = $db->prepare('UPDATE guest_list SET guest_rsvp_status=?, guest_dietery=?  WHERE  guest_id=?');
+        $update_guest_list->bind_param('ssi', $rsvp['rsvp'], $guest_dietery, $guest_id);
+        $update_guest_list->execute();
+        $update_guest_list->close();
+        /////////////////////Send email with confirmation/////////////////////////
+        //load guest details
+        $guest_query = ('SELECT guest_fname, guest_sname FROM guest_list WHERE guest_id=' . $guest_id);
+        $guest = $db->query($guest_query);
+        $guest_result = $guest->fetch_assoc();
+        //load wedding details
+        $wedding_query = ('SELECT wedding_id, wedding_name, wedding_email FROM wedding');
+        $wedding = $db->query($wedding_query);
+        $wedding_result = $wedding->fetch_assoc();
+        //load event name details
+        $event_query = ('SELECT event_name FROM wedding_events WHERE event_id=' . $event_id);
+        $event = $db->query($event_query);
+        $event_result = $event->fetch_assoc();
+        include("../inc/settings.php");
+        //email subject
+        $subject = $guest_result['guest_fname'] . ' ' . $guest_result['guest_sname'] . ' ' . 'has responded to their invitation!';
+        //body of email to send to client as an auto reply
+        $body = '
+        <div style="padding:16px;font-family:sans-serif;">
+            <h1 style="text-align:center;">Your Guest</h1>
+            <div style="padding:16px; border: 10px solid #7f688d; border-radius: 10px;">
+                <h2>' . $guest_result['guest_fname'] . ' ' . 'has responded to their invitation!' . '</h2>
+                <p>Dear ' . $wedding_result['wedding_name'] . ', here are the details of their response:</p>
+                <p><strong>Event: </strong>' . $event_result['event_name'] . '</p>    
+                <p><strong>Their Response: </strong>' . $rsvp['rsvp'] . '</p>
+                <p><strong>Their Message:</strong><br>' . $guest_rsvp_note . '</p>
+                <br><hr style="color:#7f688d;">
+                <p>Kind regards</p>
+            </div>
+        </div>';
+        //configure email to send to users
+        //stored in separate file
+        //From Server
+        $fromserver = $username;
+        $email_to = $wedding_result['wedding_email'];
+        $mail = new PHPMailer(true);
+        $mail->IsSMTP();
+        $mail->Host = $host; // Enter your host here
+        $mail->SMTPAuth = true;
+        $mail->Username = $username; // Enter your email here
+        $mail->Password = $pass; //Enter your password here
+        $mail->Port = 25;
+        $mail->From = $from;
+        $mail->FromName = $fromname;
+        $mail->Sender = $fromserver; // indicates ReturnPath header
+        $mail->Subject = $subject;
+        $mail->Body = $body;
+        $mail->IsHTML(true);
+        $mail->AddAddress($email_to);
+        if (!$mail->Send()) {
+            echo "Mailer Error: " . $mail->ErrorInfo;
+        }
+        $response = "success";
+        echo $response;
+        exit();
+}
     if (!isset($_POST['guest']) && $_POST['guest_extra_invites'] > 0) {
         //\\If the guest has said they are attending but have not added guests then stop the script and send back an error//\\
-        $response = '<div class="form-response error"><p>You have not told us who you are bringing with you. Please add your group members.</p></div>';
+        $response = '<div class="form-response error"><p>You have not told us who you are bringing with you. Please add your group members.<br> If you are not bringing anyone with you please tick the box above to let us know and save your response again.</p></div>';
         echo $response;
         exit();
     } else {
-
-
-
 
         ///////////If the guest has set guests, add guests to guest list etc 
         ////Update the main guests information
@@ -283,11 +354,11 @@ if (isset($_POST['action']) && $_POST['action'] == "response") {
                 <p><strong>Any Dietary Requirements: </strong>' . $guest_dietery . '</p>
                 <p><strong>Their Message:</strong><br>' . $guest_rsvp_note . '</p>
                 <br><hr style="color:#7f688d;">
-                <p> You can view their details <a href="https://'.$_SERVER['SERVER_NAME'].'/admin/guest.php?action=view&guest_id='.$guest_id.'">Here</a>;
+                <p> You can view their details <a href="https://' . $_SERVER['SERVER_NAME'] . '/admin/guest.php?action=view&guest_id=' . $guest_id . '">Here</a>;
                 <p>Kind regards</p>
             </div>
         </div>';
-   
+
     //configure email to send to users
     //stored in separate file
     //From Server
@@ -314,8 +385,7 @@ if (isset($_POST['action']) && $_POST['action'] == "response") {
     $response = "success";
     echo $response;
     exit();
-    
-}?>
+} ?>
 <?php if (isset($_GET['action']) && $_GET['action'] == "load_group") :
     $user_id = $_SESSION['user_id'];
     // find the guest group that this user manages
@@ -376,7 +446,12 @@ if (isset($_POST['action']) && $_POST['action'] == "response") {
         </div>
         <div id="guest-group-row"></div>
 
-        <button class="btn-primary" id="add-member" type="button">Add Guest <i class="fa-solid fa-user-plus"></i></button>
+        <div class="btn-wrapper"><button class="btn-primary" id="add-member" type="button">Add Guest <i class="fa-solid fa-user-plus"></i></button></div>
+        <p class="my-2">If you are not planning on bringing anyone with you, please tick here:</p>
+        <label class="checkbox-form-control" for="sole_invite">
+            <input type="checkbox" id="sole_invite" name="sole_invite" value="Sole" />
+            <strong>I will be attending on my own</strong>
+        </label>
     </div>
 
 

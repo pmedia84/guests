@@ -43,14 +43,17 @@ $group_id_result = $guest_group_id_query->fetch_assoc();
 $guest_group_id = $group_id_result['guest_group_id'];
 //loads guest group list
 $group_query = $db->query('SELECT guest_list.guest_fname, guest_list.guest_sname, guest_list.guest_id, guest_list.guest_group_id, guest_list.guest_type, guest_groups.guest_group_id, guest_groups.guest_group_name FROM guest_list LEFT JOIN guest_groups ON guest_groups.guest_group_id=guest_list.guest_group_id  WHERE guest_groups.guest_group_id=' . $guest_group_id . ' AND guest_list.guest_type = "Member"');
-//$group_result = $group_query->fetch_assoc();
+
 $event_id = "";
 
 //load extra invites this guest has available
 $guest_extra_inv = $db->query('SELECT guest_extra_invites FROM guest_list WHERE guest_id=' . $guest_id);
 $extra_inv_result = $guest_extra_inv->fetch_assoc();
 $group_capacity = $extra_inv_result['guest_extra_invites'];
-$available_inv = $group_capacity - $group_query->num_rows;
+
+
+
+
 
 ?>
 <!-- Meta Tags For Each Page -->
@@ -238,7 +241,7 @@ $available_inv = $group_capacity - $group_query->num_rows;
                             </div>
                             <?php if ($guest_extra_invites > 0) :
                                 //load guest group table
-
+                                $available_inv = $group_capacity - $group_query->num_rows;
                             ?>
                                 <div id="guest_group" class="d-none"></div>
                             <?php endif; ?>
@@ -344,7 +347,7 @@ $available_inv = $group_capacity - $group_query->num_rows;
 
             }
             if (arrcount == max) {
-                $("#add-member").addClass("btn-disabled");
+                $("#add-member").fadeOut(400);
             }
         });
 
@@ -353,9 +356,9 @@ $available_inv = $group_capacity - $group_query->num_rows;
             arrcount--;
             guest_num--;
             if (arrcount == max) {
-                $("#add-member").addClass("btn-disabled");
+                $("#add-member").fadeOut(400);
             } else {
-                $("#add-member").removeClass("btn-disabled", 400);
+                $("#add-member").fadeIn(400);
             }
         });
 
@@ -392,6 +395,15 @@ $available_inv = $group_capacity - $group_query->num_rows;
             guest_num--;
 
         })
+        $("#guest_group").on("click", "#sole_invite", function() {
+            if($(this).is(":checked")){
+                $("#add-member").fadeOut(400);
+            }else{
+                $("#add-member").fadeIn(400);
+            }
+            
+        });
+
     </script>
     <script>
 
