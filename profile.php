@@ -14,7 +14,7 @@ $user_id = $_SESSION['user_id'];
 
 //guest variable, only required for edit and view actions
     // load this users details
-    $user_details_query = $db->query('SELECT users.user_id, users.guest_id, guest_list.guest_fname, guest_list.guest_sname, guest_list.guest_email, guest_list.guest_address, guest_list.guest_postcode  FROM users LEFT JOIN guest_list ON guest_list.guest_id=users.guest_id WHERE users.user_id =' . $user_id);
+    $user_details_query = $db->query('SELECT users.user_id, users.guest_id, guest_list.guest_fname, guest_list.guest_sname, guest_list.guest_email, guest_list.guest_address, guest_list.guest_postcode, guest_list.guest_dietery  FROM users LEFT JOIN guest_list ON guest_list.guest_id=users.guest_id WHERE users.user_id =' . $user_id);
     $user_details_result = $user_details_query->fetch_assoc();
     //define guest group id
     //find Wedding details.
@@ -71,6 +71,8 @@ $user_id = $_SESSION['user_id'];
                             <?=$user_details_result['guest_address'];?><br>
                             <?=$user_details_result['guest_postcode'];?><br>
                         </address>
+                        <h2>Dietary Requirements</h2>
+                        <?=$user_details_result['guest_dietery'];?><br>
                         <div class="card-actions">
                             <a href="profile?action=edit" class="btn-primary">Edit My Profile <i class="fa-solid fa-pen-to-square"></i></a>
                         </div>
@@ -108,6 +110,10 @@ $user_id = $_SESSION['user_id'];
                                     <div class="form-input-wrapper my-2">
                                         <label for="guest_postcode"><strong>Postcode</strong></label>
                                         <input class="text-input input" type="text" id="guest_postcode" name="guest_postcode" placeholder="Postcode" value="<?= $user_details_result['guest_postcode'];?>">
+                                    </div>
+                                    <div class="form-input-wrapper my-2">
+                                        <label for="guest_dietery"><strong>Dietary Requirements</strong></label>
+                                        <input class="text-input input" type="text" id="guest_dietery" name="guest_dietery" placeholder="Your dietary requirements..." value="<?= $user_details_result['guest_dietery'];?>">
                                     </div>
 
                                 <div class="button-section my-3">

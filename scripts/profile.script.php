@@ -16,7 +16,7 @@ if(array_key_exists('action', $_POST) && $_POST['action']=="edit"){
     $guest_email=mysqli_real_escape_string($db, $_POST['guest_email']);
     $guest_address=mysqli_real_escape_string($db, $_POST['guest_address']);
     $guest_postcode=mysqli_real_escape_string($db, $_POST['guest_postcode']);
-    
+    $guest_dietery = mysqli_real_escape_string($db, $_POST['guest_dietery']);
     $guest_id = $_POST['guest_id'];
     $user_id = $_POST['user_id'];
     //detect if the user has changed their email address, look up users table
@@ -36,8 +36,8 @@ if(array_key_exists('action', $_POST) && $_POST['action']=="edit"){
     }
 
     //update guest list
-    $update_guest = $db->prepare('UPDATE guest_list SET guest_fname=?, guest_sname=?, guest_email=?, guest_address=?, guest_postcode=? WHERE guest_id=?');
-    $update_guest->bind_param('sssssi',$guest_fname, $guest_sname, $guest_email, $guest_address, $guest_postcode, $guest_id);
+    $update_guest = $db->prepare('UPDATE guest_list SET guest_fname=?, guest_sname=?, guest_email=?, guest_address=?, guest_postcode=?, guest_dietery=? WHERE guest_id=?');
+    $update_guest->bind_param('ssssssi',$guest_fname, $guest_sname, $guest_email, $guest_address, $guest_postcode, $guest_dietery, $guest_id);
     $update_guest->execute();
     $update_guest->close();
 

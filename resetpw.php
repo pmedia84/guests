@@ -3,12 +3,7 @@ session_start();
 if (isset($_GET['user_email'])) {
     $user_email = $_GET['user_email'];
 }
-$location=urlencode($_SERVER['REQUEST_URI']);
-if (!$_SESSION['loggedin'] == TRUE) {
-    // Redirect to the login page:
-    
-    header("Location: login.php?location=".$location);
-}
+
 ?>
 <?php 
 include("./connect.php");
