@@ -153,7 +153,7 @@ if ($cms_type == "Wedding") {
                     $("#response").html(data);
                     $("#response").slideDown(400);
                     if (data === 'success') {
-                       window.location.replace('login.php');
+                       window.location.replace('index');
 
                     }
 
@@ -185,29 +185,7 @@ if ($cms_type == "Wedding") {
         })
     </script>
 
-<script>
-        $("#test").submit(function(event) {
-            event.preventDefault();
-            var formData = new FormData($("#test").get(0));
-            $.ajax({ //start ajax post
-                type: "POST",
-                url: "test.php",
-                data: formData,
-                contentType: false,
-                processData: false,
-                beforeSend: function() { //animate button
-                    $("#loading-icon").show(400);
-                },
-                complete: function() {
-                    $("#loading-icon").hide(400);
-                },
-                success: function(data, responseText) {
-                    $("#response").html(data);
-                    $("#response").slideDown(400);
-                }
-            });
-        })
-    </script>
+
 </body>
 
 </html>

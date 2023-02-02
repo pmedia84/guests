@@ -9,7 +9,6 @@ if(!empty($_GET)){
 include("connect.php");
 include("inc/settings.php");
 
-
 //run checks to make sure a wedding has been set up correctly
 if($cms_type =="Wedding"){
     

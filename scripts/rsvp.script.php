@@ -1,6 +1,6 @@
 <?php
+session_set_cookie_params(0,"/guests");
 session_start();
-
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
@@ -108,6 +108,7 @@ if (isset($_POST['action']) && $_POST['action'] == "pw_setup") {
         $new_user->bind_param('ssssis', $user_email, $user_name, $user_pw, $user_type, $guest_id, $user_pw_status);
         $new_user->execute();
         $new_user->close();
+        $new_user_id = $db->insert_id;
 
         //once successful send an email to confirm set up of guest area and provide link to login
         //load wedding details for email
@@ -165,6 +166,37 @@ if (isset($_POST['action']) && $_POST['action'] == "pw_setup") {
         echo $response;
         exit();
     }
+
+    //if all successful, log in this user
+
+    ////create session in db user sessions:////
+        //declare time and date variables
+        date_default_timezone_set('Europe/London');
+        $session_date = date('Y-m-d');
+        $session_time = date('h:i:s');
+        $session_status = "Active";
+        $session = $db->prepare('INSERT INTO user_sessions (user_id, session_date, session_time, session_status)VALUES(?,?,?,?)');
+        $session ->bind_param('isss',$new_user_id, $session_date, $session_time, $session_status);
+        $session ->execute();
+
+
+        $session->close();
+
+        //set up php session variables and pass information to browser
+        $status = "Failed";
+        $session_id_query ="SELECT session_id FROM user_sessions WHERE user_id=".$new_user_id." ORDER BY session_id DESC LIMIT 1";
+        $session_id_result= $db->query($session_id_query);
+        $session_id = $session_id_result->fetch_assoc();
+
+        session_regenerate_id();
+        $_SESSION['loggedin'] = TRUE;
+        $_SESSION['user_email'] = $guest_email;
+        $_SESSION['user_id'] = $new_user_id;
+        $_SESSION['user_name'] = $user_name;
+        $_SESSION['db_session_id']=$session_id['session_id'];
+        $_SESSION['user_type']="wedding_guest";
+        $db->close();
+        $response = "success";
 }
 
 
