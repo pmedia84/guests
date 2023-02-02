@@ -1,6 +1,6 @@
 <?php
 session_start();
-$location=$_SERVER['REQUEST_URI'];
+$location=urlencode($_SERVER['REQUEST_URI']);
 if (!$_SESSION['loggedin'] == TRUE) {
     // Redirect to the login page:
     

@@ -1,8 +1,10 @@
 <?php
 session_start();
-if (!$_SESSION['loggedin'] == true) {
+$location=urlencode($_SERVER['REQUEST_URI']);
+if (!$_SESSION['loggedin'] == TRUE) {
     // Redirect to the login page:
-    header('Location: login.php');
+    
+    header("Location: login.php?location=".$location);
 }
 include("connect.php");
 include("inc/head.inc.php");
@@ -95,9 +97,7 @@ $group_capacity = $extra_inv_result['guest_extra_invites'];
                     <h1>Respond To Invitation</h1>
                 <?php endif; ?>
 
-                <?php if (isset($_GET['action']) && $_GET['action'] == "edit") : ?>
-                    <h1>Manage My Invitation</h1>
-                <?php endif; ?>
+
 
                 <?php if (($invite_query->num_rows) > 0) : ?>
                     <?php if (empty($_GET)) : ?>
@@ -107,10 +107,13 @@ $group_capacity = $extra_inv_result['guest_extra_invites'];
                         ?>
 
                             <div class="std-card">
-                                <h2>Our <?= $invite['event_name']; ?></h2>
+                            <?php if (!isset($_GET['action'])) : ?>
+                            <h1><i class="fa-solid fa-champagne-glasses"></i> <?=$_SESSION['user_name'];?>, You Are Invited to...</h1>
+                            <?php endif; ?>
                             </div>
                             <div class="std-card">
-                                <h2><?= $invite['event_location']; ?></h2>
+                                <h2>Our <?= $invite['event_name']; ?></h2>
+                                <h3><?= $invite['event_location']; ?></h3>
                                 <p><?= $invite['event_notes']; ?></p>
                                 <p><strong>Date:</strong> <?php echo date('D d M Y', $event_date); ?></p>
                                 <p><strong>Time:</strong> <?php echo date('H:ia', $event_time); ?></p>

@@ -1,11 +1,14 @@
 <?php
 session_start();
+
+$location=urlencode($_SERVER['REQUEST_URI']);
 if (!$_SESSION['loggedin'] == TRUE) {
     // Redirect to the login page:
-    header('Location: login.php');
+    
+    header("Location: login.php?location=".$location);
 }
 
-include("connect.php");
+include("../connect.php");
 include("inc/head.inc.php");
 include("inc/settings.php");
 //run checks to make sure a wedding has been set up correctly
@@ -74,6 +77,12 @@ if ($cms_type == "Wedding") {
                         <h2>My Invitation</h2>
                         <i class="fa-solid fa-champagne-glasses"></i>
                         </div>
+                        <?php if ($user_invite_rsvp_status == NULL) : ?>
+                                    <p class="text-alert"><strong>Please respond to your invitation: <i class="fa-solid fa-circle-exclamation"></i></strong></p>
+                                    <div class="card-actions error">
+                                        <a class="my-2 btn-primary alert" href="invite">Respond To Invitation <i class="fa-solid fa-reply"></i></a>
+                                    </div>
+                        <?php endif;?>
                         <a href="invite">Manage</a>
                     </div>
                     <div class="dashboard-card">

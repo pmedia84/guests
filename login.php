@@ -2,7 +2,7 @@
 
 //find the referring page to redirect to once logged in
 if(!empty($_GET)){
-    $location=$_GET['location'];
+    $location=urldecode($_GET['location']);
 }else{
     $location="index";
 }
@@ -103,7 +103,7 @@ if($cms_type =="Wedding"){
                     $("#response").html(data);
                     $("#response").slideDown(400);
                     if (data === 'correct') {
-                        window.location.replace('index.php');
+                        window.location.replace(redirect);
                     }
                     if (data === 'TEMP') {
                         window.location.replace('resetpw.php?action=temp&user_email='+user_email);

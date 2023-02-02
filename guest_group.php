@@ -1,6 +1,6 @@
 <?php
 session_start();
-$location=$_SERVER['REQUEST_URI'];
+$location=urlencode($_SERVER['REQUEST_URI']);
 if (!$_SESSION['loggedin'] == TRUE) {
     // Redirect to the login page:
     
@@ -100,7 +100,7 @@ $invite_status->close();
                 <?php if (isset($_GET['action']) && $_GET['action'] == "edit") : ?>
                     <h1>Update My Guest Group</h1>
                 <?php else : ?>
-                    <h1><?= $group_name; ?>'s Guest Group</h1>
+                    <h1><i class="fa-solid fa-people-group"></i> <?= $group_name; ?>'s Guest Group</h1>
                 <?php endif; ?>
             <?php if($invite_rsvp_status=="Attending")://check if the guest has responded?>
                 <div class="search-controls">

@@ -1,8 +1,10 @@
 <?php
 session_start();
-if (!$_SESSION['loggedin'] == true) {
+$location=urlencode($_SERVER['REQUEST_URI']);
+if (!$_SESSION['loggedin'] == TRUE) {
     // Redirect to the login page:
-    header('Location: login.php');
+    
+    header("Location: login.php?location=".$location);
 }
 include("connect.php");
 include("inc/head.inc.php");
@@ -58,7 +60,7 @@ $user_id = $_SESSION['user_id'];
                     <h1>Edit My Profile</h1>
                 <?php endif; ?>
                 <?php if(!array_key_exists('action', $_GET)) : ?>
-                    <h1>My Profile</h1>
+                    <h1><i class="fa-solid fa-address-book"></i> My Profile</h1>
                     <div class="std-card">
                         <h2>Contact Details</h2>
                         <p><strong>First Name: </strong><?=$user_details_result['guest_fname'];?></p>
