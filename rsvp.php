@@ -64,7 +64,7 @@ if ($cms_type == "Wedding") {
             }
         ?>
 
-            <div class="std-card rsvp-card">
+            <div class="rsvp-card">
                 <h1>Set Up Your Guest Area</h1>
                 <p>Once you have set up your guest area you will have full access.</p>
                 <p><strong><?= $guest_fname . ' ' . $guest_sname; ?></strong></p>

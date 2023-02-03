@@ -1,5 +1,11 @@
 .rsvp-card{
-    width: 80%;
+    width: 95%;
     margin: 0 auto;
     max-width: max-content;
+    padding: $spacer-3;
+    background-color: #fff;
+    border-radius: $border-radius;
+    @media(min-width: $md){
+        padding: $spacer-4;
+    }
 }

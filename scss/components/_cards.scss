@@ -25,9 +25,11 @@
 
 .std-card, .event-card{
     background-color: white;
-    padding: $spacer-3;
+    padding: $spacer-1;
     border-radius: 5px;
-
+    @media(min-width:$md){
+        padding: $spacer-3;
+    }
 }
 
 .user-card{

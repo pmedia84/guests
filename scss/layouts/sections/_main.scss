@@ -17,7 +17,7 @@
 .main-cards {
     //container for cards
     background-color: $primary-900;
-    padding: 1rem;
+    padding: .5rem;
     border-radius: $border-radius;
     display: grid;
     gap: 1rem;
@@ -59,7 +59,7 @@ margin: 0 auto;
 .main-cards{
     grid-row: 2/4;
     grid-column: 3/4;
-
+    padding: 1rem;
    a{
     width: fit-content;
    }
