@@ -88,9 +88,6 @@ $group_capacity = $extra_inv_result['guest_extra_invites'];
                 <?php if (isset($_GET['action']) && $_GET['action'] == "edit") : ?>
                     / Update Invitation Response
                 <?php endif; ?>
-
-
-
             </div>
             <div class="main-cards">
                 <?php if (isset($_GET['action']) && $_GET['action'] == "respond") : ?>
@@ -125,7 +122,7 @@ $group_capacity = $extra_inv_result['guest_extra_invites'];
                                     </div>
                                 </div>
                                 <h2>RSVP Status</h2>
-                                <?php if ($invite['invite_rsvp_status'] == NULL) : ?>
+                                <?php if ($invite['invite_rsvp_status'] == NULL || $invite['invite_rsvp_status']=="Not Replied") : ?>
                                     <p class="text-alert"><strong>Please respond to your invitation: <i class="fa-solid fa-flag"></i></strong></p>
                                     <div class="card-actions error">
                                         <a class="my-2 btn-primary alert" href="invite?action=respond&event_id=<?= $invite['event_id']; ?>">Respond To Invitation <i class="fa-solid fa-reply"></i></a>
