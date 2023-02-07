@@ -162,7 +162,7 @@ $group_capacity = $extra_inv_result['guest_extra_invites'];
                                                     <td>
                                                         <div class="guest-list-actions">
                                                             <a href="guest.php?guest_id=<?= $member['guest_id']; ?>&action=view"><i class="fa-solid fa-eye"></i></a>
-                                                            <a href="guest.php?guest_id='.$guest['guest_id'].'&action=edit"><i class="fa-solid fa-pen-to-square"></i></a>
+                                                            <a href="guest.php?guest_id=<?= $member['guest_id']; ?>&action=edit"><i class="fa-solid fa-pen-to-square"></i></a>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -200,10 +200,15 @@ $group_capacity = $extra_inv_result['guest_extra_invites'];
                                 $event_time = strtotime($event_details['event_time']);
 
                             ?>
+                            
+                            <?php if (isset($_GET['action'])) : ?>
+                            <h1><i class="fa-solid fa-champagne-glasses"></i> <?=$_SESSION['user_name'];?>, You Are Invited to...</h1>
+                            <?php endif; ?>
+                            
                                 <div class="form-input-wrapper invite-card">
-                                    <p><strong><?= $_SESSION['user_name']; ?></strong> You are invited to our:</p>
+                                    
 
-                                    <h3><?= $event_details['event_name']; ?></h3>
+                                    <h2>Our <?= $event_details['event_name']; ?></h2>
                                     <input type="hidden" name="event_rsvp[<?php echo $count; ?>][event_id]" value="<?= $event_details['event_id']; ?>">
 
                                     <p><strong>Date:</strong> <?php echo date('D d M Y', $event_date); ?></p>
@@ -213,7 +218,7 @@ $group_capacity = $extra_inv_result['guest_extra_invites'];
                                     <label for="event_rsvp"><strong>Please Select Your Response Below:</strong></label>
                                     <!-- input -->
                                     <select name="event_rsvp[<?php echo $count; ?>][rsvp]" required class="rsvp">
-                                        <?php if ($event_details['invite_rsvp_status'] == "") : ?>
+                                        <?php if ($event_details['invite_rsvp_status'] == "" || $event_details['invite_rsvp_status']=="Not Replied") : ?>
                                             <option value="">Select</option>
                                             <option value="Attending">Attending</option>
                                             <option value="Not Attending">Not Attending</option>
@@ -331,9 +336,6 @@ $group_capacity = $extra_inv_result['guest_extra_invites'];
         });
     </script>
 
-    <script>
-
-    </script>
 
     <script>
         var arrcount = 0;
