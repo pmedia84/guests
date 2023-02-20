@@ -19,7 +19,7 @@ if ($cms_type == "Wedding") {
 
     $wedding->execute();
     $wedding->store_result();
-    $wedding->bind_result($wedding_id, $wedding_name, $wedding_date, $wedding_email, $wedding_phone, $wedding_contact_name);
+    $wedding->bind_result($wedding_id, $wedding_name, $wedding_date, $wedding_time, $wedding_email, $wedding_phone, $wedding_contact_name);
     $wedding->fetch();
     $wedding->close();
     //load the guest ID for this logged in user
@@ -111,7 +111,7 @@ $group_capacity = $extra_inv_result['guest_extra_invites'];
                             <div class="std-card">
                                 <h2>Our <?= $invite['event_name']; ?></h2>
                                 <h3><?= $invite['event_location']; ?></h3>
-                                <p><?= $invite['event_notes']; ?></p>
+                                <p><?= html_entity_decode( $invite['event_notes']); ?></p>
                                 <p><strong>Date:</strong> <?php echo date('D d M Y', $event_date); ?></p>
                                 <p><strong>Time:</strong> <?php echo date('H:ia', $event_time); ?></p>
                                 <div class="invite-card-address">
@@ -122,7 +122,7 @@ $group_capacity = $extra_inv_result['guest_extra_invites'];
                                     </div>
                                 </div>
                                 <h2>RSVP Status</h2>
-                                <?php if ($invite['invite_rsvp_status'] == NULL || $invite['invite_rsvp_status']=="Not Replied") : ?>
+                                <?php if ($invite['invite_rsvp_status'] == NULL || $invite['invite_rsvp_status']=="Not replied") : ?>
                                     <p class="text-alert"><strong>Please respond to your invitation: <i class="fa-solid fa-flag"></i></strong></p>
                                     <div class="card-actions error">
                                         <a class="my-2 btn-primary alert" href="invite?action=respond&event_id=<?= $invite['event_id']; ?>">Respond To Invitation <i class="fa-solid fa-reply"></i></a>
@@ -215,7 +215,7 @@ $group_capacity = $extra_inv_result['guest_extra_invites'];
                                     <label for="event_rsvp"><strong>Please Select Your Response Below:</strong></label>
                                     <!-- input -->
                                     <select name="event_rsvp[<?php echo $count; ?>][rsvp]" required class="rsvp">
-                                        <?php if ($event_details['invite_rsvp_status'] == "" || $event_details['invite_rsvp_status']=="Not Replied") : ?>
+                                        <?php if ($event_details['invite_rsvp_status'] == "" || $event_details['invite_rsvp_status']=="Not replied") : ?>
                                             <option value="">Select</option>
                                             <option value="Attending">Attending</option>
                                             <option value="Not Attending">Not Attending</option>
