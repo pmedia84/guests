@@ -77,7 +77,7 @@ if ($cms_type == "Wedding") {
                         <h2>My Invitation</h2>
                         <i class="fa-solid fa-champagne-glasses"></i>
                         </div>
-                        <?php if ($user_invite_rsvp_status == NULL || $user_invite_rsvp_status =="Not replied") : ?>
+                        <?php if ($user_invite_rsvp_status == NULL || $user_invite_rsvp_status =="Not Replied") : ?>
                                     <p class="text-alert"><strong>Please respond to your invitation: <i class="fa-solid fa-circle-exclamation"></i></strong></p>
                                     <div class="card-actions error">
                                         <a class="my-2 btn-primary alert" href="invite?action=respond">Respond To Invitation <i class="fa-solid fa-reply"></i></a>
