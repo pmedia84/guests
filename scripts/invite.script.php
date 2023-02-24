@@ -11,6 +11,7 @@ require $_SERVER['DOCUMENT_ROOT'] . '/admin/mailer/Exception.php';
 //response variable
 $response = "";
 include("../connect.php");
+include("../inc/settings.php");
 
 //script is divided into different sections and is relevant to the requests
 
@@ -485,16 +486,20 @@ if (isset($_POST['action']) && $_POST['action'] == "response") {
         <table class="std-table guest_group">
             <tr>
                 <th>Name</th>
+                <?php if($guest_add_remove =="On"):?>
                 <th>Remove</th>
+                <?php endif;?>
             </tr>
             <?php foreach ($group_query as $member) : ?>
                 <tr>
                     <td><a href="guest.php?guest_id=<?= $member['guest_id']; ?>&action=view"><?= $member['guest_fname'] . ' ' . $member['guest_sname']; ?></a></td>
+                    <?php if($guest_add_remove =="On"):?>
                     <td>
                         <div class="guest-list-actions">
                             <button class="btn-primary btn-secondary remove_guest" data-guest_id="<?= $member['guest_id']; ?>" type="button"><i class="fa-solid fa-user-minus"></i></button>
                         </div>
                     </td>
+                    <?php endif;?>
                 </tr>
             <?php endforeach; ?>
         </table>
