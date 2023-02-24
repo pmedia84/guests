@@ -74,9 +74,11 @@ if (isset($_POST['action']) && $_POST['action'] == "pw_setup") {
     //rsvp status is set to setup tp prevent the code being used again
     $guest_rsvp_status = "setup";
     //verify that the email is not already used
-    $user_email = $db->query('SELECT user_email FROM users WHERE user_email ='.$_POST['guest_email'].' AND user_type="wedding_guest"');
-    $user_email ->fetch_assoc();
-    echo $user_email;
+    $user_email = $db->prepare('SELECT user_email FROM users WHERE user_email =? AND user_type="wedding_guest"');
+    $user_email ->bind_param('s',$_POST['guest_email']);
+    $user_email ->execute();
+   
+    
 
     //if there is already a user with this email then send back a response and stop the script.
     if($user_email ->num_rows >0){
@@ -85,7 +87,7 @@ if (isset($_POST['action']) && $_POST['action'] == "pw_setup") {
         echo $response;
         exit();
     }
-
+    $user_email ->close();
     //verify that passwords match
     $pw1 = mysqli_real_escape_string($db, $_POST['pw1']);
     $pw2 = mysqli_real_escape_string($db, $_POST['pw2']);
@@ -95,6 +97,7 @@ if (isset($_POST['action']) && $_POST['action'] == "pw_setup") {
 
         //Update guest table with email address and rsvp status to prevent code being used more than once
         $guest = $db->prepare('UPDATE guest_list SET guest_email=?, guest_rsvp_status=? WHERE guest_id =?');
+        echo mysqli_error($db);
         $guest->bind_param('ssi', $guest_email, $guest_rsvp_status, $guest_id);
         $guest->execute();
         $guest->close();
