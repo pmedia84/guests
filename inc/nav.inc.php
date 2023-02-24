@@ -16,6 +16,7 @@
                     <li><a class="nav-link" href="messaging">Message Us <i class="fa-solid fa-message"></i></a></li>
                 <?php endif;?>
                 <li><a class="nav-link" href="profile">My Profile <i class="fa-solid fa-address-book"></i></a></li>
+                <li><a class="nav-link" href="/">Return to Website <i class="fa-solid fa-laptop"></i></a></li>
             <?php endif;?>
         </ul>
     </div>

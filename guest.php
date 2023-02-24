@@ -14,9 +14,6 @@ $user_id = $_SESSION['user_id'];
 if (empty($_GET)) {
     header('Location: guest_group');
 }
-
-
-
 $user_type->close();
 //guest variable, only required for edit and view actions
 if ($_GET['action'] == "edit" || $_GET['action'] == "view" || $_GET['action'] == "delete") {
@@ -35,7 +32,7 @@ if ($_GET['action'] == "edit" || $_GET['action'] == "view" || $_GET['action'] ==
 
     $wedding->execute();
     $wedding->store_result();
-    $wedding->bind_result($wedding_id, $wedding_name, $wedding_date, $wedding_email, $wedding_phone, $wedding_contact_name);
+    $wedding->bind_result($wedding_id, $wedding_name, $wedding_date, $wedding_time, $wedding_email, $wedding_phone, $wedding_contact_name);
     $wedding->fetch();
     $wedding->close();
 } else {
@@ -50,7 +47,7 @@ if ($_GET['action'] == "edit" || $_GET['action'] == "view" || $_GET['action'] ==
 
     $wedding->execute();
     $wedding->store_result();
-    $wedding->bind_result($wedding_id, $wedding_name, $wedding_date, $wedding_email, $wedding_phone, $wedding_contact_name);
+    $wedding->bind_result($wedding_id, $wedding_name, $wedding_date, $wedding_time, $wedding_email, $wedding_phone, $wedding_contact_name);
     $wedding->fetch();
     $wedding->close();
     $guest_id = "";
@@ -81,8 +78,9 @@ if ($_GET['action'] == "edit" || $_GET['action'] == "view" || $_GET['action'] ==
         <!-- Header Section -->
         <?php include("inc/header.inc.php"); ?>
         <!-- Nav Bar -->
-        <?php include("./inc/nav.inc.php"); ?>
+        <?php include("./inc/nav.inc.php");?>
         <!-- /nav bar -->
+        
         <div class="body">
             <div class="breadcrumbs mb-2">
                 <a href="index.php" class="breadcrumb">Home</a> /
@@ -117,9 +115,11 @@ if ($_GET['action'] == "edit" || $_GET['action'] == "view" || $_GET['action'] ==
 
 
 
+                
 
                 <?php if ($_GET['action'] == "delete") : //if action is delete, detect if the confirm is yes or no
                 ?>
+                <?php if($guest_add_remove =="On"):?>
                     <?php if ($_GET['confirm'] == "yes") : //if yes then delete the guest
                     ?>
                         <?php if (($guest->num_rows) > 0) :
@@ -181,7 +181,12 @@ if ($_GET['action'] == "edit" || $_GET['action'] == "view" || $_GET['action'] ==
                     <?php endif; ?>
 
 
-
+                    <?php else:?>
+                    <div class="std-card">
+                        <h2>Remove Guest</h2>
+                        <p>This feature is not possible. You can't remove guests from your group. Please contact us if you need to make any changes.</p>
+                    </div>
+                <?php endif;?>
                 <?php endif; ?>
 
                 <?php if ($_GET['action'] == "create") : ?>
@@ -288,7 +293,7 @@ if ($_GET['action'] == "edit" || $_GET['action'] == "view" || $_GET['action'] ==
                                 <div class="form-input-wrapper">
                                     <label for="guest_sname"><strong>Surname</strong></label>
                                     <!-- input -->
-                                    <input class="text-input input" type="text" name="guest_sname" id="guest_sname" placeholder="Guest Surname" required="" maxlength="45" value="<?= $guest_sname; ?>">
+                                    <input class="text-input input" type="text" name="guest_sname" id="guest_sname" placeholder="Guest Surname" maxlength="45" value="<?= $guest_sname; ?>">
                                 </div>
 
                                 <div class="form-input-wrapper">
@@ -336,7 +341,9 @@ if ($_GET['action'] == "edit" || $_GET['action'] == "view" || $_GET['action'] ==
                             <p><?= $guest_dietery; ?></p>
                             <div class="card-actions">
                                 <a class="my-2" href="guest.php?action=edit&guest_id=<?= $guest_id ?>"><i class="fa-solid fa-pen-to-square"></i> Edit Guest </a><br>
+                                <?php if($guest_add_remove=="On"):?>
                                 <a class="my-2" href="guest.php?action=delete&confirm=no&guest_id=<?= $guest_id; ?>"><i class="fa-solid fa-trash"></i> Remove Guest </a>
+                                <?php endif;?>    
                             </div>
                         </div>
                         <?php endif; ?>
