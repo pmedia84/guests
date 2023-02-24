@@ -74,10 +74,10 @@ if (isset($_POST['action']) && $_POST['action'] == "pw_setup") {
     //rsvp status is set to setup tp prevent the code being used again
     $guest_rsvp_status = "setup";
     //verify that the email is not already used
-    $user_email = $db->prepare('SELECT user_email FROM users WHERE user_email =? AND user_type="wedding_guest"');
-    $user_email ->bind_param('s',$_POST['guest_email']);
-    $user_email->execute();
-    $user_email->store_result();
+    $user_email = $db->query('SELECT user_email FROM users WHERE user_email ='.$_POST['guest_email'].' AND user_type="wedding_guest"');
+    $user_email ->fetch_assoc();
+    echo $user_email;
+
     //if there is already a user with this email then send back a response and stop the script.
     if($user_email ->num_rows >0){
         $response ='<div class="form-response error"><p>A user with that email address already exists. Please provide another email address.</p></div>';

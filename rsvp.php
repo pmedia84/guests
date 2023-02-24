@@ -153,7 +153,7 @@ if ($cms_type == "Wedding") {
                     $("#response").html(data);
                     $("#response").slideDown(400);
                     if (data === 'success') {
-                       window.location.replace('index');
+                       //window.location.replace('index');
 
                     }
 
