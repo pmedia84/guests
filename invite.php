@@ -195,7 +195,6 @@ $group_capacity = $extra_inv_result['guest_extra_invites'];
                             <?php foreach ($event as $event_details) :
                                 $event_date = strtotime($event_details['event_date']);
                                 $event_time = strtotime($event_details['event_time']);
-                                echo $_SERVER['DOCUMENT_ROOT'];
                             ?>
                             
                             <?php if (isset($_GET['action'])) : ?>

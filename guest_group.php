@@ -103,9 +103,11 @@ $invite_status->close();
                     <h1><i class="fa-solid fa-people-group"></i> <?= $group_name; ?>'s Guest Group</h1>
                 <?php endif; ?>
             <?php if($invite_rsvp_status=="Attending")://check if the guest has responded?>
+                <?php if($guest_add_remove =="On"):?>
                 <div class="search-controls">
                     <a href="guest.php?action=create" class="btn-primary">Add Guest <i class="fa-solid fa-user-plus"></i></a>
                 </div>
+                <?php endif;?>
                 <div class="guest-group-stats-container">
                     <div class="guest-group-stats">
                         <span class="guest-group-stats-title">Invites Available: </span>
@@ -120,7 +122,9 @@ $invite_status->close();
                         <span class="guest-group-stat"><?= $remaining_inv; ?></span>
                     </div>
                 </div>
+                <?php if($guest_add_remove =="On"):?>
                 <p>When you add a guest, they will automatically be added to your invitations</p>
+                <?php endif;?>
                 <?php if (($group_query->num_rows) > 0) : ?>
                     <div class="std-card">
                         <h2>My Group</h2>
