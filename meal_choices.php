@@ -234,7 +234,7 @@ $guest_type_r = mysqli_fetch_assoc($guest_type_q);
                             </div>
                             <div class="form-actions">
                                 <button id="prev" type="button" class="btn-primary btn-secondary">Previous</button>
-                                <button id="next" type="button" class="btn-primary">Next</button>
+                                <button id="next" type="button" class="btn-primary form-controls-btn loading-btn"><span id="btn-text">Next</span> <img id="loading-icon" class="loading-icon d-none" src="./assets/img/icons/loading.svg" alt=""></button>
                             </div>
                         </form>
                     </div>

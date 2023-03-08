@@ -1,8 +1,8 @@
 const tabs = $(".form-tab");
-const form= document.getElementById("meal_choices");
+const form = document.getElementById("meal_choices");
 let pos = form.offsetTop;
 //add the amount of steps required
-for(let i=0; i<tabs.length; i++){
+for (let i = 0; i < tabs.length; i++) {
     $("#progress").append("<span class='step'></span>");
 }
 const steps = $(".step");
@@ -21,6 +21,20 @@ if (currentTab == 0) {
 //hide the first tab and show the next one
 $("#next").on("click", function () {
     if (currentTab == tabs.length - 1) {
+        //determine if the guest has selected an option from each course
+        let inputs_chk = tabs[currentTab].querySelectorAll('input[type="radio"]:checked');
+        let num_courses = tabs[currentTab].getElementsByClassName("meal-choice-card");
+        console.log("Number of courses", num_courses.length);
+        if (inputs_chk.length < num_courses.length) {
+            let missing = num_courses.length - inputs_chk.length;
+            console.log("missing " + missing + " Options");
+            $("#response-card-text").html("You have not selected " + missing + " of your options, please try again.");
+            $(".response-card").addClass("error-card");
+            $("#response-card-wrapper").fadeIn(400);
+            $("#response-card-wrapper").delay(3000).fadeOut(400);
+            window.scrollTo(top);
+            return false
+        }
         //submit form data if reached the end of the form
         let formData = new FormData($("#meal_choices").get(0));
         let action = "set_choices";
@@ -31,15 +45,16 @@ $("#next").on("click", function () {
             data: formData,
             contentType: false,
             processData: false,
+            beforeSend: function () {
+                $("#loading-icon").show(400);
+            },
             success: function (data, responseText) {
                 if (data === '1') {
-                    window.location.replace("meal_choices");
-                } else {
-                    $("#response").html(data);
-                    $("#response").slideDown(400);
+                    $("#loading-icon").hide(400);
+                    window.location.replace("meal_choices")
                 }
-    
-    
+
+
             }
         });
         return false
@@ -48,10 +63,10 @@ $("#next").on("click", function () {
         let inputs_chk = tabs[currentTab].querySelectorAll('input[type="radio"]:checked');
         let num_courses = tabs[currentTab].getElementsByClassName("meal-choice-card");
         console.log("Number of courses", num_courses.length);
-        if(inputs_chk.length < num_courses.length){
+        if (inputs_chk.length < num_courses.length) {
             let missing = num_courses.length - inputs_chk.length;
-            console.log("missing "+ missing +" Options");
-            $("#response-card-text").html("You have not selected "+ missing +" of your options, please try again.");
+            console.log("missing " + missing + " Options");
+            $("#response-card-text").html("You have not selected " + missing + " of your options, please try again.");
             $(".response-card").addClass("error-card");
             $("#response-card-wrapper").fadeIn(400);
             $("#response-card-wrapper").delay(3000).fadeOut(400);
@@ -68,7 +83,7 @@ $("#next").on("click", function () {
             $("#prev").show();
         }
         if (currentTab == tabs.length - 1) {
-            $("#next").html("Save Choices");
+            $("#btn-text").html("Save Choices");
         }
     }
 })
@@ -83,7 +98,7 @@ $("#prev").on("click", function () {
         $("#prev").hide();
     }
     if (currentTab <= tabs.length - 1) {
-        $("#next").html("Next");
+        $("#btn-text").html("Next");
     }
 })
 
