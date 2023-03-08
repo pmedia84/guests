@@ -176,7 +176,7 @@ $guest_type_r = mysqli_fetch_assoc($guest_type_q);
                     <div class="std-card">
                         <h2>Your Choices</h2>
                         <p>Please let us know you meal choices, along with any additional guests you may be bringing</p>
-                        <form action="POST" id="meal_choices">
+                        <form action="POST" id="meal_choices" data-guest_name="<?=$_SESSION['user_name'];?>" data-guest_id="<?=$guest_id;?>">
                             
                             <div class="form-tab">
                             <h2><?= $_SESSION['user_name']; ?></h2>

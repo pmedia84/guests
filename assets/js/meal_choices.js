@@ -10,7 +10,7 @@ var currentTab = 0;
 var stepCount = 0;
 tabs[currentTab].classList.add("form-tab-active");
 if (currentTab == tabs.length - 1) {
-    $("#next").html("Submit");
+    $("#btn-text").html("Submit");
 }
 //set the progress steps
 steps[stepCount].classList.add("active");
@@ -38,7 +38,11 @@ $("#next").on("click", function () {
         //submit form data if reached the end of the form
         let formData = new FormData($("#meal_choices").get(0));
         let action = "set_choices";
+        let guest_name = $('#meal_choices').data("guest_name");
+        let guest_id = $('#meal_choices').data("guest_id");
         formData.append("action", action);
+        formData.append("guest_name", guest_name);
+        formData.append("guest_id", guest_id);
         $.ajax({ //start ajax post
             type: "POST",
             url: "scripts/meal_choices.script.php",
@@ -51,7 +55,7 @@ $("#next").on("click", function () {
             success: function (data, responseText) {
                 if (data === '1') {
                     $("#loading-icon").hide(400);
-                    window.location.replace("meal_choices")
+                    //window.location.replace("meal_choices")
                 }
 
 
