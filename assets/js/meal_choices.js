@@ -55,7 +55,7 @@ $("#next").on("click", function () {
             success: function (data, responseText) {
                 if (data === '1') {
                     $("#loading-icon").hide(400);
-                    //window.location.replace("meal_choices")
+                    window.location.replace("meal_choices")
                 }
 
 
