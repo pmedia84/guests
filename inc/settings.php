@@ -12,7 +12,7 @@ $settings->fetch();
 //Business with services and reviews etc
 //Or wedding site with rsvp features etc
 
-include($_SERVER['DOCUMENT_ROOT']."/email_settings.php");
+include($_SERVER['DOCUMENT_ROOT'] . "/email_settings.php");
 ////////////////Modules Available\\\\\\\\\\\\\\\\\\\\
 //connect to modules table and load available modules
 $modules_query = ('SELECT module_name, module_status FROM modules');
@@ -73,4 +73,12 @@ foreach ($wedding_modules as $wedding_module) {
     if ($wedding_module['wedding_module_name'] == "Add & Remove Guests") {
         $guest_add_remove = $wedding_module['wedding_module_status'];
     }
+    //Provide Meal Choices
+    if ($wedding_module['wedding_module_name'] == "Meal Choices") {
+        $meal_choices_status = $wedding_module['wedding_module_status'];
+    }
+}
+//check if the guest has submitted meal choices if this feature is switched on.
+if ($meal_choices_status == "On") {
+    
 }

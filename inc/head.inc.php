@@ -36,6 +36,7 @@
         $guest_type = $user_type_result['guest_type'];
         $user_invite_rsvp_status = $user_type_result['invite_rsvp_status'];
         
+
         
     }
 

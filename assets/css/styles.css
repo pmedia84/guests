@@ -263,7 +263,7 @@ a:hover{
     gap: 1rem;
     place-self: start;
 width: 100%;
-max-width: 900px;
+max-width: 1200px;
 margin: 0 auto;
 
 } 
@@ -1095,6 +1095,125 @@ input:checked + .slider:before {
 }
     } 
 
+/*///custom radio button for menu choices*/ 
+
+/* Customize the label (the container) */ 
+
+.radio-label {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 1.25rem;
+    -webkit-user-select: none;
+    user-select: none;
+  } 
+
+.radio-label p{
+        font-size: 1rem;
+    } 
+
+/* Hide the browser's default radio button */ 
+
+.radio-label input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  } 
+
+/* Create a custom radio button */ 
+
+.checkmark {
+    position: absolute;
+    top: 2px;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #fff;
+    border: 1px solid #7f688d;
+    border-radius: 50%;
+  } 
+
+/* On mouse-over, add a grey background color */ 
+
+.radio-label:hover input ~ .checkmark {
+    background-color: #ccc;
+  } 
+
+/* When the radio button is checked, add a blue background */ 
+
+.radio-label input:checked ~ .checkmark {
+    background-color: #7f688d;
+  } 
+
+/* Create the indicator (the dot/circle - hidden when not checked) */ 
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  } 
+
+/* Show the indicator (dot/circle) when checked */ 
+
+.radio-label input:checked ~ .checkmark:after {
+    display: block;
+  } 
+
+/* Style the indicator (dot/circle) */ 
+
+.radio-label .checkmark:after {
+    top: 8px;
+    left: 8px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: white;
+  } 
+
+/*/multi step form*/ 
+
+.form-progress{
+    width: 100%;
+    margin-inline: auto;
+    text-align: center;
+    padding-block: 1.5rem;
+  } 
+
+.faded{
+    opacity: .4;
+  } 
+
+/*default*/ 
+
+.step{
+    display: inline-block;
+    background-color: hsl(270, 27%, 95%);
+    height: 16px;
+    width: 16px;
+    border-radius: 100%;
+    margin-inline: 0.25rem;
+} 
+
+/*active step icon*/ 
+
+.active{ 
+    background-color: #7f688d;
+  } 
+
+/* hide the tab by default*/ 
+
+.form-tab{
+display: none;
+  } 
+
+.form-tab-active{
+display: block;
+  } 
+
 /*dashboard card*/ 
 
 .dashboard-card{
@@ -1200,13 +1319,19 @@ input:checked + .slider:before {
     overflow: hidden;
 } 
 
-.card-actions{
+.card-actions, .form-actions{
     background-color: hsl(270, 27%, 95%);
     padding: 0.5rem;
     border-radius: 5px;
     margin-block: 1.5rem;
     display: flex;
     flex-direction: column;
+} 
+
+.form-actions{
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 1.5rem;
 } 
 
 .news-item-status{
@@ -1442,6 +1567,122 @@ input:checked + .slider:before {
 .guest-group-member .btn-remove-guest svg{
             height: 100%;
         } 
+
+.menu h2{
+        font-size: 1.5rem;
+    } 
+
+.menu h3{
+        font-size: 1.25rem;
+    } 
+
+.menu h4{
+        font-size: 1rem;
+    } 
+
+.menu h2, .menu h3, .menu p, .menu h4{
+        text-align: center;
+    } 
+
+.menu-item{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin-inline: auto;
+    gap: 0.25rem;
+} 
+
+.menu-item svg path{
+        fill: hsl(270, 27%, 80%);
+
+    } 
+
+.menu-item:hover svg path{
+        fill: #7f688d;
+    } 
+
+.menu-item-actions{
+    display: flex;
+    gap: 0.5rem;
+} 
+
+.menu-item-actions .btn-delete{
+        width: 33.33px;
+        display: grid;
+        place-items: center;
+    } 
+
+.menu-item-actions .btn-delete svg{
+            height: 100%;
+            margin: 0;
+        } 
+
+.menu-item-actions .btn-delete svg path{
+                fill: #FFF;
+            } 
+
+.meal-choice-card{
+    width: 90%;
+    margin-inline: auto;
+    background-color: hsl(270, 27%, 95%);
+    margin-block: 0.5rem;
+    border: 1px solid #7f688d;
+    border-radius: 5px;
+    padding: 0.5rem;
+} 
+
+.meal-choice{
+    border-bottom: 1px solid #7f688d;
+} 
+
+.response-card-wrapper{
+        
+    position: fixed;
+    top: 50%;
+    left: 10px;
+    right: 10px;
+    z-index: 1000;
+} 
+
+@media(min-width:768px){
+    .response-card-wrapper{
+        
+        left: auto;
+        right: 25px;
+    }
+} 
+
+.response-card{
+    padding-block: 1.5rem;
+    border: 1px solid #7f688d;
+    border-left: 5px solid #7f688d;
+    border-radius: 5px;
+    background-color: #fff;
+    display: flex;
+    gap: 1.5rem;
+} 
+
+.response-card-icon{
+    padding-inline: 0.5rem;
+} 
+
+.response-card-icon svg path{
+        fill: #7f688d;
+    } 
+
+.response-card-body{
+    padding-inline-end: 0.5rem;
+} 
+
+.error-card{
+    /*modifier class for an error*/
+    border-color: hsl(0, 95%, 67%);
+} 
+
+.error-card .response-card-icon svg path{
+        fill: hsl(0, 95%, 67%)
+    } 
 
 /*Form response for displaying server messages*/ 
 

@@ -82,7 +82,7 @@
     max-height: 25ch;
     overflow: hidden;
 }
-.card-actions{
+.card-actions, .form-actions{
     background-color: $primary-950;
     padding: $spacer-2;
     border-radius: 5px;
@@ -91,6 +91,11 @@
     flex-direction: column;
 }
 
+.form-actions{
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: $spacer-3;
+}
 .news-item-status{
     font-size: 1.5rem;
     font-weight: 100;
@@ -284,5 +289,108 @@
         svg{
             height: 100%;
         }
+    }
+}
+
+.menu{
+    h2{
+        font-size: $fs-150;
+    }
+    h3{
+        font-size: $fs-125;
+    }
+    h4{
+        font-size: $fs-100;
+    }
+    h2, h3, p, h4{
+        text-align: center;
+    }
+}
+.menu-item{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin-inline: auto;
+    gap: $spacer-1;
+    svg path{
+        fill: $primary-800;
+
+    }
+
+    &:hover svg path{
+        fill: $primary;
+    }
+}
+
+.menu-item-actions{
+    display: flex;
+    gap: $spacer-2;
+    .btn-delete{
+        width: 33.33px;
+        display: grid;
+        place-items: center;
+        svg{
+            height: 100%;
+            margin: 0;
+            path{
+                fill: #FFF;
+            }
+        }
+    }
+}
+
+.meal-choice-card{
+    width: 90%;
+    margin-inline: auto;
+    background-color: $primary-950;
+    margin-block: $spacer-2;
+    border: 1px solid $primary;
+    border-radius: 5px;
+    padding: $spacer-2;
+}
+.meal-choice{
+    border-bottom: 1px solid $primary;
+}
+
+.response-card-wrapper{
+        
+    position: fixed;
+    top: 50%;
+    left: 10px;
+    right: 10px;
+    z-index: 1000;
+}
+@media(min-width:$md){
+    .response-card-wrapper{
+        
+        left: auto;
+        right: 25px;
+    }
+}
+.response-card{
+    padding-block: $spacer-3;
+    border: 1px solid $primary;
+    border-left: 5px solid $primary;
+    border-radius: 5px;
+    background-color: #fff;
+    display: flex;
+    gap: $spacer-3;
+}
+.response-card-icon{
+    padding-inline: $spacer-2;
+    svg path{
+        fill: $primary;
+    }
+}
+.response-card-body{
+    padding-inline-end: $spacer-2;
+}
+
+.error-card{
+    //modifier class for an error
+    border-color: $error-response;
+    .response-card-icon svg path{
+        fill: $error-response
     }
 }

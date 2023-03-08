@@ -53,7 +53,8 @@ $guest_extra_inv = $db->query('SELECT guest_extra_invites FROM guest_list WHERE 
 $extra_inv_result = $guest_extra_inv->fetch_assoc();
 $group_capacity = $extra_inv_result['guest_extra_invites'];
 
-
+//prevent errors with scripts
+$available_inv = "";
 
 
 
@@ -320,7 +321,7 @@ $group_capacity = $extra_inv_result['guest_extra_invites'];
                 },
                 success: function(data, status, xhr) {
                     if (data === "success") {
-                        window.location.replace('invite');
+                        window.location.replace('meal_choices');
                     }
                     $("#response").html(data);
                     $("#response").slideDown(400);
