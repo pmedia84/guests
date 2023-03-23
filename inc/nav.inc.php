@@ -18,6 +18,9 @@
                 <?php if($guest_messaging_status == "On"):?>
                     <li><a class="nav-link" href="messaging">Message Us <i class="fa-solid fa-message"></i></a></li>
                 <?php endif;?>
+                <?php if($guest_image_gallery == "On" && $guest_area_gallery_status == "On" ):?>
+                    <li><a class="nav-link <?php if(str_contains($_SERVER['REQUEST_URI'], "gallery")){echo"link-active";}?>" href="gallery">Photo Gallery <i class="fa-solid fa-images"></i></a></li>
+                <?php endif;?>
                 <li><a class="nav-link <?php if(str_contains($_SERVER['REQUEST_URI'], "profile")){echo"link-active";}?> " href="profile">My Profile <i class="fa-solid fa-address-book"></i></a></li>
                 <li><a class="nav-link" href="/">Return to Website <i class="fa-solid fa-laptop"></i></a></li>
             <?php endif;?>

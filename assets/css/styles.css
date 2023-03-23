@@ -244,8 +244,9 @@ a:hover{
 /*Main admin page*/ 
 .main {
     position: relative;
-    display: grid;
+    /*display: grid;*/
     gap: 1rem;
+    grid-template-columns: 1fr;
     padding: 1rem;
 } 
 .main-dashboard {
@@ -259,9 +260,9 @@ a:hover{
     background-color: hsl(270, 27%, 90%);
     padding: .5rem;
     border-radius: 10px;
-    display: grid;
+    /*display: grid;*/
     gap: 1rem;
-    place-self: start;
+    grid-template-columns: 1fr;
 width: 100%;
 max-width: 1200px;
 margin: 0 auto;
@@ -273,6 +274,7 @@ margin: 0 auto;
 /*settings for larger screens*/ 
 @media (min-width: 768px) {
     .main {
+        display: grid;
         grid-template-columns: 250px 1fr 250px;
         grid-template-rows: auto auto auto auto 1fr;
         grid-template-rows: min-content auto;
@@ -297,6 +299,7 @@ margin: 0 auto;
         grid-row: 2/4;
     }
 .main-cards{
+    display: grid;
     grid-row: 2/4;
     grid-column: 3/4;
     padding: 1rem;
@@ -346,42 +349,112 @@ margin: 0 auto;
         grid-column: 1/2;
         width: 100%;
     } 
-/*///Image gallery*/ 
-.img-card{
-    border: 1px solid #7f688d;
-    background-color: #fff;
-    border-radius: 5px;
-    padding: 0.5rem;
-    place-self: start;
-    width: 100%;
+.img-card {
+  position: relative;
+  height: 250px;
+} 
+.img-card-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(255, 255, 255, 0.61);
+  padding: 0.5rem;
+  font-size: 1rem;
+  text-align: center;
+} 
+.gallery-img {
+  cursor: pointer;
 
 } 
-.img-card-header-img{
-    position: relative;
+.gallery-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 } 
-.img-card-header-img img{
-        height: 200px;
-        width: 100%;
-        object-fit: cover;
-    } 
-.img-card-header-img h3{
-        position: absolute;
-        bottom: 0;
-        width: 100%;
-        padding: 0.5rem;
-        background-color: rgba(255, 255, 255, 0.427);
-        text-align: center;
-    } 
-.img-card-body-text{
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+/* Hide the slides by default */ 
+.gallery-slide {
+  display: none;
+  height: 100%;
 
 } 
-.delete-thumb{
-    /*thumbnail for delete page*/
-    height: 150px;
+/*Slide body*/ 
+.slide-body {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+  grid-template-rows: 1fr 50px;
+} 
+.slide-body-img {
+  justify-self: center;
+} 
+.slide-body-img img {
+    max-height: 60vh;
+  } 
+.slide-body-caption {
+
+  padding: 1rem;
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100%;
+} 
+.gallery-card {
+  border-radius: 10px;
+  background-color: #fff;
+  padding: 0.5rem;
+
+
+} 
+.gallery-card img {
+    width: unset !important;
+  } 
+.thumbnail-img {
+  opacity: .6;
+  transition: opacity 300ms ease-out;
+} 
+.active {
+  opacity: 1;
+  transition: opacity 300ms ease-out;
+} 
+/* Next & previous buttons */ 
+.prev,
+  .next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    padding: 16px;
+    margin-top: -50px;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    transition: 0.6s ease;
+    border-radius: 0 3px 3px 0;
+    user-select: none;
+    -webkit-user-select: none;
+    background-color: rgba(0, 0, 0, 0.8);
+  } 
+/* Position the "next button" to the right */ 
+.next {
+    right: 0;
+    border-radius: 0 3px 3px 0;
+  } 
+/* Position the "prev button" to the left */ 
+.prev {
+    left: 0;
+    border-radius: 3px 0 0 3px;
+  } 
+/* On hover, add a black background color with a little bit see-through */ 
+.prev:hover,
+    .next:hover {
+      background-color: rgba(0, 0, 0, 0.8);
+    } 
+/*gallery div for ajax inserted data*/ 
+.gallery-wrapper{
+  min-height: 890px ;
+  position: relative;
 } 
 .gift-item-thumb{
     height: 150px;
@@ -462,6 +535,16 @@ grid-column: 2/3;
         grid-auto-rows: minmax(100px, auto)
 }
     } 
+.grid-row-6col{/*grid row with 3 columns of equal width*/
+    display: grid;
+    gap: 0.5rem;
+} 
+@media(min-width:768px){ 
+.grid-row-6col{
+        grid-template-columns: repeat(3, 1fr);
+        grid-auto-rows: 250px
+}
+    } 
 /*Utility classes for grid */ 
 .place-grid-start{/*places a grid item at the top of a grid row*/
     place-self: start;
@@ -469,7 +552,7 @@ grid-column: 2/3;
 .grid-auto-sm{ /*auto grid small columns*/
     display: grid;
     gap: 0.25rem;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
 } 
 .container-fluid,
 .container{
@@ -1689,7 +1772,7 @@ display: block;
 .modal{/*modal outer with background, covers whole screen*/
     display: grid;
     place-items: center;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.95);
     position: fixed;
     top: 0;
     left: 0;
@@ -1701,28 +1784,73 @@ display: block;
     transition: opacity 300ms ease-out;
  } 
 
+/* The Modal (background) */ 
+
+.gallery-modal {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    opacity: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 50px 1fr auto;
+    pointer-events: none;
+    transition: opacity 300ms ease-out;
+    background-color: rgba(0, 0, 0, 0.95);
+  } 
+
 /*Defines the body of the modal, centered on screen with a close icon to dismiss*/ 
 
-.modal-body{
-    border: 1px solid #7f688d;
-    border-radius: 10px;
-    background-color: #fff;
-    padding: 1.5rem;
-    width: 75%;
-    max-width: 580px;
-} 
+/* Modal Content */ 
 
-.modal-close{/*header section with close button set to the right*/
-    background-color: rgb(240, 240, 240);
-    padding: 0.5rem 1rem 0.5rem 1rem;
+.modal-content {
+    position: relative;
+    padding: 0;
+    width: 90%;
+    margin: 0 auto;
+    max-width: 1200px;
+    height: 100%;
+    display: grid;
+    place-items: center;
+  } 
+
+/*/thumbnails*/ 
+
+.thumbnails{
+    width: auto;
+    margin: 0 auto;
+    overflow-x: auto;
     display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    width: 100%;
-    border-bottom: 1px solid #7f688d;
-    border-top-left-radius: inherit;
-    border-top-right-radius: inherit;
-} 
+  } 
+
+.thumbnails img{
+      height: 150px;
+    } 
+
+.thumbnails::-webkit-scrollbar{ /*defines scrollbar width*/
+    width: 2px;
+    
+  } 
+
+/* The Close Button */ 
+
+.modal-close {
+    color: white;
+    justify-self: right;
+    font-size: 35px;
+    font-weight: bold;
+    margin-right: 20px;
+  } 
+
+/* On hover, add a black background color with a little bit see-through */ 
+
+.prev:hover,
+  .next:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+  } 
 
 .modal-button-section{/*footer with a confirm button*/
     padding: 0.5rem 1rem 0.5rem 1rem;
@@ -1741,6 +1869,44 @@ display: block;
     transition: opacity 400ms ease-out;
     pointer-events: all;
 } 
+
+/* Number text (1/3 etc) */ 
+
+.numbertext {
+    color: #f2f2f2;
+    font-size: 12px;
+    padding: 8px 12px;
+    position: absolute;
+    margin-block: 15px;
+    top: 0;
+    left:0;
+  } 
+
+/* Caption text */ 
+
+.caption-container {
+    text-align: center;
+    background-color: black;
+    padding: 2px 16px;
+    color: white;
+  } 
+
+img.slide-thumbnail {
+    opacity: 0.6;
+  } 
+
+.active,
+  .slide-thumbnail:hover {
+    opacity: 1;
+  } 
+
+img.hover-shadow {
+    transition: 0.3s;
+  } 
+
+.hover-shadow:hover {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  } 
 
 .cookie-overlay {/*container*/
   display: none;
@@ -1801,7 +1967,8 @@ display: block;
   } 
 
 .loader{
-    background-color: rgba(0, 0, 0, 0.5);
+    /*full size spinner for larger content*/
+    background-color: rgb(255, 255, 255);
     position: absolute;
     top: 0;
     left: 0;
@@ -1809,13 +1976,17 @@ display: block;
     bottom: 0;
     display: grid;
     place-items: center;
+    z-index: 100;
 } 
 
 .loader-spinner{
     height: 25%;
     animation: loader 3s infinite ease-in-out;
-    
 } 
+
+.loader-spinner path{
+        fill: rgb(63, 63, 63);
+    } 
 
 @keyframes loader{
     0%{transform: rotate(0);}
@@ -1884,7 +2055,47 @@ display: block;
 
 .countdown-subtitle {
     color: #7f688d;
-  }
+  } 
+
+.pagination{
+    width: 100%;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+} 
+
+.pagination li{
+        border: 1px solid hsl(270, 27%, 90%);
+       
+    } 
+
+.pagination li:first-of-type{
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+    } 
+
+.pagination li:last-of-type{
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+    } 
+
+.pagination a{
+        display: block;
+        padding: .375rem 0.75rem;
+        text-decoration: none;
+        transition: background-color 300ms ease-out;
+        border-radius: inherit;
+    } 
+
+.pagination a:hover{
+            background-color: hsl(270, 27%, 80%);
+            transition: background-color 300ms ease-out;
+        } 
+
+.links-active{
+    background-color: #7f688d;
+    color: hsl(270, 27%, 95%);
+}
 /*spacing utilities*/
 /*m = margin*/
 /*p = padding*/

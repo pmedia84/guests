@@ -58,6 +58,11 @@ foreach ($modules as $module) {
     if ($module['module_name'] == "Gift List") {
         $gift_list_status = $module['module_status'];
     }
+    //Image Gallery - allow guests to contribute
+    if ($module['module_name'] == "Guest Image Gallery") {
+        $guest_image_gallery = $module['module_status'];
+        
+    }
 }
 //connect to modules table and load available modules for the wedding site
 $wedding_modules_query = ('SELECT wedding_module_name, wedding_module_status FROM wedding_modules');
@@ -76,6 +81,10 @@ foreach ($wedding_modules as $wedding_module) {
     //Provide Meal Choices
     if ($wedding_module['wedding_module_name'] == "Meal Choices") {
         $meal_choices_status = $wedding_module['wedding_module_status'];
+    }
+    //Guest Image Gallery - Allow guests to view image gallery and submit their own images.
+    if ($wedding_module['wedding_module_name'] == "Meal Choices") {
+        $guest_area_gallery_status = $wedding_module['wedding_module_status'];
     }
 }
 //check if the guest has submitted meal choices if this feature is switched on.
