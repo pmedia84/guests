@@ -1,0 +1,43 @@
+//menu footer for bottom of small screens
+.actions-bar{
+    opacity: 0;
+    background-color: $primary-950;
+    position: fixed;
+    bottom: env(safe-area-inset-bottom, 5px);
+    left: 5px;
+    right: 5px;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    scale: .5;
+    transition: opacity 300ms ease-out, scale 300ms ease-out;
+    .btn-primary{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-size: .75rem;
+        svg{
+            margin: 0;
+        }
+    }
+}
+
+.visible{
+    opacity: 1;
+    scale: 1;
+    transition: opacity 300ms ease-out, scale 300ms ease-out;
+}
+@media(min-width: $md){
+    .actions-bar{
+        position: sticky;
+        top: 5px;
+        bottom: unset;
+        opacity: 1;
+        scale: 1;
+        justify-content: left;
+        .btn-primary{
+            font-size: 1rem;
+        }
+    }
+}

@@ -1,38 +1,22 @@
 <?php
 session_start();
-
-$location = urlencode($_SERVER['REQUEST_URI']);
-if (!$_SESSION['loggedin'] == TRUE) {
-    // Redirect to the login page:
-
-    header("Location: login.php?location=" . $location);
-}
+require("scripts/functions.php");
+check_login();
+$user = new User();
+$wedding = new Wedding();
 include("connect.php");
 include("inc/head.inc.php");
 include("inc/settings.php");
-if ($meal_choices_status == "Off") {
+if ($meal_choices_m->status() == "Off") {
     header("Location: index");
 }
-
 //run checks to make sure a wedding has been set up correctly
 if ($cms_type == "Wedding") {
     //look for the Wedding set up and load information
-    //find Wedding details.
-    $wedding = $db->prepare('SELECT * FROM wedding');
 
-    $wedding->execute();
-    $wedding->store_result();
-    $wedding->bind_result($wedding_id, $wedding_name, $wedding_date, $wedding_time, $wedding_email, $wedding_phone, $wedding_contact_name);
-    $wedding->fetch();
-    $wedding->close();
-    //load the guest ID for this logged in user
-    $guest = $db->prepare('SELECT guest_id FROM users WHERE user_id =' . $_SESSION['user_id']);
-    $guest->execute();
-    $guest->bind_result($guest_id);
-    $guest->fetch();
-    $guest->close();
+
     //check to see if a meal choices order has been set up for this guest.
-    $meal_order_q = $db->query('SELECT choice_order_id FROM meal_choice_order WHERE guest_id=' . $guest_id);
+    $meal_order_q = $db->query('SELECT choice_order_id FROM meal_choice_order WHERE guest_id=' . $user->guest_id());
     // find the guest group that this user manages
     $guest_group_id_query = $db->query('SELECT users.user_id, users.guest_id, guest_groups.guest_group_organiser, guest_groups.guest_group_id FROM users LEFT JOIN guest_groups ON guest_groups.guest_group_organiser=users.guest_id WHERE users.user_id =' . $user_id);
     $group_id_result = $guest_group_id_query->fetch_assoc();
@@ -46,13 +30,13 @@ if ($cms_type == "Wedding") {
 //////////////////////////////////////////////////////////////////Everything above this applies to each page\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 //load details of meal options and the menu
 //find the event this guest is invited to
-$event_query = $db->query('SELECT event_id FROM invitations WHERE guest_id=' . $guest_id);
+$event_query = $db->query('SELECT event_id FROM invitations WHERE guest_id=' . $user->guest_id());
 $event_result = mysqli_fetch_assoc($event_query);
 $event_id = $event_result['event_id'];
 $menu_query = $db->query('SELECT menu.menu_name, menu.menu_id, menu.event_id, wedding_events.event_id, wedding_events.event_name FROM menu LEFT JOIN wedding_events ON wedding_events.event_id=menu.event_id WHERE menu.event_id=' . $event_id);
 $menu_result = mysqli_fetch_assoc($menu_query);
 $menu_id = $menu_result['menu_id'];
-$guest_type_q = $db->query('SELECT guest_type FROM guest_list WHERE guest_id=' . $guest_id);
+$guest_type_q = $db->query('SELECT guest_type FROM guest_list WHERE guest_id=' . $user->guest_id());
 $guest_type_r = mysqli_fetch_assoc($guest_type_q);
 ?>
 <!-- Meta Tags For Each Page -->
@@ -89,7 +73,7 @@ $guest_type_r = mysqli_fetch_assoc($guest_type_q);
                                 $menu_query = $db->query('SELECT menu.menu_name, menu.menu_id, menu.event_id, wedding_events.event_id, wedding_events.event_name FROM menu LEFT JOIN wedding_events ON wedding_events.event_id=menu.event_id WHERE menu.menu_id=' . $menu['menu_id']);
                                 $menu_result = mysqli_fetch_assoc($menu_query);
                                 $menu_courses = $db->query('SELECT course_name, course_id FROM menu_courses');
-                                $meal_choices_q = $db->query('SELECT menu_items.menu_item_id, menu_items.menu_item_name, menu_items.course_id, meal_choices.menu_item_id, meal_choices.choice_order_id, meal_choice_order.choice_order_id, meal_choice_order.guest_id, menu_courses.course_name, menu_courses.course_id  FROM menu_items LEFT JOIN meal_choices ON meal_choices.menu_item_id=menu_items.menu_item_id LEFT JOIN meal_choice_order ON meal_choices.choice_order_id=meal_choice_order.choice_order_id LEFT JOIN menu_courses ON menu_courses.course_id=menu_items.course_id WHERE meal_choice_order.guest_id=' . $guest_id);
+                                $meal_choices_q = $db->query('SELECT menu_items.menu_item_id, menu_items.menu_item_name, menu_items.course_id, meal_choices.menu_item_id, meal_choices.choice_order_id, meal_choice_order.choice_order_id, meal_choice_order.guest_id, menu_courses.course_name, menu_courses.course_id  FROM menu_items LEFT JOIN meal_choices ON meal_choices.menu_item_id=menu_items.menu_item_id LEFT JOIN meal_choice_order ON meal_choices.choice_order_id=meal_choice_order.choice_order_id LEFT JOIN menu_courses ON menu_courses.course_id=menu_items.course_id WHERE meal_choice_order.guest_id=' . $user->guest_id());
                             ?>
                                 <?php if ($menu_query->num_rows > 0) : ?>
                                     <div class="menu my-3" id="menus">
@@ -125,7 +109,7 @@ $guest_type_r = mysqli_fetch_assoc($guest_type_q);
                     </div>
                     <div class="std-card">
                         <?php if ($meal_order_q->num_rows == 0) : ?>
-                            <h2><?= $_SESSION['user_name']; ?>, please let us know your choices next.</h2>
+                            <h2><?= $_SESSION['user_name']; ?>, please let us know your meal choices.</h2>
                             <div class="card-actions">
                                 <a href="meal_choices?action=choose" class="btn-primary">Provide My Choices</a>
                             </div>

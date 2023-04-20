@@ -22,3 +22,7 @@
     0%{transform: rotate(0);}
     100%{transform: rotate(360deg);}
 }
+//icon class using FA animated spinner
+.spinner-icon{
+    margin-inline: $spacer-2;
+}

@@ -117,6 +117,74 @@
 //gallery div for ajax inserted data
 
 .gallery-wrapper{
-  min-height: 890px ;
+  min-height: 500px ;
   position: relative;
 }
+
+///* Guest image gallery cards
+//Guest img card with a different colors etc to highlight approved images
+.guest-img{
+ 
+  img{
+    scale: 1;
+    transition: scale 300ms ease-out;
+    cursor: default;
+  }
+
+ border: 2px solid transparent;
+ background-color: #fff;
+ transition: border 300ms ease-out, opacity 300ms ease-out, background-color 300ms ease-out;
+ &:focus, &:hover,  &:focus-within{
+  border: 2px solid $primary;
+  opacity: 1;
+  transition: border 300ms ease-out, opacity 300ms ease-out, background-color 300ms ease-out;
+  
+ }
+}
+.guest-img-select{
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  backdrop-filter: blur(4px);
+  padding: $spacer-2;
+  font-size: $fs-100;
+  text-align: center;
+  border: 1px solid $primary-form;
+  color: $primary-form;
+  width: 1.5em !important;
+  height: 1.5em !important;
+  z-index: 2;
+  &::before{
+    width: .75em !important;
+    height: .75em !important;
+  }
+}
+
+.guest-img-checked{
+  opacity: .9;
+  border: 2px solid $primary;
+  background-color: $primary;
+  transition: opacity 300ms ease-out, border 300ms ease-out, background-color 300ms ease-out;
+  img{
+    scale: .9;
+    transition: scale 300ms ease-out;
+  }
+}
+//show the tick to state the image has been approved
+.guest-img[data-status="Approved"]{
+  
+  .guest-img-status{
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(255, 255, 255, 0.51);
+    backdrop-filter: blur(4px);
+    padding: $spacer-2;
+    font-size: $fs-100;
+    text-align: center;
+    border: 1px solid $primary-form;
+    color: $primary-form;
+    z-index: 2;
+  }
+}
+

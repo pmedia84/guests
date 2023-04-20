@@ -22,7 +22,7 @@
             <i class="fa-solid fa-user"></i>
             </a>
             <div class="header-actions-business-name">
-                <h1><?php  { echo $wedding_name . '\'s Wedding';} ?></h1>
+                <h1><?php  { echo $wedding->wedding_name() . '\'s Wedding';} ?></h1>
             </div>
             <a class="header-actions-btn-logout" href="logout.php"><span>Logout</span><i class="fa-solid fa-right-from-bracket"></i></a>
         </div>

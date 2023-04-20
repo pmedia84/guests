@@ -21,7 +21,7 @@
     <!-- Google Recaptcha -->
     <!-- <script src="https://www.google.com/recaptcha/api.js?render=6LevFFEiAAAAAPcel_AlRmOSMRgDSXCN5vT0lbmC" async="false"></script> -->
     <!-- Theme Color for safari and mobile browsers -->
-    <meta name="theme-color" content="black" />
+    <meta name="theme-color" content="#7f688d" />
     <!-- Google font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

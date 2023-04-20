@@ -1,11 +1,9 @@
 <?php
 session_start();
-$location=urlencode($_SERVER['REQUEST_URI']);
-if (!$_SESSION['loggedin'] == TRUE) {
-    // Redirect to the login page:
-    
-    header("Location: login.php?location=".$location);
-}
+require("scripts/functions.php");
+check_login();
+$user = new User();
+$wedding = new Wedding();
 include("connect.php");
 include("inc/head.inc.php");
 include("inc/settings.php");
@@ -14,15 +12,10 @@ $user_id = $_SESSION['user_id'];
 
 //guest variable, only required for edit and view actions
     // load this users details
-    $user_details_query = $db->query('SELECT users.user_id, users.guest_id, guest_list.guest_fname, guest_list.guest_sname, guest_list.guest_email, guest_list.guest_address, guest_list.guest_postcode, guest_list.guest_dietery  FROM users LEFT JOIN guest_list ON guest_list.guest_id=users.guest_id WHERE users.user_id =' . $user_id);
+    $user_details_query = $db->query('SELECT users.user_id, users.guest_id, guest_list.guest_fname, guest_list.guest_sname, guest_list.guest_email, guest_list.guest_address, guest_list.guest_postcode, guest_list.guest_dietery  FROM users LEFT JOIN guest_list ON guest_list.guest_id=users.guest_id WHERE users.user_id =' . $user->user_id());
     $user_details_result = $user_details_query->fetch_assoc();
     //define guest group id
-    //find Wedding details.
-    $wedding = $db->prepare('SELECT * FROM wedding LIMIT 1');
-    $wedding->execute();
-    $wedding->store_result();
-    $wedding->bind_result($wedding_id, $wedding_name, $wedding_date, $wedding_time, $wedding_email, $wedding_phone, $wedding_contact_name);
-    $wedding->fetch();
+
 ?>
 <!-- Meta Tags For Each Page -->
 <meta name="description" content="Parrot Media - Wedding Guest Area">

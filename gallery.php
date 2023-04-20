@@ -1,42 +1,21 @@
 <?php
 session_start();
-
-$location = urlencode($_SERVER['REQUEST_URI']);
-if (!$_SESSION['loggedin'] == TRUE) {
-    // Redirect to the login page:
-
-    header("Location: login.php?location=" . $location);
-}
+require("scripts/functions.php");
+check_login();
+$user = new User();
+$wedding = new Wedding();
 include("connect.php");
 include("inc/head.inc.php");
 include("inc/settings.php");
-if ($meal_choices_status == "Off") {
+if($guest_image_gallery->status()=="Off"){
     header("Location: index");
 }
-
-//run checks to make sure a wedding has been set up correctly
-if ($cms_type == "Wedding") {
-    //look for the Wedding set up and load information
-    //find Wedding details.
-    $wedding = $db->prepare('SELECT * FROM wedding');
-
-    $wedding->execute();
-    $wedding->store_result();
-    $wedding->bind_result($wedding_id, $wedding_name, $wedding_date, $wedding_time, $wedding_email, $wedding_phone, $wedding_contact_name);
-    $wedding->fetch();
-    $wedding->close();
-    //load the guest ID for this logged in user
-    $guest = $db->prepare('SELECT guest_id FROM users WHERE user_id =' . $_SESSION['user_id']);
-    $guest->execute();
-    $guest->bind_result($guest_id);
-    $guest->fetch();
-    $guest->close();
-}
-
 //////////////////////////////////////////////////////////////////Everything above this applies to each page\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 //load images from gallery, shows all images
 
-$guest_gallery = $db->query('SELECT * FROM images WHERE guest_id=' . $guest_id);
+$guest_gallery = $db->query('SELECT * FROM images WHERE guest_id=' . $user->guest_id());
+//find out how many images are in the guest gallery
+$total_g_img = $guest_gallery->num_rows;
 $total_img = $db->query('SELECT COUNT(*) FROM images')->fetch_row()[0];
 $num_results_on_page = 9;
 $num_pages = ceil($total_img / $num_results_on_page);
@@ -49,12 +28,10 @@ $page = 1;
 <meta name="title" content="Manage your website content">
 <!-- /Meta Tags -->
 
-<!-- / -->
 <!-- Page Title -->
 <title>Guest Area | Photo Gallery</title>
 <!-- /Page Title -->
 </head>
-
 
 <body>
     <!-- Main Body Of Page -->
@@ -69,23 +46,12 @@ $page = 1;
                 <a href="index" class="breadcrumb">Home</a> / Photo Gallery
 
             </div>
-            <?php if ($guest_area_gallery_status == "On") : ?>
+            <?php if ($guest_area_gallery->status() == "On") : ?>
                 <div class="main-cards">
                     <h1><i class="fa-solid fa-images"></i> Our Photo Gallery</h1>
                     <p>A collection of some of our best photos from our big day. If you would like to contribute, please upload images below.</p>
-                    <div class="form-controls">
-                        <button class="btn-primary"><i class="fa-solid fa-upload"></i> Upload Photos</button>
-                    </div>
-                    <div class="  my-2" id="upload-card">
-                        <div class="form-input-wrapper gallery-card">
-                            <div class="close"><button class="btn-close" type="button" id="close-upload"><i class="fa-solid fa-xmark"></i></button></div>
-                            <label for="gallery_img">Upload Images</label>
-                            <p class="form-hint-small">This can be in a JPG, JPEG or PNG format</p>
-                            <!-- input -->
-                            <input type="file" name="gallery_img[]" id="gallery_img" accept="image/*" multiple>
-                            <div class="button-section"><button class="btn-primary my-2 form-controls-btn loading-btn" type="button" id="upload-btn" data-action="upload"><span id="loading-btn-text" class="loading-btn-text"><i class="fa-solid fa-upload"></i>Submit</span> <img id="loading-icon" class="loading-icon d-none" src="./assets/img/icons/loading.svg" alt=""></button></div>
-                        </div>
-                    </div>
+
+
                     <?php $count = 1; ?>
                     <div class="std-card" id="gallery-top">
                         <div class="gallery-wrapper">
@@ -113,21 +79,33 @@ $page = 1;
                             </ul>
                         </nav>
                     </div>
-                    <div class="std-card">
-                    <h2 class="my-2">My Images</h2>
-                    <div class="grid-auto-sm">
-                        <?php if ($guest_gallery->num_rows > 0) :
-                            foreach ($guest_gallery as $guest_image) :
-                        ?>
-                                <div class="img-card">
-                                    <img src="../../assets/img/gallery/<?= $guest_image['image_filename']; ?>" alt="">
-                                    <p class="img-card-caption">Fun Times</p>
-                                </div>
-                        <?php endforeach;
-                        endif; ?>
+                    <div class="std-card" id="guest_images">
+                        <h2 class="my-2 notification-header">My Photos <span class="notification"><?= $total_g_img; ?></span></h2>
+                        <p class="my-2">These are the images that you have contributed to our gallery, we will review your submissions and select our favorites. Don't worry if you can't see all of your images in our gallery. We will keep all submissions.</p>
+                        <div class="form-controls my-2 actions-bar">
+                            <button class="btn-primary btn-secondary" id="upload-img"><i class="fa-solid fa-upload"></i> Upload</button>
+                            <button class="btn-primary  btn-secondary" id="delete-img" data-action="delete"><i class="fa-solid fa-trash"></i> Delete</button>
+                            <button class="btn-primary btn-secondary" id="check_all"><i class="fa-solid fa-check-double"></i> Select</button>
+                        </div>
+                        <form action="upload" id="guest-gallery" method="POST">
+                            <div class="grid-row-3col">
+                                <?php if ($guest_gallery->num_rows > 0) :
+                                    $key = 0;
+                                    foreach ($guest_gallery as $guest_image) :
+                                ?>
+                                        <div class="img-card guest-img" data-status="<?= $guest_image['status']; ?>">
+                                            <span class="guest-img-status"> <?php if ($guest_image['status'] == "Approved") : echo $guest_image['status']; ?> <i class="fa-solid fa-check"></i><?php endif; ?></span>
+                                            <input class="guest-img-select" data-select="false" data-image_filename="<?= $guest_image['image_filename']; ?>" type="checkbox" name="gallery_img[<?= $key; ?>][image_id]" value="<?= $guest_image['image_id']; ?>">
+                                            <img class="gallery-img" src="assets/img/gallery/<?= $guest_image['image_filename']; ?>" alt="" data-img_id="<?= $guest_image['image_id']; ?>">
+                                            <p class="img-card-caption"><?= $guest_image['image_description']; ?></p>
+                                        </div>
+                                <?php $key++;
+                                    endforeach;
 
+                                endif; ?>
+                            </div>
+                        </form>
                     </div>
-                </div>
                 </div>
 
         </div>
@@ -140,8 +118,24 @@ $page = 1;
                 <i class="fa-solid fa-circle-info"></i>
             </div>
             <div class="response-card-body">
+                <h2 id="response-card-title"></h2>
                 <p id="response-card-text"></p>
             </div>
+        </div>
+    </div>
+    <div class="modal upload-modal" id="upload-modal">
+        <div class="modal-content">
+            <div class="close"><button class="btn-close" type="button" id="close-upload"><i class="fa-solid fa-minus"></i></button></div>
+            <form action="scripts/gallerycrud.php" id="upload" method="POST" enctype="multipart/form-data" data-action="upload">
+                <div class="form-input-wrapper gallery-card">
+                    <label for="gallery_img">Upload Images</label>
+                    <p class="form-hint-small">These can be in a JPG, JPEG or PNG format</p>
+                    <p>Once you have uploaded your photo's, we will add them to our gallery.</p>
+                    <!-- input -->
+                    <input type="file" name="gallery_img[]" id="gallery_img" accept="image/*" multiple>
+                    <div class="button-section"><button class="btn-primary my-2 form-controls-btn loading-btn" type="submit" id="upload-btn" data-action="upload"><span id="loading-btn-text" class="loading-btn-text"><i class="fa-solid fa-upload"></i>Submit</span> <i id="loading-icon" class="fa-solid fa-spinner fa-spin-pulse spinner-icon d-none"></i></button></div>
+                </div>
+            </form>
         </div>
     </div>
 

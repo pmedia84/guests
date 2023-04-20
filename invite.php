@@ -1,39 +1,20 @@
 <?php
 session_start();
-$location=urlencode($_SERVER['REQUEST_URI']);
-if (!$_SESSION['loggedin'] == TRUE) {
-    // Redirect to the login page:
-    
-    header("Location: login.php?location=".$location);
-}
+require("scripts/functions.php");
+check_login();
+$user = new User();
+$wedding = new Wedding();
 include("connect.php");
 include("inc/head.inc.php");
 include("inc/settings.php");
 
 
-//run checks to make sure a wedding has been set up correctly
-if ($cms_type == "Wedding") {
-    //look for the Wedding set up and load information
-    //find Wedding details.
-    $wedding = $db->prepare('SELECT * FROM wedding');
 
-    $wedding->execute();
-    $wedding->store_result();
-    $wedding->bind_result($wedding_id, $wedding_name, $wedding_date, $wedding_time, $wedding_email, $wedding_phone, $wedding_contact_name);
-    $wedding->fetch();
-    $wedding->close();
-    //load the guest ID for this logged in user
-    $guest = $db->prepare('SELECT guest_id FROM users WHERE user_id =' . $_SESSION['user_id']);
-    $guest->execute();
-    $guest->bind_result($guest_id);
-    $guest->fetch();
-    $guest->close();
-}
 //////////////////////////////////////////////////////////////////Everything above this applies to each page\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 //load details of any invitations that this guest has
 $invite_query = $db->query('SELECT wedding_events.event_name, wedding_events.event_id, wedding_events.event_location, wedding_events.event_date, wedding_events.event_time, wedding_events.event_address, wedding_events.event_notes, invitations.event_id, invitations.guest_id, invitations.invite_rsvp_status, guest_list.guest_id, guest_list.guest_extra_invites, guest_list.guest_type FROM wedding_events
 LEFT JOIN invitations ON invitations.event_id=wedding_events.event_id
-LEFT JOIN guest_list ON guest_list.guest_id=invitations.guest_id WHERE guest_list.guest_id=' . $guest_id . '
+LEFT JOIN guest_list ON guest_list.guest_id=invitations.guest_id WHERE guest_list.guest_id=' . $user->guest_id() . '
   ');
 $invite_query_res = $invite_query->fetch_assoc();
 $guest_invites = $invite_query_res['guest_extra_invites'];
@@ -49,7 +30,7 @@ $group_query = $db->query('SELECT guest_list.guest_fname, guest_list.guest_sname
 $event_id = "";
 
 //load extra invites this guest has available
-$guest_extra_inv = $db->query('SELECT guest_extra_invites FROM guest_list WHERE guest_id=' . $guest_id);
+$guest_extra_inv = $db->query('SELECT guest_extra_invites FROM guest_list WHERE guest_id=' . $user->guest_id());
 $extra_inv_result = $guest_extra_inv->fetch_assoc();
 $group_capacity = $extra_inv_result['guest_extra_invites'];
 
@@ -105,14 +86,14 @@ $available_inv = "";
                         ?>
 
                             <div class="std-card">
-                            <?php if (!isset($_GET['action'])) : ?>
-                            <h1><i class="fa-solid fa-champagne-glasses"></i> <?=$_SESSION['user_name'];?>, You Are Invited to...</h1>
-                            <?php endif; ?>
+                                <?php if (!isset($_GET['action'])) : ?>
+                                    <h1><i class="fa-solid fa-champagne-glasses"></i> <?= $_SESSION['user_name']; ?>, You Are Invited to...</h1>
+                                <?php endif; ?>
                             </div>
                             <div class="std-card">
                                 <h2>Our <?= $invite['event_name']; ?></h2>
                                 <h3><?= $invite['event_location']; ?></h3>
-                                <p><?= html_entity_decode( $invite['event_notes']); ?></p>
+                                <p><?= html_entity_decode($invite['event_notes']); ?></p>
                                 <p><strong>Date:</strong> <?php echo date('D d M Y', $event_date); ?></p>
                                 <p><strong>Time:</strong> <?php echo date('H:ia', $event_time); ?></p>
                                 <div class="invite-card-address">
@@ -123,7 +104,7 @@ $available_inv = "";
                                     </div>
                                 </div>
                                 <h2>RSVP Status</h2>
-                                <?php if ($invite['invite_rsvp_status'] == NULL || $invite['invite_rsvp_status']=="Not Replied") : ?>
+                                <?php if ($invite['invite_rsvp_status'] == NULL || $invite['invite_rsvp_status'] == "Not Replied") : ?>
                                     <p class="text-alert"><strong>Please respond to your invitation: <i class="fa-solid fa-flag"></i></strong></p>
                                     <div class="card-actions error">
                                         <a class="my-2 btn-primary alert" href="invite?action=respond&event_id=<?= $invite['event_id']; ?>">Respond To Invitation <i class="fa-solid fa-reply"></i></a>
@@ -182,7 +163,7 @@ $available_inv = "";
                     //load event details
                     $event = $db->query('SELECT wedding_events.event_name, wedding_events.event_id, wedding_events.event_location, wedding_events.event_date, wedding_events.event_time, wedding_events.event_address,  invitations.event_id, invitations.guest_id, invitations.invite_rsvp_status, guest_list.guest_id, guest_list.guest_extra_invites FROM wedding_events
                     LEFT JOIN invitations ON invitations.event_id=wedding_events.event_id
-                    LEFT JOIN guest_list ON guest_list.guest_id=invitations.guest_id WHERE invitations.guest_id=' . $guest_id);
+                    LEFT JOIN guest_list ON guest_list.guest_id=invitations.guest_id WHERE invitations.guest_id=' . $user->guest_id());
                     $event_result = $event->fetch_array();
                     $guest_extra_invites = $event_result['guest_extra_invites'];
                     $event_date = strtotime($event_result['event_date']);
@@ -197,13 +178,13 @@ $available_inv = "";
                                 $event_date = strtotime($event_details['event_date']);
                                 $event_time = strtotime($event_details['event_time']);
                             ?>
-                            
-                            <?php if (isset($_GET['action'])) : ?>
-                            <h1><i class="fa-solid fa-champagne-glasses"></i> <?=$_SESSION['user_name'];?>, You Are Invited to...</h1>
-                            <?php endif; ?>
-                            
+
+                                <?php if (isset($_GET['action'])) : ?>
+                                    <h1><i class="fa-solid fa-champagne-glasses"></i> <?= $_SESSION['user_name']; ?>, You Are Invited to...</h1>
+                                <?php endif; ?>
+
                                 <div class="form-input-wrapper invite-card">
-                                    
+
 
                                     <h2>Our <?= $event_details['event_name']; ?></h2>
                                     <input type="hidden" name="event_rsvp[<?php echo $count; ?>][event_id]" value="<?= $event_details['event_id']; ?>">
@@ -215,7 +196,7 @@ $available_inv = "";
                                     <label for="event_rsvp"><strong>Please Select Your Response Below:</strong></label>
                                     <!-- input -->
                                     <select name="event_rsvp[<?php echo $count; ?>][rsvp]" required class="rsvp">
-                                        <?php if ($event_details['invite_rsvp_status'] == "" || $event_details['invite_rsvp_status']=="Not Replied") : ?>
+                                        <?php if ($event_details['invite_rsvp_status'] == "" || $event_details['invite_rsvp_status'] == "Not Replied") : ?>
                                             <option value="">Select</option>
                                             <option value="Attending">Attending</option>
                                             <option value="Not Attending">Not Attending</option>
@@ -300,7 +281,7 @@ $available_inv = "";
             event.preventDefault();
             //declare form variables and collect GET request information
             var guest_extra_invites = '<?php echo $guest_invites; ?>';
-            var guest_id = '<?php echo $guest_id; ?>';
+            var guest_id = '<?php echo $user->guest_id(); ?>';
             var guest_group_id = '<?php echo $guest_group_id; ?>';
             var guest_type = '<?php echo $guest_type; ?>';
             var formData = new FormData($("#invite_response").get(0));
@@ -398,14 +379,13 @@ $available_inv = "";
 
         })
         $("#guest_group").on("click", "#sole_invite", function() {
-            if($(this).is(":checked")){
+            if ($(this).is(":checked")) {
                 $("#add-member").fadeOut(400);
-            }else{
+            } else {
                 $("#add-member").fadeIn(400);
             }
-            
-        });
 
+        });
     </script>
     <script>
 

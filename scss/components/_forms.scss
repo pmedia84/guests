@@ -294,10 +294,11 @@ input[type="checkbox"]:focus {
 ///////////////Form controls //////////
 .form-controls{
     padding: 1rem;
-
     border: 1px solid $primary-500;
     border-radius: 2.5px;
-
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacer-2;
 }
 
 .form-controls-btn{
