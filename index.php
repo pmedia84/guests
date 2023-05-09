@@ -2,6 +2,8 @@
 session_start();
 require("scripts/functions.php");
 check_login();
+$user = new User();
+$user->guest_id();
 include("../connect.php");
 include("inc/head.inc.php");
 include("inc/settings.php");

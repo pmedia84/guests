@@ -12,7 +12,7 @@
                 <?php if($invite_manager->status() == "On"):?>
                     <li><a class="nav-link invite <?php if(str_contains($_SERVER['REQUEST_URI'], "invite")){echo"link-active";}?>" href="invite">My Invitation <i class="fa-solid fa-champagne-glasses"></i></a><?php if($user_invite_rsvp_status == NULL || $user_invite_rsvp_status =="Not Replied"):?><div class="alert-icon"><i class="fa-solid fa-circle"></i></div><?php endif;?></li>
                 <?php endif; ?>
-                <?php if($meal_choices_m->status() == "On"):?>
+                <?php if($meal_choices_m->status() == "On" && $user->meal_choices()==1):?>
                     <li><a class="nav-link invite <?php if(str_contains($_SERVER['REQUEST_URI'], "meal")){echo"link-active";}?>" href="meal_choices">My Meal Choices <i class="fa-solid fa-utensils"></i></a></li>
                 <?php endif; ?>
                 <?php if($guest_messaging->status() == "On"):?>

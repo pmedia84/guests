@@ -12,7 +12,7 @@ require $_SERVER['DOCUMENT_ROOT'] . '/admin/mailer/Exception.php';
 $response = "";
 include("../connect.php");
 include("../inc/settings.php");
-
+require("functions.php");
 //script is divided into different sections and is relevant to the requests
 
 //1. Response, will skip over 2 and 3 if the requirements have not been met, such as not attending and they don't have a guest group.
@@ -486,7 +486,7 @@ if (isset($_POST['action']) && $_POST['action'] == "response") {
         <table class="std-table guest_group">
             <tr>
                 <th>Name</th>
-                <?php if($guest_add_remove =="On"):?>
+                <?php if($guest_add_remove->status() =="On"):?>
                 <th>Remove</th>
                 <?php endif;?>
             </tr>

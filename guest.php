@@ -2,11 +2,12 @@
 session_start();
 require("scripts/functions.php");
 check_login();
+$user = new User();
+$wedding = new Wedding();
 include("connect.php");
 include("inc/head.inc.php");
 include("inc/settings.php");
-$cms_name = "";
-$user_id = $_SESSION['user_id'];
+
 if (empty($_GET)) {
     header('Location: guest_group');
 }
@@ -23,14 +24,7 @@ if ($_GET['action'] == "edit" || $_GET['action'] == "view" || $_GET['action'] ==
     $guest = $db->prepare('SELECT * FROM guest_list WHERE guest_id=' . $guest_id . ' AND guest_group_id=' . $guest_group_id);
     $guest->execute();
     $guest->store_result();
-    //find Wedding details.
-    $wedding = $db->prepare('SELECT * FROM wedding LIMIT 1');
 
-    $wedding->execute();
-    $wedding->store_result();
-    $wedding->bind_result($wedding_id, $wedding_name, $wedding_date, $wedding_time, $wedding_email, $wedding_phone, $wedding_contact_name);
-    $wedding->fetch();
-    $wedding->close();
 } else {
     //for create get request, load guest group information and find events that this organiser is invited to
     // find the guest group that this user manages
@@ -39,14 +33,7 @@ if ($_GET['action'] == "edit" || $_GET['action'] == "view" || $_GET['action'] ==
     //define guest group id
     $guest_group_id = $group_id_result['guest_group_id'];
     //find Wedding details.
-    $wedding = $db->prepare('SELECT * FROM wedding LIMIT 1');
 
-    $wedding->execute();
-    $wedding->store_result();
-    $wedding->bind_result($wedding_id, $wedding_name, $wedding_date, $wedding_time, $wedding_email, $wedding_phone, $wedding_contact_name);
-    $wedding->fetch();
-    $wedding->close();
-    $guest_id = "";
 }
 
 

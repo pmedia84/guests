@@ -9,6 +9,12 @@ include("inc/head.inc.php");
 include("inc/settings.php");
 if ($meal_choices_m->status() == "Off") {
     header("Location: index");
+}else{
+    //if meal choices module is on, then check if this guest is assigned to an event that has a menu
+    $user->guest_id();
+    if($user->meal_choices()==0){
+        header("Location: index");
+    }
 }
 //run checks to make sure a wedding has been set up correctly
 if ($cms_type == "Wedding") {
@@ -160,14 +166,14 @@ $guest_type_r = mysqli_fetch_assoc($guest_type_q);
                     <div class="std-card">
                         <h2>Your Choices</h2>
                         <p>Please let us know you meal choices, along with any additional guests you may be bringing</p>
-                        <form action="POST" id="meal_choices" data-guest_name="<?=$_SESSION['user_name'];?>" data-guest_id="<?=$guest_id;?>">
+                        <form action="POST" id="meal_choices" data-guest_name="<?=$_SESSION['user_name'];?>" data-guest_id="<?=$user->guest_id();?>">
                             
                             <div class="form-tab">
                             <h2><?= $_SESSION['user_name']; ?></h2>
                                 <?php $count = 0;
                                 foreach ($menu_courses as $course) :
                                     $menu_items = $db->query('SELECT menu_item_id, menu_item_desc, menu_item_name FROM menu_items WHERE menu_id=' . $menu_id . ' AND course_id=' . $course['course_id']); ?>
-                                    <input type="hidden" name="guest_meal_choices[<?= $count; ?>][guest_id]" value="<?= $guest_id; ?>">
+                                    <input type="hidden" name="guest_meal_choices[<?= $count; ?>][guest_id]" value="<?= $user->guest_id(); ?>">
                                     <div class="input-form-wrapper meal-choice-card">
                                         <h2><?= $course['course_name']; ?></h2>
                                         <?php foreach ($menu_items as $menu_item) :

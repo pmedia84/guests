@@ -105,7 +105,9 @@ class User
     public $guest_id;
     public $guest_type;
     public $guest_group_id;
+    public $menu;
 
+    
     function user_id()
     {
         $this->user_id = $_SESSION['user_id'];
@@ -140,6 +142,25 @@ class User
         $r = mysqli_fetch_assoc($q);
         $this->user_name = $r['user_name'];
         return $this->user_name;
+    }
+    function meal_choices()
+    {
+        //find if this guest needs to provide meal choices
+        include("../connect.php");
+        $q = $db->query("SELECT wedding_events.event_id, wedding_events.event_name, menu.event_id, menu.menu_id, menu.menu_name, invitations.event_id, invitations.guest_id FROM wedding_events LEFT JOIN menu ON menu.event_id = wedding_events.event_id LEFT JOIN invitations ON invitations.event_id=wedding_events.event_id WHERE invitations.guest_id=" . $this->guest_id);
+        $r = mysqli_fetch_assoc($q);
+
+        if($r['menu_id']==NULL){
+            $this->menu=0;
+            return $this->menu;
+        }
+        if($r['menu_id']>0){
+            $this->menu=1;
+            return $this->menu;
+        }
+        
+        
+        
     }
 }
 
