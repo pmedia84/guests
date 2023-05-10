@@ -5,7 +5,6 @@ check_login();
 $user = new User();
 $wedding = new Wedding();
 include("connect.php");
-include("inc/head.inc.php");
 include("inc/settings.php");
 if ($meal_choices_m->status() == "Off") {
     header("Location: index");
@@ -19,8 +18,8 @@ if ($meal_choices_m->status() == "Off") {
 //run checks to make sure a wedding has been set up correctly
 if ($cms_type == "Wedding") {
     //look for the Wedding set up and load information
-
-
+    
+    
     //check to see if a meal choices order has been set up for this guest.
     $meal_order_q = $db->query('SELECT choice_order_id FROM meal_choice_order WHERE guest_id=' . $user->guest_id());
     // find the guest group that this user manages
@@ -30,7 +29,7 @@ if ($cms_type == "Wedding") {
     $guest_group_id = $group_id_result['guest_group_id'];
     //loads guest group list
     $group_query = $db->query('SELECT guest_list.guest_fname, guest_list.guest_sname, guest_list.guest_id, guest_list.guest_group_id, guest_list.guest_type, guest_groups.guest_group_id, guest_groups.guest_group_name FROM guest_list LEFT JOIN guest_groups ON guest_groups.guest_group_id=guest_list.guest_group_id  WHERE guest_groups.guest_group_id=' . $guest_group_id . ' AND guest_list.guest_type = "Member"');
-
+    
 }
 
 //////////////////////////////////////////////////////////////////Everything above this applies to each page\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -44,6 +43,7 @@ $menu_result = mysqli_fetch_assoc($menu_query);
 $menu_id = $menu_result['menu_id'];
 $guest_type_q = $db->query('SELECT guest_type FROM guest_list WHERE guest_id=' . $user->guest_id());
 $guest_type_r = mysqli_fetch_assoc($guest_type_q);
+include("inc/head.inc.php");
 ?>
 <!-- Meta Tags For Each Page -->
 <meta name="description" content="Parrot Media Wedding Admin - Guest Admin Area">
