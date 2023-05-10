@@ -14,7 +14,6 @@ include("inc/settings.php");
 $invite_query = $db->query('SELECT wedding_events.event_name, wedding_events.event_id, wedding_events.event_location, wedding_events.event_date, wedding_events.event_time, wedding_events.event_address, wedding_events.event_notes, invitations.event_id, invitations.guest_id, invitations.invite_rsvp_status, guest_list.guest_id, guest_list.guest_extra_invites, guest_list.guest_type FROM wedding_events
 LEFT JOIN invitations ON invitations.event_id=wedding_events.event_id
 LEFT JOIN guest_list ON guest_list.guest_id=invitations.guest_id WHERE guest_list.guest_id=' . $user->guest_id());
-var_dump($invite_query);
 $invite_query_res = mysqli_fetch_assoc($invite_query);
 $guest_invites = $invite_query_res['guest_extra_invites'];
 $guest_type = $invite_query_res['guest_type'];
