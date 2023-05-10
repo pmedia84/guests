@@ -9,14 +9,13 @@ include("inc/head.inc.php");
 include("inc/settings.php");
 
 
-
 //////////////////////////////////////////////////////////////////Everything above this applies to each page\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 //load details of any invitations that this guest has
 $invite_query = $db->query('SELECT wedding_events.event_name, wedding_events.event_id, wedding_events.event_location, wedding_events.event_date, wedding_events.event_time, wedding_events.event_address, wedding_events.event_notes, invitations.event_id, invitations.guest_id, invitations.invite_rsvp_status, guest_list.guest_id, guest_list.guest_extra_invites, guest_list.guest_type FROM wedding_events
 LEFT JOIN invitations ON invitations.event_id=wedding_events.event_id
-LEFT JOIN guest_list ON guest_list.guest_id=invitations.guest_id WHERE guest_list.guest_id=' . $user->guest_id() . '
-  ');
-$invite_query_res = $invite_query->fetch_assoc();
+LEFT JOIN guest_list ON guest_list.guest_id=invitations.guest_id WHERE guest_list.guest_id=' . $user->guest_id());
+var_dump($invite_query);
+$invite_query_res = mysqli_fetch_assoc($invite_query);
 $guest_invites = $invite_query_res['guest_extra_invites'];
 $guest_type = $invite_query_res['guest_type'];
 // find the guest group that this user manages
@@ -24,8 +23,10 @@ $guest_group_id_query = $db->query('SELECT users.user_id, users.guest_id, guest_
 $group_id_result = $guest_group_id_query->fetch_assoc();
 //define guest group id
 $guest_group_id = $group_id_result['guest_group_id'];
-//loads guest group list
-$group_query = $db->query('SELECT guest_list.guest_fname, guest_list.guest_sname, guest_list.guest_id, guest_list.guest_group_id, guest_list.guest_type, guest_groups.guest_group_id, guest_groups.guest_group_name FROM guest_list LEFT JOIN guest_groups ON guest_groups.guest_group_id=guest_list.guest_group_id  WHERE guest_groups.guest_group_id=' . $guest_group_id . ' AND guest_list.guest_type = "Member"');
+if ($guest_group_id > 0) {
+    //loads guest group list
+    $group_query = $db->query('SELECT guest_list.guest_fname, guest_list.guest_sname, guest_list.guest_id, guest_list.guest_group_id, guest_list.guest_type, guest_groups.guest_group_id, guest_groups.guest_group_name FROM guest_list LEFT JOIN guest_groups ON guest_groups.guest_group_id=guest_list.guest_group_id  WHERE guest_groups.guest_group_id=' . $guest_group_id . ' AND guest_list.guest_type = "Member"');
+}
 
 $event_id = "";
 
