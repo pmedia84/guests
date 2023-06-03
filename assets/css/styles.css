@@ -211,7 +211,7 @@ a:hover{
     justify-content: space-between;
     align-items: center;
 } 
-.header-actions-navbtn, .header-actions-btn-logout{
+.header-actions-navbtn{
     height: 35px;
     width: 35px;
     outline: 2px solid transparent;
@@ -220,28 +220,31 @@ a:hover{
     border-radius: 5px;
     transition: outline 300ms ease-out;
 } 
-.header-actions-navbtn .icon,.header-actions-btn-logout .icon{
+.header-actions-navbtn .icon{
         height: 100%;
         width: 100%;
         fill: #7f688d;
         transition: fill 300ms ease-out;
     } 
-.header-actions-navbtn:focus, .header-actions-navbtn:focus-within, .header-actions-btn-logout:focus, .header-actions-btn-logout:focus-within{
+.header-actions-navbtn:focus, .header-actions-navbtn:focus-within{
         outline: 2px solid #7f688d;
         transition: outline 300ms ease-out;
     } 
-.header-actions-navbtn:focus .icon,.header-actions-navbtn:focus-within .icon,.header-actions-btn-logout:focus .icon,.header-actions-btn-logout:focus-within .icon{
+.header-actions-navbtn:focus .icon,.header-actions-navbtn:focus-within .icon{
             fill: hsl(270, 27%, 50%);
             transition: fill 300ms ease-out;
         } 
 .header-actions-btn-user, .header-actions-btn-logout {
     display: flex;
+    align-items: flex-end;
 } 
 .header-actions-btn-user{
-    font-size: 35px;
+   width: fit-content;
+   font-size: 1.5rem;
 } 
-.header-actions-btn-user svg{
+.header-actions-btn-user .icon{
         fill: #7f688d;
+
     } 
 .header-actions-business-name {
     display: none;
@@ -249,10 +252,8 @@ a:hover{
 .header-actions-btn-logout{
     display: flex;
     align-items: center;
+
 } 
-.header-actions-btn-logout span{
-        margin-inline: .5rem;
-    } 
 /*login page header with logo*/ 
 .login-header img{
         height: 70px;
@@ -2304,7 +2305,24 @@ img.hover-shadow {
     font-weight: 700;
     width: calc(12px * 2);
     height: calc(12px * 2);
-}
+} 
+
+/*icon set from SVG sprite, font awesome*/ 
+
+.icon {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.125em;
+    fill: currentColor;
+  } 
+
+.feather-icon{
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+  }
 /*spacing utilities*/
 /*m = margin*/
 /*p = padding*/

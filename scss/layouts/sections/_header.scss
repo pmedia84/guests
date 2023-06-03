@@ -18,7 +18,7 @@
     justify-content: space-between;
     align-items: center;
 }
-.header-actions-navbtn, .header-actions-btn-logout{
+.header-actions-navbtn{
     height: 35px;
     width: 35px;
     outline: 2px solid transparent;
@@ -43,13 +43,16 @@
 }
 .header-actions-btn-user, .header-actions-btn-logout {
     display: flex;
+    align-items: flex-end;
 }
 
 
 .header-actions-btn-user{
-    font-size: 35px;
-    svg{
+   width: fit-content;
+   font-size: 1.5rem;
+    .icon{
         fill: $primary;
+
     }
 }
 .header-actions-business-name {
@@ -58,9 +61,7 @@
 .header-actions-btn-logout{
     display: flex;
     align-items: center;
-    span{
-        margin-inline: .5rem;
-    }
+
 }
 
 .login-header{//login page header with logo

@@ -19,8 +19,12 @@
         <div class="header-actions-business-name">
             <h1><?php  { echo $wedding->wedding_name() . '\'s Wedding';} ?></h1>
         </div>
-        <a class="header-actions-btn-user" href="profile">
-        <i class="fa-solid fa-user"></i>
+        <!-- <a class="header-actions-btn-user" href="profile">
+        <svg class="icon"><use xlink:href="assets/img/icons/solid.svg#user"></use></svg>
+        </a> -->
+        <a class="header-actions-btn-logout" href="logout">
+            Logout 
+        <svg class="icon"><use xlink:href="assets/img/icons/solid.svg#right-from-bracket"></use></svg>
         </a>
         </div>
     </div>

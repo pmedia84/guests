@@ -3,6 +3,7 @@ session_start();
 require("scripts/functions.php");
 check_login();
 $user = new User();
+$user->guest_id();
 $wedding = new Wedding();
 include("connect.php");
 include("inc/head.inc.php");

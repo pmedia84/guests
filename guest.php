@@ -3,20 +3,19 @@ session_start();
 require("scripts/functions.php");
 check_login();
 $user = new User();
+$user->guest_id();
 $wedding = new Wedding();
 include("connect.php");
-include("inc/head.inc.php");
 include("inc/settings.php");
 
 if (empty($_GET)) {
     header('Location: guest_group');
 }
-$user_type->close();
 //guest variable, only required for edit and view actions
 if ($_GET['action'] == "edit" || $_GET['action'] == "view" || $_GET['action'] == "delete") {
     $guest_id = $_GET['guest_id'];
     // find the guest group that this user manages
-    $guest_group_id_query = $db->query('SELECT users.user_id, users.guest_id, guest_groups.guest_group_organiser, guest_groups.guest_group_id FROM users LEFT JOIN guest_groups ON guest_groups.guest_group_organiser=users.guest_id WHERE users.user_id =' . $user_id);
+    $guest_group_id_query = $db->query('SELECT users.user_id, users.guest_id, guest_groups.guest_group_organiser, guest_groups.guest_group_id FROM users LEFT JOIN guest_groups ON guest_groups.guest_group_organiser=users.guest_id WHERE users.user_id =' . $user->user_id());
     $group_id_result = $guest_group_id_query->fetch_assoc();
     //define guest group id
     $guest_group_id = $group_id_result['guest_group_id'];
@@ -24,7 +23,7 @@ if ($_GET['action'] == "edit" || $_GET['action'] == "view" || $_GET['action'] ==
     $guest = $db->prepare('SELECT * FROM guest_list WHERE guest_id=' . $guest_id . ' AND guest_group_id=' . $guest_group_id);
     $guest->execute();
     $guest->store_result();
-
+    
 } else {
     //for create get request, load guest group information and find events that this organiser is invited to
     // find the guest group that this user manages
@@ -33,15 +32,9 @@ if ($_GET['action'] == "edit" || $_GET['action'] == "view" || $_GET['action'] ==
     //define guest group id
     $guest_group_id = $group_id_result['guest_group_id'];
     //find Wedding details.
-
+    
 }
-
-
-
-
-
-
-
+include("inc/head.inc.php");
 ?>
 <!-- Meta Tags For Each Page -->
 <meta name="description" content="Parrot Media - Client Admin Area">
