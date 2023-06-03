@@ -23,7 +23,7 @@ if ($cms_type == "Wedding") {
     //check to see if a meal choices order has been set up for this guest.
     $meal_order_q = $db->query('SELECT choice_order_id FROM meal_choice_order WHERE guest_id=' . $user->guest_id());
     // find the guest group that this user manages
-    $guest_group_id_query = $db->query('SELECT users.user_id, users.guest_id, guest_groups.guest_group_organiser, guest_groups.guest_group_id FROM users LEFT JOIN guest_groups ON guest_groups.guest_group_organiser=users.guest_id WHERE users.user_id =' . $user_id);
+    $guest_group_id_query = $db->query('SELECT users.user_id, users.guest_id, guest_groups.guest_group_organiser, guest_groups.guest_group_id FROM users LEFT JOIN guest_groups ON guest_groups.guest_group_organiser=users.guest_id WHERE users.user_id =' . $user->user_id());
     $group_id_result = $guest_group_id_query->fetch_assoc();
     //define guest group id
     $guest_group_id = $group_id_result['guest_group_id'];

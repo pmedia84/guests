@@ -316,7 +316,6 @@ if ($_GET['action'] == "edit" || $_GET['action'] == "view" || $_GET['action'] ==
                             $guest_invites->fetch_array();
                         }
 
-
                     ?>
                         <h2><?= $guest_fname . ' ' . $guest_sname; ?></h2>
                         <div class="std-card">

@@ -147,7 +147,7 @@ class User
     {
         //find if this guest needs to provide meal choices
         include("../connect.php");
-        $q = $db->query("SELECT wedding_events.event_id, wedding_events.event_name, menu.event_id, menu.menu_id, menu.menu_name, invitations.event_id, invitations.guest_id FROM wedding_events LEFT JOIN menu ON menu.event_id = wedding_events.event_id LEFT JOIN invitations ON invitations.event_id=wedding_events.event_id WHERE invitations.guest_id=" . $this->guest_id);
+        $q = $db->query("SELECT wedding_events.event_id, menu.event_id, menu.menu_id, menu.menu_name, invitations.event_id, invitations.guest_id FROM wedding_events LEFT JOIN menu ON menu.event_id = wedding_events.event_id LEFT JOIN invitations ON invitations.event_id=wedding_events.event_id WHERE invitations.guest_id=" . $this->guest_id);
         $r = mysqli_fetch_assoc($q);
 
         if($r['menu_id']==NULL){
