@@ -89,6 +89,9 @@ body{
 .text-alert{
     color: hsl(0, 95%, 67%);
 }
+h1,h2,h3,h4{
+    text-wrap: balance;
+}
 body{
     background-image: 
     radial-gradient(circle, 
@@ -252,8 +255,10 @@ a:hover{
 .header-actions-btn-logout{
     display: flex;
     align-items: center;
-
 } 
+.header-actions-btn-logout .icon{
+        margin-inline-start: 0.25rem;
+    } 
 /*login page header with logo*/ 
 .login-header img{
         height: 70px;

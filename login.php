@@ -99,8 +99,7 @@ if($cms_type =="Wedding"){
                 contentType: false,
                 processData: false,
                 success: function(data, responseText) {
-                    $("#response").html(data);
-                    $("#response").slideDown(400);
+
                     if (data === 'correct') {
                         window.location.replace(redirect);
                     }

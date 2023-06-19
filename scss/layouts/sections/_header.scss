@@ -61,7 +61,9 @@
 .header-actions-btn-logout{
     display: flex;
     align-items: center;
-
+    .icon{
+        margin-inline-start: $spacer-1;
+    }
 }
 
 .login-header{//login page header with logo

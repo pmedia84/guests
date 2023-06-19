@@ -106,7 +106,7 @@ class User
     public $guest_type;
     public $guest_group_id;
     public $menu;
-
+    public $rsvp_status;
     
     function user_id()
     {
@@ -158,9 +158,12 @@ class User
             $this->menu=1;
             return $this->menu;
         }
-        
-        
-        
+    }
+    function rsvp(){
+        include("../connect.php");
+        $q = $db->query("SELECT invite_rsvp_status, guest_id FROM invitations WHERE guest_id=" . $this->guest_id);
+        $r = mysqli_fetch_assoc($q);
+       return $this->rsvp_status=$r['invite_rsvp_status'];
     }
 }
 

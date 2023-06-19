@@ -6,6 +6,12 @@ $user = new User();
 $wedding = new Wedding();
 include("connect.php");
 include("inc/settings.php");
+//find guest ID
+$user->guest_id();
+//find if this guest has stated they are not attending, if they are not attending then direct back to home page.
+if($user->rsvp()=="Not Attending"){
+    header("Location: index");
+}
 if ($meal_choices_m->status() == "Off") {
     header("Location: index");
 }else{
@@ -72,9 +78,11 @@ include("inc/head.inc.php");
             </div>
             <div class="main-cards">
                 <h1><i class="fa-solid fa-utensils"></i> Provide Meal Choices</h1>
+                
                 <?php if (empty($_GET)) : ?>
                     <div class="std-card">
                         <?php if ($menu_query->num_rows > 0) : ?>
+                            <p>We are delighted to have you join us for our big day. Please now let us know your meal choices for our <?=$menu_result['menu_name'];?></p>
                             <?php foreach ($menu_query as $menu) :
                                 $menu_query = $db->query('SELECT menu.menu_name, menu.menu_id, menu.event_id, wedding_events.event_id, wedding_events.event_name FROM menu LEFT JOIN wedding_events ON wedding_events.event_id=menu.event_id WHERE menu.menu_id=' . $menu['menu_id']);
                                 $menu_result = mysqli_fetch_assoc($menu_query);
