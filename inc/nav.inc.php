@@ -15,9 +15,9 @@
                 <?php if($meal_choices_m->status() == "On" && $user->meal_choices()==1):?>
                     <li><a class="nav-link invite <?php if(str_contains($_SERVER['REQUEST_URI'], "meal")){echo"link-active";}?>" href="meal_choices">My Meal Choices <i class="fa-solid fa-utensils"></i></a></li>
                 <?php endif; ?>
-                <?php if($guest_messaging->status() == "On"):?>
+                <!-- <?php if($guest_messaging->status() == "On"):?>
                     <li><a class="nav-link" href="messaging">Message Us <i class="fa-solid fa-message"></i></a></li>
-                <?php endif;?>
+                <?php endif;?> -->
                 <?php if($guest_image_gallery->status() == "On" ):?>
                     <li><a class="nav-link <?php if(str_contains($_SERVER['REQUEST_URI'], "gallery")){echo"link-active";}?>" href="gallery">Photo Gallery <i class="fa-solid fa-images"></i></a></li>
                 <?php endif;?>

@@ -27,6 +27,7 @@ if (isset($_POST['action']) && $_POST['action'] == "response") {
     //set up variables
     $guest_dietery = mysqli_real_escape_string($db, $_POST['guest_dietery']);
     $guest_rsvp_note = mysqli_real_escape_string($db, $_POST['rsvp_note']);
+    $rsvp_note = htmlentities($_POST['rsvp_note']);
     $guest_id = $_POST['guest_id']; // guest ID of lead guest
     $guest_group_id = $_POST['guest_group_id'];
     $event_id = $_POST['event_rsvp'][0]['event_id']; // will only ever be one event
@@ -82,7 +83,7 @@ if (isset($_POST['action']) && $_POST['action'] == "response") {
                 <p>Dear ' . $wedding_result['wedding_name'] . ', here are the details of their response:</p>
                 <p><strong>Event: </strong>' . $event_result['event_name'] . '</p>    
                 <p><strong>Their Response: </strong>' . $rsvp['rsvp'] . '</p>
-                <p><strong>Their Message:</strong><br>' . $guest_rsvp_note . '</p>
+                <p><strong>Their Message:</strong><br>' . $rsvp_note . '</p>
                 <br><hr style="color:#7f688d;">
                 <p>Kind regards</p>
             </div>
@@ -164,7 +165,7 @@ if (isset($_POST['action']) && $_POST['action'] == "response") {
                 <p>Dear ' . $wedding_result['wedding_name'] . ', here are the details of their response:</p>
                 <p><strong>Event: </strong>' . $event_result['event_name'] . '</p>    
                 <p><strong>Their Response: </strong>' . $rsvp['rsvp'] . '</p>
-                <p><strong>Their Message:</strong><br>' . $guest_rsvp_note . '</p>
+                <p><strong>Their Message:</strong><br>' . $rsvp_note . '</p>
                 <br><hr style="color:#7f688d;">
                 <p>Kind regards</p>
             </div>
@@ -241,7 +242,7 @@ if (isset($_POST['action']) && $_POST['action'] == "response") {
                 <p>Dear ' . $wedding_result['wedding_name'] . ', here are the details of their response:</p>
                 <p><strong>Event: </strong>' . $event_result['event_name'] . '</p>    
                 <p><strong>Their Response: </strong>' . $rsvp['rsvp'] . '</p>
-                <p><strong>Their Message:</strong><br>' . $guest_rsvp_note . '</p>
+                <p><strong>Their Message:</strong><br>' . $rsvp_note . '</p>
                 <br><hr style="color:#7f688d;">
                 <p>Kind regards</p>
             </div>
@@ -323,7 +324,7 @@ if (isset($_POST['action']) && $_POST['action'] == "response") {
                 <p>Dear ' . $wedding_result['wedding_name'] . ', here are the details of their response:</p>
                 <p><strong>Event: </strong>' . $event_result['event_name'] . '</p>    
                 <p><strong>Their Response: </strong>' . $rsvp['rsvp'] . '</p>
-                <p><strong>Their Message:</strong><br>' . $guest_rsvp_note . '</p>
+                <p><strong>Their Message:</strong><br>' . $rsvp_note . '</p>
                 <br><hr style="color:#7f688d;">
                 <p>Kind regards</p>
             </div>
@@ -424,7 +425,7 @@ if (isset($_POST['action']) && $_POST['action'] == "response") {
                 <p>Dear ' . $wedding_result['wedding_name'] . ', here are the details of their response:</p>
                 <p><strong>Event: </strong>' . $event_result['event_name'] . '</p>    
                 <p><strong>Their Response: </strong>' . $rsvp['rsvp'] . '</p>
-                <p><strong>Their Message:</strong><br>' . $guest_rsvp_note . '</p>
+                <p><strong>Their Message:</strong><br>' . $rsvp_note . '</p>
                 <br><hr style="color:#7f688d;">
                 <p>Kind regards</p>
             </div>
