@@ -248,6 +248,16 @@ $available_inv = "";
                 <?php endif; ?>
             </div>
         </div>
+        <div class=" response-card-wrapper d-none" id="response-card-wrapper">
+            <div class="response-card">
+                <div class="response-card-icon">
+                <i class="fa-solid fa-circle-info"></i>
+                </div>
+                <div class="response-card-body">
+                    <p id="response-card-text"></p>
+                </div>
+            </div>
+        </div>
     </main>
 
     <!-- /Main Body Of Page -->
@@ -279,6 +289,19 @@ $available_inv = "";
         //script for  submitting rsvp
         $("#invite_response").submit(function(event) {
             event.preventDefault();
+            //check that all responses have been completed 
+
+            let inputs_chk = document.querySelectorAll('input[type="radio"]:checked');
+            let guest_num = $("#members").data("group_num");
+            let missing = guest_num - inputs_chk.length;
+            if (inputs_chk.length < guest_num ) {
+            $("#response-card-text").html("Please complete your response for all of your group, you have missed " + missing + " ");
+            $(".response-card").addClass("error-card");
+            $("#response-card-wrapper").fadeIn(400);
+            $("#response-card-wrapper").delay(3000).fadeOut(400);
+            window.scrollTo(top);
+            return false
+            }
             //declare form variables and collect GET request information
             var guest_extra_invites = '<?php echo $guest_invites; ?>';
             var guest_id = '<?php echo $user->guest_id(); ?>';
@@ -385,6 +408,19 @@ $available_inv = "";
                 $("#add-member").fadeIn(400);
             }
 
+        });
+        $("#guest_group").on("click", ".member_rsvp", function() {
+            let rsvp = $(this).data("rsvp");
+            if(rsvp=="attending"){
+                $(this).parents(".guest-card ").removeClass("error");
+                $(this).parents(".guest-card ").addClass("success");
+
+            }else{
+                $(this).parents(".guest-card ").removeClass("success");
+                $(this).parents(".guest-card ").addClass("error");
+                
+            }
+        
         });
     </script>
     <script>

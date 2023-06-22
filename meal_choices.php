@@ -36,7 +36,7 @@ if ($cms_type == "Wedding") {
     //loads guest group list
     if($guest_group_id>0){
 
-        $group_query = $db->query('SELECT guest_list.guest_fname, guest_list.guest_sname, guest_list.guest_id, guest_list.guest_group_id, guest_list.guest_type, guest_groups.guest_group_id, guest_groups.guest_group_name FROM guest_list LEFT JOIN guest_groups ON guest_groups.guest_group_id=guest_list.guest_group_id  WHERE guest_groups.guest_group_id=' . $guest_group_id . ' AND guest_list.guest_type = "Member"');
+        $group_query = $db->query('SELECT guest_list.guest_fname, guest_list.guest_sname, guest_list.guest_id, guest_list.guest_group_id, guest_list.guest_type, guest_groups.guest_group_id, guest_groups.guest_group_name FROM guest_list LEFT JOIN guest_groups ON guest_groups.guest_group_id=guest_list.guest_group_id  WHERE guest_groups.guest_group_id=' . $guest_group_id . ' AND guest_list.guest_type = "Member" AND guest_list.guest_rsvp_status="Attending"');
     }
     
 }
@@ -124,7 +124,7 @@ include("inc/head.inc.php");
                             <?php 
                         endif; ?>
                     </div>
-                    <div class="std-card">
+                    <div class="std-card my-2">
                         <?php if ($meal_order_q->num_rows == 0) : ?>
                             <h2><?= $_SESSION['user_name']; ?>, please let us know your meal choices.</h2>
                             <div class="card-actions">

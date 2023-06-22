@@ -1,0 +1,124 @@
+.guest-list-header{
+    display: flex;
+    flex-direction: column;
+    //
+}
+@media(min-width:$md){
+    .guest-list-header{
+        flex-direction: row;
+        gap: $spacer-3;
+    }
+}
+//show group button
+//animation settings for chevron icon
+.group-btn .icon{
+    rotate: 0;
+    transition: rotate 300ms ease-out;
+}
+//rotate the chevron icon when clicked
+
+.icon-clicked{
+    rotate: 180deg;
+    transition: rotate 300ms ease-out;
+}
+
+//guest group cards
+//?group Cards
+.guest-group{
+    margin-block: $spacer-1;
+    background-color: $primary-950;
+    display: flex;
+    flex-direction: column;
+    gap: $spacer-1;
+    padding: $spacer-2;
+    border-radius: 5px;
+    border: 1px solid $primary-800;
+}
+
+//?outer guest card
+.guest-card{
+    background-color: #fff;
+    border: 1px solid $primary-800;
+    border-radius: 5px;
+    padding: $spacer-2;
+    transition: border 300ms ease-out;
+
+    &:hover, &:focus-within{
+        border: 1px solid $primary;
+    }
+}
+.guest-card.success{
+    background-color: $success;
+    border-color: $success;
+    transition: background-color 300ms ease-out;
+}
+.guest-card.error{
+    background-color: $error;
+    border-color: $error;
+    transition: background-color 300ms ease-out;
+}
+.guest-card-body{
+    display: flex;
+    flex-direction: column;
+    gap:$spacer-2;
+}
+.guest-card-tags{
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+    gap: $spacer-2;
+    span{
+        display: block;
+        background-color: $primary-950;
+        padding: $spacer-2;
+        border-radius: 12px;
+        width: fit-content;
+        font-size: .75rem;
+        flex-grow: 0;
+        a{
+            
+            font-size: .75rem;
+        }
+        
+        
+    }
+    span[data-invite-status="Not Replied"]{
+        background-color: $alert-primary;
+        color: #fff;
+    }
+    span[data-invite-status="Not Attending"]{
+        background-color: $alert-primary;
+        color: #fff;
+    }
+    span[data-invite-status="Attending"]{
+        background-color: $success;
+        color: #525252;
+    }
+    span[data-guest-type="Sole"]{
+        background-color: $info-400;
+        color: #fff;
+    }
+    span[data-guest-type="Group Organiser"]{
+        background-color: $info;
+        color: #fff;
+    }
+    span[data-guest-type="Member"]{
+        background-color: $info-300;
+        color: #fff;
+    }
+    span[data-guest-rsvp-code=""]{
+        background-color: $info-300;
+        color: #fff;
+    }
+}
+@media(min-width:$md){
+.guest-card-body{
+    flex-direction: row;
+    justify-content: space-between;
+}
+    .guest-card-tags{
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+}

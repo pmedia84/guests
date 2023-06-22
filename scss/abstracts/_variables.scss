@@ -13,7 +13,19 @@ $primary-700:hsl($hue, $saturation, 70%);
 $primary-800:hsl($hue, $saturation, 80%);
 $primary-900:hsl($hue, $saturation, 90%);
 $primary-950:hsl($hue, $saturation, 95%);
-
+//colours for alert levels
+$info:hsl(197, 71%, 47%);
+$info-300: hsl(197, 71%, 30%);
+$info-400: hsl(197, 71%, 40%);
+$success: hsla(152, 42%, 56%, 0.29);
+$error: hsla(354, 79%, 77%, 0.50);
+//Notifcation banner colors
+//Red for a color needing attention
+$red-primary: rgba(255, 0, 0, 0.406);
+//form colours
+$primary-form:       #3b685c;
+$error-response: hsl(0, 95%, 67%);
+$alert-primary: hsla(0, 99%, 66%, 0.753);
 //form colours
 $primary-form:       #3b685c;
 $error-response: hsl(0, 95%, 67%);
