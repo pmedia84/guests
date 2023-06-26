@@ -46,8 +46,8 @@ if (isset($_POST['action']) && $_POST['action'] == "response") {
         }
         $update_rsvp->close();
         //update the guest list for the main guest
-        $update_guest_list = $db->prepare('UPDATE guest_list SET guest_rsvp_status=?, guest_dietery=?  WHERE  guest_id=?');
-        $update_guest_list->bind_param('ssi', $rsvp['rsvp'], $guest_dietery, $guest_id);
+        $update_guest_list = $db->prepare('UPDATE guest_list SET guest_rsvp_status=?, guest_dietery=?, guest_rsvp_message=?  WHERE  guest_id=?');
+        $update_guest_list->bind_param('sssi', $rsvp['rsvp'], $guest_dietery,$rsvp_note, $guest_id);
         $update_guest_list->execute();
         $update_guest_list->close();
 
@@ -133,8 +133,8 @@ if (isset($_POST['action']) && $_POST['action'] == "response") {
         }
         $update_rsvp->close();
         //update the guest list for the main guest
-        $update_guest_list = $db->prepare('UPDATE guest_list SET guest_rsvp_status=?, guest_dietery=?  WHERE  guest_id=?');
-        $update_guest_list->bind_param('ssi', $rsvp['rsvp'], $guest_dietery, $guest_id);
+        $update_guest_list = $db->prepare('UPDATE guest_list SET guest_rsvp_status=?, guest_dietery=?, guest_rsvp_message=?  WHERE  guest_id=?');
+        $update_guest_list->bind_param('sssi', $rsvp['rsvp'], $guest_dietery, $rsvp_note, $guest_id);
         $update_guest_list->execute();
         $update_guest_list->close();
         //Send email with confirmation
@@ -210,8 +210,8 @@ if (isset($_POST['action']) && $_POST['action'] == "response") {
         }
         $update_rsvp->close();
         //update the guest list for the main guest
-        $update_guest_list = $db->prepare('UPDATE guest_list SET guest_rsvp_status=?, guest_dietery=?  WHERE  guest_id=?');
-        $update_guest_list->bind_param('ssi', $rsvp['rsvp'], $guest_dietery, $guest_id);
+        $update_guest_list = $db->prepare('UPDATE guest_list SET guest_rsvp_status=?, guest_dietery=?, guest_rsvp_message=?  WHERE  guest_id=?');
+        $update_guest_list->bind_param('sssi', $rsvp['rsvp'], $guest_dietery,$rsvp_note, $guest_id);
         $update_guest_list->execute();
         $update_guest_list->close();
         /////////////////////Send email with confirmation/////////////////////////
@@ -283,8 +283,8 @@ if (isset($_POST['action']) && $_POST['action'] == "response") {
         }
         $update_rsvp->close();
         //update the guest list for the main guest
-        $update_guest_list = $db->prepare('UPDATE guest_list SET guest_rsvp_status=?, guest_dietery=?  WHERE  guest_id=?');
-        $update_guest_list->bind_param('ssi', $rsvp['rsvp'], $guest_dietery, $guest_id);
+        $update_guest_list = $db->prepare('UPDATE guest_list SET guest_rsvp_status=?, guest_dietery=?, guest_rsvp_message=?  WHERE  guest_id=?');
+        $update_guest_list->bind_param('sssi', $rsvp['rsvp'], $guest_dietery,$rsvp_note, $guest_id);
         $update_guest_list->execute();
         $update_guest_list->close();
 
