@@ -22,7 +22,7 @@ if (isset($_POST['rsvp_code'])) {
     //set up variables
     $rsvp_code_input = mysqli_real_escape_string($db, $_POST['rsvp_code']);
     //check that this code has not been used already 
-    if ($rsvp_status = $db->prepare('SELECT guest_rsvp_code, guest_rsvp_status FROM guest_list WHERE guest_rsvp_code = ? AND guest_rsvp_status=""')) {
+    if ($rsvp_status = $db->prepare('SELECT guest_rsvp_code, guest_rsvp_status FROM guest_list WHERE guest_rsvp_code = ? AND guest_rsvp_status="Not Replied"')) {
         $rsvp_status->bind_param('s', $rsvp_code_input);
         $rsvp_status->execute();
         $rsvp_status->store_result();

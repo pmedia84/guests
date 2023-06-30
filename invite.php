@@ -43,6 +43,7 @@ $guest_group_id_query = $db->query('SELECT users.user_id, users.guest_id, guest_
 $group_id_result = $guest_group_id_query->fetch_assoc();
 //define guest group id
 $guest_group_id = $group_id_result['guest_group_id'];
+
 //loads guest group list
 $group_query = $db->query('SELECT guest_list.guest_fname, guest_list.guest_sname, guest_list.guest_id, guest_list.guest_group_id, guest_list.guest_type, guest_groups.guest_group_id, guest_groups.guest_group_name FROM guest_list LEFT JOIN guest_groups ON guest_groups.guest_group_id=guest_list.guest_group_id  WHERE guest_groups.guest_group_id=' . $guest_group_id . ' AND guest_list.guest_type = "Member"');
 
