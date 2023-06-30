@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <!-- Stylesheet -->
+
+
+    <!-- Theme Color for safari and mobile browsers -->
+    <meta name="theme-color" content="#7f688d" />
+
+    <title>Meal Choices</title>
+    <style>
+        body {
+            background-color: #fff;
+        }
+
+
+        .std-card {
+            border: 3px solid #7f688d;
+            padding: 8px;
+        }
+
+        h3,
+        h2,
+        p {
+            margin: 0;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .my-2 {
+            margin: 8px 0 8px 0;
+        }
+
+        .email-banner {
+            padding: 20px;
+            background-color: #7cb6a5;
+            border-radius: 10px;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .banner-link {
+            background-color: #bedad2;
+            padding: 10px;
+            border-radius: 5px;
+            color: #3b685c;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            text-decoration: none;
+            margin: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1 class="text-center">{{guest_name}}</h1>
+    <p class="my-2"><strong>Dear {{wedding_name}}</strong>,</p>
+    <p class="my-2">{{guest_name}} has provided their meal choices, you can also view these in <a
+            href="{{profile_link}}">their profile.</a></p>
+
+    <div class="container ">
+        <div class="std-card my-2">
+            <h2 class="text-center">{{guest_name}}'s Meal Choices</h2>
+            {{guest_choices}}
+        </div>
+        {{group_choices}}
+    </div>
+    <p class="my-2">Regards, Webmaster</p>
+</body>
+
+</html>

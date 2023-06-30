@@ -1,0 +1,22 @@
+.notification-header {
+    // defines a header with a notification dot beside the header
+
+    display: flex;
+    gap: $spacer-1;
+    align-items: center;
+
+}
+
+.notification {
+    $fs: 12px;
+    $padding: $spacer-2;
+    font-size: $fs;
+    display: grid;
+    place-items: center;
+    color: $primary;
+    background-color: $primary-950;
+    border-radius: 100%;
+    font-weight: 700;
+    width: calc($fs * 2);
+    height: calc($fs * 2);
+}

@@ -1,54 +1,35 @@
 <?php
 session_start();
-$location=urlencode($_SERVER['REQUEST_URI']);
-if (!$_SESSION['loggedin'] == TRUE) {
-    // Redirect to the login page:
-    
-    header("Location: login.php?location=".$location);
-}
+require("scripts/functions.php");
+check_login();
+$user = new User();
+$wedding = new Wedding();
 include("connect.php");
 include("inc/head.inc.php");
 include("inc/settings.php");
-$user_id = $_SESSION['user_id'];
-
-
 
 //run checks to make sure a wedding has been set up correctly
-if ($cms_type == "Wedding") {
-    //look for the Wedding set up and load information
-    //find Wedding details.
-    $wedding = $db->prepare('SELECT * FROM wedding');
 
-    $wedding->execute();
-    $wedding->store_result();
-    $wedding->bind_result($wedding_id, $wedding_name,$wedding_date, $wedding_time, $wedding_email, $wedding_phone, $wedding_contact_name);
-    $wedding->fetch();
-    $wedding->close();
 
-    $guest = $db->prepare('SELECT guest_id FROM users WHERE user_id =' . $_SESSION['user_id']);
-    $guest->execute();
-    $guest->bind_result($guest_id);
-    $guest->fetch();
-    $guest->close();
     // find the guest group that this user manages
     $guest_group_id_query = $db->query('SELECT users.user_id, users.guest_id, guest_groups.guest_group_organiser, guest_groups.guest_group_id FROM users LEFT JOIN guest_groups ON guest_groups.guest_group_organiser=users.guest_id WHERE users.user_id =' . $user_id);
     $group_id_result = $guest_group_id_query->fetch_assoc();
     //define guest group id
     $guest_group_id = $group_id_result['guest_group_id'];
     //load details of the group that this user manages
-    $group_details = $db->prepare('SELECT guest_group_name FROM guest_groups WHERE guest_group_organiser ='.$guest_id);
+    $group_details = $db->prepare('SELECT guest_group_name FROM guest_groups WHERE guest_group_organiser ='.$user->guest_id());
     $group_details->execute();
     $group_details->bind_result($group_name);
     $group_details->fetch();
     $group_details->close();
-}
+
 //////////////////////////////////////////////////////////////////Everything above this applies to each page\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 //loads guest group list
 $group_query = $db->query('SELECT guest_list.guest_fname, guest_list.guest_sname, guest_list.guest_id, guest_list.guest_group_id, guest_list.guest_type, guest_groups.guest_group_id, guest_groups.guest_group_name FROM guest_list LEFT JOIN guest_groups ON guest_groups.guest_group_id=guest_list.guest_group_id  WHERE guest_groups.guest_group_id=' . $guest_group_id . ' AND guest_list.guest_type = "Member"');
 $group_result = $group_query->fetch_assoc();
 
 //loads group capacity
-$group_cap_query = $db->query('SELECT guest_id, guest_extra_invites FROM guest_list WHERE guest_id=' . $guest_id);
+$group_cap_query = $db->query('SELECT guest_id, guest_extra_invites FROM guest_list WHERE guest_id=' . $user->guest_id());
 $group_cap_result = $group_cap_query->fetch_assoc();
 $group_capacity = $group_cap_result['guest_extra_invites'];
 //calculate the remaining amount of invites available
@@ -58,7 +39,7 @@ $remaining_inv = $group_capacity - $group_size ;
 
 
 //check that the guest has responded to their invite first
-$invite_status = $db->prepare('SELECT invite_rsvp_status FROM invitations WHERE guest_id =' . $guest_id);
+$invite_status = $db->prepare('SELECT invite_rsvp_status FROM invitations WHERE guest_id =' . $user->guest_id());
 $invite_status->execute();
 $invite_status->bind_result($invite_rsvp_status);
 $invite_status->fetch();

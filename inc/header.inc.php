@@ -14,17 +14,18 @@
                             } ; ?></h1>
     <div class="header-actions">
         <div class="header-actions-btn-section">
-            <div class="header-actions-navbtn">
-            <a href="#" class="nav-btn" id="nav-btn"><i class="fa-solid fa-bars"></i></a>
-            </div>
+        <button class="nav-btn header-actions-navbtn" id="nav-btn"><svg class="icon"><use xlink:href="assets/img/icons/solid.svg#bars"></use></svg></button>
 
-            <a class="header-actions-btn-user" href="profile">
-            <i class="fa-solid fa-user"></i>
-            </a>
-            <div class="header-actions-business-name">
-                <h1><?php  { echo $wedding_name . '\'s Wedding';} ?></h1>
-            </div>
-            <a class="header-actions-btn-logout" href="logout.php"><span>Logout</span><i class="fa-solid fa-right-from-bracket"></i></a>
+        <div class="header-actions-business-name">
+            <h1><?php  { echo $wedding->wedding_name() . '\'s Wedding';} ?></h1>
+        </div>
+        <!-- <a class="header-actions-btn-user" href="profile">
+        <svg class="icon"><use xlink:href="assets/img/icons/solid.svg#user"></use></svg>
+        </a> -->
+        <a class="header-actions-btn-logout" href="logout">
+            Logout 
+        <svg class="icon"><use xlink:href="assets/img/icons/solid.svg#right-from-bracket"></use></svg>
+        </a>
         </div>
     </div>
 </div>

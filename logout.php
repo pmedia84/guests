@@ -7,7 +7,7 @@ $submit = $db->query($update);
 //remove sessions older than 5 days
 $delete = 'DELETE FROM user_sessions WHERE session_date < (NOW() - INTERVAL 5 DAY)';
 $run_delete =$db->query($delete);
-session_destroy();
+session_unset();
 // Redirect to the login page:
 header('Location: ../');
 ?>

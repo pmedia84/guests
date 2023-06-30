@@ -13,7 +13,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
     <!-- Stylesheet -->
-    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/styles.css" defer>
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
     <!-- Font Awesome -->
@@ -21,7 +21,7 @@
     <!-- Google Recaptcha -->
     <!-- <script src="https://www.google.com/recaptcha/api.js?render=6LevFFEiAAAAAPcel_AlRmOSMRgDSXCN5vT0lbmC" async="false"></script> -->
     <!-- Theme Color for safari and mobile browsers -->
-    <meta name="theme-color" content="black" />
+    <meta name="theme-color" content="#7f688d" />
     <!-- Google font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -36,6 +36,7 @@
         $guest_type = $user_type_result['guest_type'];
         $user_invite_rsvp_status = $user_type_result['invite_rsvp_status'];
         
+
         
     }
 

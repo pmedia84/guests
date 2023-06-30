@@ -1,5 +1,5 @@
 <?php
-
+require("scripts/functions.php");
 //find the referring page to redirect to once logged in
 if(!empty($_GET)){
     $location=urldecode($_GET['location']);
@@ -44,7 +44,7 @@ if($cms_type =="Wedding"){
 </div>
 </div>
 
-<?php if($guest_area_status == "On") : ?>
+<?php if($guest_area->status() == "On") : ?>
         <div class="login-wrapper">
             <h1>Login</h1>
             <form class="form-card" id="login" action="scripts/auth.php" method="post">
@@ -99,8 +99,7 @@ if($cms_type =="Wedding"){
                 contentType: false,
                 processData: false,
                 success: function(data, responseText) {
-                    $("#response").html(data);
-                    $("#response").slideDown(400);
+
                     if (data === 'correct') {
                         window.location.replace(redirect);
                     }

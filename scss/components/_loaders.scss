@@ -1,5 +1,6 @@
 .loader{
-    background-color: rgba(0, 0, 0, 0.5);
+    //full size spinner for larger content
+    background-color: rgb(255, 255, 255);
     position: absolute;
     top: 0;
     left: 0;
@@ -7,14 +8,21 @@
     bottom: 0;
     display: grid;
     place-items: center;
+    z-index: 100;
 }
 .loader-spinner{
     height: 25%;
     animation: loader 3s infinite ease-in-out;
-    
+    path{
+        fill: rgb(63, 63, 63);
+    }
 }
 
 @keyframes loader{
     0%{transform: rotate(0);}
     100%{transform: rotate(360deg);}
+}
+//icon class using FA animated spinner
+.spinner-icon{
+    margin-inline: $spacer-2;
 }

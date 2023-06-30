@@ -1,7 +1,7 @@
 <?php
 
 //find the referring page to redirect to once logged in
-
+require("scripts/functions.php");
 include("connect.php");
 include("inc/settings.php");
 
@@ -51,7 +51,7 @@ if ($cms_type == "Wedding") {
                 <h1 class="">The Wedding Of <?= $wedding_result['wedding_name']; ?> </h1>
             </div>
         </div>
-<?php if($guest_area_status == "On") : 
+<?php if($guest_area->status() == "On") : 
         if (isset($_GET['action'])  && $_GET['action'] == "setup") :
             $rsvp_code_input = $_GET['rsvp_code'];
             //look for guest details

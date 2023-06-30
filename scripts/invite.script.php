@@ -12,7 +12,7 @@ require $_SERVER['DOCUMENT_ROOT'] . '/admin/mailer/Exception.php';
 $response = "";
 include("../connect.php");
 include("../inc/settings.php");
-
+require("functions.php");
 //script is divided into different sections and is relevant to the requests
 
 //1. Response, will skip over 2 and 3 if the requirements have not been met, such as not attending and they don't have a guest group.
@@ -27,10 +27,10 @@ if (isset($_POST['action']) && $_POST['action'] == "response") {
     //set up variables
     $guest_dietery = mysqli_real_escape_string($db, $_POST['guest_dietery']);
     $guest_rsvp_note = mysqli_real_escape_string($db, $_POST['rsvp_note']);
+    $rsvp_note = htmlentities($_POST['rsvp_note']);
     $guest_id = $_POST['guest_id']; // guest ID of lead guest
     $guest_group_id = $_POST['guest_group_id'];
     $event_id = $_POST['event_rsvp'][0]['event_id']; // will only ever be one event
-
 
     //\\ if the guest has responded and stated that they will not be attending:://\\
     //2.    
@@ -45,11 +45,9 @@ if (isset($_POST['action']) && $_POST['action'] == "response") {
             $update_rsvp->execute();
         }
         $update_rsvp->close();
-
-
         //update the guest list for the main guest
-        $update_guest_list = $db->prepare('UPDATE guest_list SET guest_rsvp_status=?, guest_dietery=?  WHERE  guest_id=?');
-        $update_guest_list->bind_param('ssi', $rsvp['rsvp'], $guest_dietery, $guest_id);
+        $update_guest_list = $db->prepare('UPDATE guest_list SET guest_rsvp_status=?, guest_dietery=?, guest_rsvp_message=?  WHERE  guest_id=?');
+        $update_guest_list->bind_param('sssi', $rsvp['rsvp'], $guest_dietery,$rsvp_note, $guest_id);
         $update_guest_list->execute();
         $update_guest_list->close();
 
@@ -82,7 +80,7 @@ if (isset($_POST['action']) && $_POST['action'] == "response") {
                 <p>Dear ' . $wedding_result['wedding_name'] . ', here are the details of their response:</p>
                 <p><strong>Event: </strong>' . $event_result['event_name'] . '</p>    
                 <p><strong>Their Response: </strong>' . $rsvp['rsvp'] . '</p>
-                <p><strong>Their Message:</strong><br>' . $guest_rsvp_note . '</p>
+                <p><strong>Their Message:</strong><br>' . $rsvp_note . '</p>
                 <br><hr style="color:#7f688d;">
                 <p>Kind regards</p>
             </div>
@@ -135,11 +133,11 @@ if (isset($_POST['action']) && $_POST['action'] == "response") {
         }
         $update_rsvp->close();
         //update the guest list for the main guest
-        $update_guest_list = $db->prepare('UPDATE guest_list SET guest_rsvp_status=?, guest_dietery=?  WHERE  guest_id=?');
-        $update_guest_list->bind_param('ssi', $rsvp['rsvp'], $guest_dietery, $guest_id);
+        $update_guest_list = $db->prepare('UPDATE guest_list SET guest_rsvp_status=?, guest_dietery=?, guest_rsvp_message=?  WHERE  guest_id=?');
+        $update_guest_list->bind_param('sssi', $rsvp['rsvp'], $guest_dietery, $rsvp_note, $guest_id);
         $update_guest_list->execute();
         $update_guest_list->close();
-        /////////////////////Send email with confirmation/////////////////////////
+        //Send email with confirmation
         //load guest details
         $guest_query = ('SELECT guest_fname, guest_sname FROM guest_list WHERE guest_id=' . $guest_id);
         $guest = $db->query($guest_query);
@@ -164,7 +162,7 @@ if (isset($_POST['action']) && $_POST['action'] == "response") {
                 <p>Dear ' . $wedding_result['wedding_name'] . ', here are the details of their response:</p>
                 <p><strong>Event: </strong>' . $event_result['event_name'] . '</p>    
                 <p><strong>Their Response: </strong>' . $rsvp['rsvp'] . '</p>
-                <p><strong>Their Message:</strong><br>' . $guest_rsvp_note . '</p>
+                <p><strong>Their Message:</strong><br>' . $rsvp_note . '</p>
                 <br><hr style="color:#7f688d;">
                 <p>Kind regards</p>
             </div>
@@ -212,8 +210,8 @@ if (isset($_POST['action']) && $_POST['action'] == "response") {
         }
         $update_rsvp->close();
         //update the guest list for the main guest
-        $update_guest_list = $db->prepare('UPDATE guest_list SET guest_rsvp_status=?, guest_dietery=?  WHERE  guest_id=?');
-        $update_guest_list->bind_param('ssi', $rsvp['rsvp'], $guest_dietery, $guest_id);
+        $update_guest_list = $db->prepare('UPDATE guest_list SET guest_rsvp_status=?, guest_dietery=?, guest_rsvp_message=?  WHERE  guest_id=?');
+        $update_guest_list->bind_param('sssi', $rsvp['rsvp'], $guest_dietery,$rsvp_note, $guest_id);
         $update_guest_list->execute();
         $update_guest_list->close();
         /////////////////////Send email with confirmation/////////////////////////
@@ -241,7 +239,7 @@ if (isset($_POST['action']) && $_POST['action'] == "response") {
                 <p>Dear ' . $wedding_result['wedding_name'] . ', here are the details of their response:</p>
                 <p><strong>Event: </strong>' . $event_result['event_name'] . '</p>    
                 <p><strong>Their Response: </strong>' . $rsvp['rsvp'] . '</p>
-                <p><strong>Their Message:</strong><br>' . $guest_rsvp_note . '</p>
+                <p><strong>Their Message:</strong><br>' . $rsvp_note . '</p>
                 <br><hr style="color:#7f688d;">
                 <p>Kind regards</p>
             </div>
@@ -285,19 +283,27 @@ if (isset($_POST['action']) && $_POST['action'] == "response") {
         }
         $update_rsvp->close();
         //update the guest list for the main guest
-        $update_guest_list = $db->prepare('UPDATE guest_list SET guest_rsvp_status=?, guest_dietery=?  WHERE  guest_id=?');
-        $update_guest_list->bind_param('ssi', $rsvp['rsvp'], $guest_dietery, $guest_id);
+        $update_guest_list = $db->prepare('UPDATE guest_list SET guest_rsvp_status=?, guest_dietery=?, guest_rsvp_message=?  WHERE  guest_id=?');
+        $update_guest_list->bind_param('sssi', $rsvp['rsvp'], $guest_dietery,$rsvp_note, $guest_id);
         $update_guest_list->execute();
         $update_guest_list->close();
-        //update the guest list for group members
-        $update_guest_list = $db->prepare('UPDATE guest_list SET guest_rsvp_status=?  WHERE  guest_group_id=?');
-        $update_guest_list->bind_param('si', $rsvp['rsvp'], $guest_group_id);
-        $update_guest_list->execute();
+
+        //loop through group members and update rsvp on guest list and invites table
+        //?guest list table
+        $update_guest_list = $db->prepare('UPDATE guest_list SET guest_rsvp_status=?  WHERE  guest_id=?');
+        //?Invitations table
+        $update_group_invites = $db->prepare('UPDATE invitations SET invite_rsvp_status=?  WHERE  guest_id=?');
+        $members = $_POST['group_members'];
+        foreach($members as $member){
+            $update_guest_list->bind_param('si', $member['rsvp'], $member['guest_id']);
+            $update_guest_list->execute();
+            $update_group_invites->bind_param('si', $member['rsvp'], $member['guest_id']);
+            $update_group_invites->execute();
+            
+        }
         $update_guest_list->close();
-        $update_group_invites = $db->prepare('UPDATE invitations SET invite_rsvp_status=?  WHERE  guest_group_id=?');
-        $update_group_invites->bind_param('si', $rsvp['rsvp'], $guest_group_id);
-        $update_group_invites->execute();
         $update_group_invites->close();
+
         /////////////////////Send email with confirmation/////////////////////////
         //load guest details
         $guest_query = ('SELECT guest_fname, guest_sname FROM guest_list WHERE guest_id=' . $guest_id);
@@ -323,7 +329,7 @@ if (isset($_POST['action']) && $_POST['action'] == "response") {
                 <p>Dear ' . $wedding_result['wedding_name'] . ', here are the details of their response:</p>
                 <p><strong>Event: </strong>' . $event_result['event_name'] . '</p>    
                 <p><strong>Their Response: </strong>' . $rsvp['rsvp'] . '</p>
-                <p><strong>Their Message:</strong><br>' . $guest_rsvp_note . '</p>
+                <p><strong>Their Message:</strong><br>' . $rsvp_note . '</p>
                 <br><hr style="color:#7f688d;">
                 <p>Kind regards</p>
             </div>
@@ -399,7 +405,7 @@ if (isset($_POST['action']) && $_POST['action'] == "response") {
         }
 
         $set_invites->close();
-          /////////////////////Send email with confirmation/////////////////////////
+        /////////////////////Send email with confirmation/////////////////////////
         //load guest details
         $guest_query = ('SELECT guest_fname, guest_sname FROM guest_list WHERE guest_id=' . $guest_id);
         $guest = $db->query($guest_query);
@@ -424,7 +430,7 @@ if (isset($_POST['action']) && $_POST['action'] == "response") {
                 <p>Dear ' . $wedding_result['wedding_name'] . ', here are the details of their response:</p>
                 <p><strong>Event: </strong>' . $event_result['event_name'] . '</p>    
                 <p><strong>Their Response: </strong>' . $rsvp['rsvp'] . '</p>
-                <p><strong>Their Message:</strong><br>' . $guest_rsvp_note . '</p>
+                <p><strong>Their Message:</strong><br>' . $rsvp_note . '</p>
                 <br><hr style="color:#7f688d;">
                 <p>Kind regards</p>
             </div>
@@ -451,7 +457,7 @@ if (isset($_POST['action']) && $_POST['action'] == "response") {
         if (!$mail->Send()) {
             echo "Mailer Error: " . $mail->ErrorInfo;
         }
-        $response="success";
+        $response = "success";
         echo $response;
         exit();
     }
@@ -482,30 +488,39 @@ if (isset($_POST['action']) && $_POST['action'] == "response") {
     if (($group_query->num_rows) > 0) : ?>
 
         <h2>My Group</h2>
-        <p>This is your guest group that we have made for you. If you have dietary information to pass onto us, please let us know below.</p>
-        <table class="std-table guest_group">
-            <tr>
-                <th>Name</th>
-                <?php if($guest_add_remove =="On"):?>
-                <th>Remove</th>
-                <?php endif;?>
-            </tr>
-            <?php foreach ($group_query as $member) : ?>
-                <tr>
-                    <td><a href="guest.php?guest_id=<?= $member['guest_id']; ?>&action=view"><?= $member['guest_fname'] . ' ' . $member['guest_sname']; ?></a></td>
-                    <?php if($guest_add_remove =="On"):?>
-                    <td>
-                        <div class="guest-list-actions">
-                            <button class="btn-primary btn-secondary remove_guest" data-guest_id="<?= $member['guest_id']; ?>" type="button"><i class="fa-solid fa-user-minus"></i></button>
+        <p>This is your guest group, please confirm their attendance below.</p>
+
+        <div id="members" data-group_num="<?=$group_query->num_rows;?>">
+            <?php $i = 0;
+            foreach ($group_query as $member) :
+            ?>
+                <div class="guest-card my-2" >
+                    <div class="guest-card-body">
+                        <div class="guest-card-title">
+                            <h3><a href="guest.php?guest_id=<?= $member['guest_id']; ?>&action=view"><?= $member['guest_fname'] . ' ' . $member['guest_sname']; ?></a></h3>
                         </div>
-                    </td>
-                    <?php endif;?>
-                </tr>
-            <?php endforeach; ?>
-        </table>
+                        <div class="guest-card-rsvp">
+                            <label class="radio-label">Attending
+                                 <input type="hidden" name="group_members[<?=$i;?>][guest_id]"value="<?=$member['guest_id'];?>">
+                                <input class="member_rsvp" type="radio" name="group_members[<?=$i;?>][rsvp]" value="Attending" data-rsvp="attending">
+                                <span class="checkmark"></span>
+                            </label>
+                            <label class="radio-label">Not Attending
+                                 <input type="hidden" name="group_members[<?=$i;?>][guest_id]"value="<?=$member['guest_id'];?>">
+                                <input class="member_rsvp" type="radio" name="group_members[<?=$i;?>][rsvp]" value="Not Attending" data-rsvp="not attending">
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            <?php $i++;
+            endforeach; ?>
+        </div>
+
+
     <?php endif; ?>
 
-    <div class="invite-guest-group invite-card" id="">
+   <!-- <div class="invite-guest-group invite-card" id="">
 
         <?php if ($available_inv > 0) : ?>
             <h2>Your Additional Invites</h2>
@@ -522,9 +537,9 @@ if (isset($_POST['action']) && $_POST['action'] == "response") {
         <label class="checkbox-form-control" for="sole_invite">
             <input type="checkbox" id="sole_invite" name="sole_invite" value="Sole" />
             <strong>I will be attending on my own</strong>
-        </label>
+        </label> 
 
-    </div>
+    </div>-->
 <?php endif; ?>
 
 <?php
